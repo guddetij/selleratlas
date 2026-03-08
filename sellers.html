@@ -14,7 +14,7 @@ background:#f4f7f6;
 }
 
 header{
-background:#1F7A63;
+background:#8FB339;
 color:white;
 padding:20px;
 }
@@ -27,46 +27,79 @@ font-weight:bold;
 }
 
 .container{
-max-width:1100px;
+max-width:900px;
 margin:auto;
-padding:40px;
+padding:30px;
 }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
+h2{
 margin-top:30px;
 }
 
-.card{
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
+.categories{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+margin-top:20px;
 }
 
-.card h3{
-margin-top:0;
+.category{
+background:#e9e9e9;
+padding:14px;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.searchbox{
+margin-top:15px;
+}
+
+.searchbox input{
+width:100%;
+padding:12px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+.sellerCard{
+margin-top:20px;
+padding:15px 0;
+border-bottom:1px solid #ddd;
+}
+
+.categoryLabel{
+color:#8FB339;
+font-size:12px;
+font-weight:bold;
+}
+
+.sellerName{
+font-size:20px;
+font-weight:bold;
+}
+
+.sellerHandle{
+color:#777;
 }
 
 .button{
 background:#1F7A63;
 color:white;
-padding:10px 15px;
+padding:8px 14px;
+border-radius:6px;
 text-decoration:none;
-border-radius:5px;
 display:inline-block;
-margin-top:10px;
+margin-top:8px;
 }
 
 .badge{
 background:#e6f5ef;
 color:#1F7A63;
-padding:4px 8px;
-border-radius:6px;
-font-size:12px;
-margin-left:6px;
+padding:3px 7px;
+border-radius:5px;
+font-size:11px;
+margin-left:5px;
 }
 
 </style>
@@ -89,15 +122,34 @@ margin-left:6px;
 
 <div class="container">
 
-<h2>Browse Sellers</h2>
+<h2>Browse Categories</h2>
 
-<input type="text"
-id="searchInput"
-placeholder="Search sellers..."
-onkeyup="searchSellers()"
-style="width:100%;padding:12px;margin-top:20px;margin-bottom:30px;border-radius:6px;border:1px solid #ccc;">
+<div class="categories">
 
-<div id="sellerContainer" class="grid"></div>
+<div class="category" onclick="filterCategory('Women')">👗 Women's Wear</div>
+<div class="category" onclick="filterCategory('Men')">👕 Men's Wear</div>
+<div class="category" onclick="filterCategory('Shoes')">👟 Shoes</div>
+<div class="category" onclick="filterCategory('Jewelry')">💍 Jewelry</div>
+<div class="category" onclick="filterCategory('Kids')">🧸 Kids Clothing</div>
+<div class="category" onclick="filterCategory('Home')">🏠 Home</div>
+<div class="category" onclick="filterCategory('Books')">📚 Books</div>
+<div class="category" onclick="filterCategory('Toys')">🧸 Toys</div>
+<div class="category" onclick="filterCategory('Sports')">🏋️ Sports/Fitness</div>
+<div class="category" onclick="filterCategory('Beauty')">💄 Beauty</div>
+
+</div>
+
+<h2>All Sellers</h2>
+
+<p>Search by Instagram username/brand name</p>
+
+<div class="searchbox">
+
+<input type="text" id="searchInput" placeholder="Search..." onkeyup="searchSellers()">
+
+</div>
+
+<div id="sellerContainer"></div>
 
 </div>
 
@@ -126,6 +178,26 @@ sellers[i].style.display="none";
 
 }
 
+/* CATEGORY FILTER */
+
+function filterCategory(category){
+
+let sellers = document.getElementsByClassName("sellerCard");
+
+for (let i = 0; i < sellers.length; i++){
+
+let text = sellers[i].innerText;
+
+if(text.includes(category)){
+sellers[i].style.display="";
+}else{
+sellers[i].style.display="none";
+}
+
+}
+
+}
+
 </script>
 
 
@@ -135,7 +207,7 @@ sellers[i].style.display="none";
 
 const sheetID = "1rJc2bltxs2wfYAq0RLPBfrjUfauaTi8Go6PYghvlT-Q";
 
-const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
+const url = `https://opensheet.elk.sh/${sheetID}/Sheet2`;
 
 fetch(url)
 .then(res => res.json())
@@ -151,15 +223,27 @@ if(seller["Verified"] === "Yes"){
 badge = `<span class="badge">✔ Verified</span>`;
 }
 
+let instagram = seller["Instagram Link"];
+
+if(!instagram.startsWith("http")){
+instagram = "https://" + instagram;
+}
+
 container.innerHTML += `
 
-<div class="card sellerCard">
+<div class="sellerCard">
 
-<h3>${seller["Business Name"]} ${badge}</h3>
+<div class="categoryLabel">${seller["Category"]}</div>
 
-<p>${seller["Category"]}</p>
+<div class="sellerName">
+${seller["Business Name"]} ${badge}
+</div>
 
-<a class="button"href="https://${seller["Instagram Link"].replace(/^https?:\/\//,'')}"" target="_blank">
+<div class="sellerHandle">
+@${seller["Instagram Username"] || ""}
+</div>
+
+<a class="button" href="${instagram}" target="_blank">
 Visit Instagram
 </a>
 
@@ -173,5 +257,7 @@ Visit Instagram
 
 </script>
 
+
 </body>
+
 </html>
