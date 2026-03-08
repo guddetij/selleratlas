@@ -59,6 +59,19 @@ border-radius:5px;
 display:inline-block;
 margin-top:10px;
 }
+.categories{
+margin-top:20px;
+margin-bottom:20px;
+}
+
+.categories button{
+background:#e6f5ef;
+border:none;
+padding:10px 16px;
+margin-right:10px;
+border-radius:6px;
+cursor:pointer;
+}
 .badge{
 background:#e6f5ef;
 color:#1F7A63;
@@ -88,6 +101,20 @@ margin-left:6px;
 <div class="container">
 
 <h2>Browse Sellers</h2>
+  <input type="text" id="searchInput"
+placeholder="Search by business name or Instagram..."
+onkeyup="searchSellers()"
+style="width:100%;padding:12px;margin-top:20px;margin-bottom:30px;border-radius:6px;border:1px solid #ccc;">
+<div class="grid">
+
+<button onclick="filterCategory('All')">All</button>
+<button onclick="filterCategory('Clothing')">Clothing</button>
+<button onclick="filterCategory('Handmade')">Handmade</button>
+<button onclick="filterCategory('Beauty')">Beauty</button>
+<button onclick="filterCategory('Home Decor')">Home Decor</button>
+<button onclick="filterCategory('Eco Friendly')">Eco Friendly</button>
+
+</div>
 <input type="text" id="searchInput" placeholder="Search sellers..." 
 onkeyup="searchSellers()" 
 style="width:100%;padding:12px;margin-top:20px;margin-bottom:30px;border-radius:6px;border:1px solid #ccc;">
@@ -131,6 +158,50 @@ if (text.includes(input)) {
 sellers[i].style.display = "";
 } else {
 sellers[i].style.display = "none";
+}
+
+}
+
+}
+
+</script>
+<script>
+
+function searchSellers(){
+
+let input = document.getElementById("searchInput").value.toLowerCase();
+
+let sellers = document.getElementsByClassName("sellerCard");
+
+for (let i = 0; i < sellers.length; i++){
+
+let text = sellers[i].innerText.toLowerCase();
+
+if(text.includes(input)){
+sellers[i].style.display="";
+}else{
+sellers[i].style.display="none";
+}
+
+}
+
+}
+
+</script>
+  <script>
+
+function filterCategory(category){
+
+let sellers = document.getElementsByClassName("sellerCard");
+
+for (let i = 0; i < sellers.length; i++){
+
+if(category === "All"){
+sellers[i].style.display="";
+}else if(sellers[i].innerText.includes(category)){
+sellers[i].style.display="";
+}else{
+sellers[i].style.display="none";
 }
 
 }
