@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Browse Sellers - SellerAtlas</title>
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#f4f7f6;
+}
+
+header{
+background:#1F7A63;
+color:white;
+padding:20px;
+}
+
+nav a{
+color:white;
+margin-right:20px;
+text-decoration:none;
+font-weight:bold;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:40px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-top:30px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.card h3{
+margin-top:0;
+}
+
+.button{
+background:#1F7A63;
+color:white;
+padding:10px 15px;
+text-decoration:none;
+border-radius:5px;
+display:inline-block;
+margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>SellerAtlas</h1>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="sellers.html">Browse Sellers</a>
+<a href="submit.html">List Your Business</a>
+</nav>
+
+</header>
+
+<div class="container">
+
+<h2>Browse Sellers</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>CraftVillage</h3>
+<p>Handmade home decor and gifts.</p>
+<a class="button" href="seller1.html">View Profile</a>
+</div>
+
+<div class="card">
+<h3>EcoKart</h3>
+<p>Sustainable eco-friendly products.</p>
+<a class="button" href="seller2.html">View Profile</a>
+</div>
+
+<div class="card">
+<h3>UrbanWeave</h3>
+<p>Independent clothing brand.</p>
+<a class="button" href="seller3.html">View Profile</a>
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
