@@ -81,22 +81,25 @@ margin-top:10px;
 <div class="container">
 
 <h2>Browse Sellers</h2>
-
+<input type="text" id="searchInput" placeholder="Search sellers..." 
+onkeyup="searchSellers()" 
+style="width:100%;padding:12px;margin-top:20px;margin-bottom:30px;border-radius:6px;border:1px solid #ccc;">
+  
 <div class="grid">
 
-<div class="card">
+<div class="card sellerCard">
 <h3>CraftVillage</h3>
 <p>Handmade home decor and gifts.</p>
 <a class="button" href="seller1.html">View Profile</a>
 </div>
 
-<div class="card">
+<div class="card sellerCard">
 <h3>EcoKart</h3>
 <p>Sustainable eco-friendly products.</p>
 <a class="button" href="seller2.html">View Profile</a>
 </div>
 
-<div class="card">
+<div class="card sellerCard">
 <h3>UrbanWeave</h3>
 <p>Independent clothing brand.</p>
 <a class="button" href="seller3.html">View Profile</a>
@@ -105,7 +108,29 @@ margin-top:10px;
 </div>
 
 </div>
+<script>
 
+function searchSellers() {
+
+let input = document.getElementById("searchInput").value.toLowerCase();
+
+let sellers = document.getElementsByClassName("sellerCard");
+
+for (let i = 0; i < sellers.length; i++) {
+
+let text = sellers[i].innerText.toLowerCase();
+
+if (text.includes(input)) {
+sellers[i].style.display = "";
+} else {
+sellers[i].style.display = "none";
+}
+
+}
+
+}
+
+</script>
 </body>
 
 </html>
