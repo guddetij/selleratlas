@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Seller - SellerAtlas</title>
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#F4F7F6;
+}
+
+header{
+background:#1F7A63;
+color:white;
+padding:20px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+padding:40px;
+background:white;
+margin-top:40px;
+border-radius:10px;
+}
+
+h1{
+margin-top:0;
+}
+
+.button{
+background:#1F7A63;
+color:white;
+padding:10px 16px;
+border-radius:6px;
+text-decoration:none;
+display:inline-block;
+margin-top:15px;
+}
+
+.badge{
+background:#8FB339;
+color:white;
+padding:4px 8px;
+border-radius:5px;
+font-size:12px;
+margin-left:5px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>SellerAtlas</h1>
+
+</header>
+
+<div class="container" id="sellerProfile">
+
+Loading seller...
+
+</div>
+
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const sellerName = params.get("name");
+
+const sheetID = "1rJc2bltxs2wfYAq0RLPBfrjUfauaTi8Go6PYghvlT-Q";
+const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
+
+fetch(url)
+.then(res => res.json())
+.then(data => {
+
+const seller = data.find(s => s["Business Name"] === sellerName);
+
+let badge = "";
+
+if(seller["Verified"] === "Yes"){
+badge = `<span class="badge">✔ Verified</span>`;
+}
+
+let instagram = seller["Instagram Link"];
+
+if(!instagram.startsWith("http")){
+instagram = "https://" + instagram;
+}
+
+document.getElementById("sellerProfile").innerHTML = `
+
+<h1>${seller["Business Name"]} ${badge}</h1>
+
+<p><strong>Category:</strong> ${seller["Category"]}</p>
+
+<p><strong>Instagram:</strong> @${seller["Instagram Username"]}</p>
+
+<a class="button" href="${instagram}" target="_blank">
+Visit Instagram
+</a>
+
+`;
+
+});
+
+</script>
+
+</body>
+
+</html>
