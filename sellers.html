@@ -133,6 +133,10 @@ margin-left:5px;
 
 <div id="categoryContainer" class="categories"></div>
 
+<h2>Featured Sellers</h2>
+
+<div id="featuredContainer"></div>
+
 <h2>All Sellers</h2>
 
 <p>Search by Instagram username/brand name</p>
@@ -207,12 +211,30 @@ fetch(url)
 .then(data => {
 
 const sellerContainer = document.getElementById("sellerContainer");
+const featuredContainer = document.getElementById("featuredContainer");
 const categoryContainer = document.getElementById("categoryContainer");
 
 let categories = new Set();
 
 data.forEach(seller => {
 
+if(seller["Featured"] === "Yes"){
+
+featuredContainer.innerHTML += `
+<div class="sellerCard">
+⭐ ${seller["Business Name"]}
+</div>
+`;
+
+}
+
+sellerContainer.innerHTML += `
+<div class="sellerCard">
+${seller["Business Name"]}
+</div>
+`;
+
+});
 let badge = "";
 
 if(seller["Verified"] === "Yes"){
