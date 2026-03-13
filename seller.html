@@ -3,7 +3,7 @@
 
 <head>
 
-<title>Seller - SellerAtlas</title>
+<title>Seller Profile - SellerAtlas</title>
 
 <style>
 
@@ -16,20 +16,64 @@ background:#F4F7F6;
 header{
 background:#1F7A63;
 color:white;
-padding:20px;
+padding:15px 30px;
+}
+
+nav a{
+color:white;
+margin-right:20px;
+text-decoration:none;
+font-weight:bold;
 }
 
 .container{
-max-width:800px;
+max-width:900px;
 margin:auto;
-padding:40px;
-background:white;
-margin-top:40px;
-border-radius:10px;
+padding:40px 20px;
 }
 
-h1{
-margin-top:0;
+.profileCard{
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 3px 10px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+.logo{
+width:120px;
+height:120px;
+border-radius:50%;
+object-fit:cover;
+margin-bottom:15px;
+}
+
+.category{
+color:#8FB339;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.name{
+font-size:28px;
+font-weight:bold;
+}
+
+.badge{
+background:#8FB339;
+color:white;
+padding:5px 10px;
+border-radius:6px;
+font-size:12px;
+margin-left:6px;
+}
+
+.links{
+margin-top:25px;
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:12px;
 }
 
 .button{
@@ -38,17 +82,6 @@ color:white;
 padding:10px 16px;
 border-radius:6px;
 text-decoration:none;
-display:inline-block;
-margin-top:15px;
-}
-
-.badge{
-background:#8FB339;
-color:white;
-padding:4px 8px;
-border-radius:5px;
-font-size:12px;
-margin-left:5px;
 }
 
 </style>
@@ -59,16 +92,21 @@ margin-left:5px;
 
 <header>
 
-<h1>SellerAtlas</h1>
+<h2>SellerAtlas</h2>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="sellers.html">Browse Sellers</a>
+<a href="submit.html">List Your Business</a>
+</nav>
 
 </header>
 
-<div class="container" id="sellerProfile">
+<div class="container">
 
-Loading seller...
+<div id="profileContainer"></div>
 
 </div>
-
 
 <script>
 
@@ -82,33 +120,56 @@ fetch(url)
 .then(res => res.json())
 .then(data => {
 
-const seller = data.find(s => s["Business Name"] === sellerName);
+const container = document.getElementById("profileContainer");
 
-let badge = "";
+data.forEach(seller => {
 
+if(seller["Business Name"] === sellerName){
+
+let verifiedBadge = "";
 if(seller["Verified"] === "Yes"){
-badge = `<span class="badge">✔ Verified</span>`;
+verifiedBadge = `<span class="badge">GST Verified</span>`;
 }
 
 let instagram = seller["Instagram Link"];
+let amazon = seller["Amazon Link"];
+let flipkart = seller["Flipkart Link"];
+let myntra = seller["Myntra Link"];
+let website = seller["Business Website Link"];
 
-if(!instagram.startsWith("http")){
-instagram = "https://" + instagram;
-}
+container.innerHTML = `
 
-document.getElementById("sellerProfile").innerHTML = `
+<div class="profileCard">
 
-<h1>${seller["Business Name"]} ${badge}</h1>
+<img src="${seller["Logo"]}" class="logo">
 
-<p><strong>Category:</strong> ${seller["Category"]}</p>
+<div class="category">${seller["Category"]}</div>
 
-<p><strong>Instagram:</strong> @${seller["Instagram Username"]}</p>
+<div class="name">
+${seller["Business Name"]} ${verifiedBadge}
+</div>
 
-<a class="button" href="${instagram}" target="_blank">
-Visit Instagram
-</a>
+<div class="links">
+
+${instagram ? `<a class="button" href="${instagram}" target="_blank">Instagram</a>` : ""}
+
+${amazon ? `<a class="button" href="${amazon}" target="_blank">Amazon</a>` : ""}
+
+${flipkart ? `<a class="button" href="${flipkart}" target="_blank">Flipkart</a>` : ""}
+
+${myntra ? `<a class="button" href="${myntra}" target="_blank">Myntra</a>` : ""}
+
+${website ? `<a class="button" href="${website}" target="_blank">Website</a>` : ""}
+
+</div>
+
+</div>
 
 `;
+
+}
+
+});
 
 });
 
