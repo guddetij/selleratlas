@@ -73,6 +73,9 @@ border:1px solid #ccc;
 margin-top:20px;
 padding:15px 0;
 border-bottom:1px solid #ddd;
+display:flex;
+gap:15px;
+align-items:center;
 }
 
 .categoryLabel{
@@ -102,11 +105,18 @@ margin-top:8px;
 
 .badge{
 background:#8FB339;
-color:#1F7A63;
+color:white;
 padding:3px 7px;
 border-radius:5px;
 font-size:11px;
 margin-left:5px;
+}
+
+.logo{
+width:55px;
+height:55px;
+border-radius:50%;
+object-fit:cover;
 }
 
 </style>
@@ -139,12 +149,10 @@ margin-left:5px;
 
 <h2>All Sellers</h2>
 
-<p>Search by Instagram username/brand name</p>
+<p>Search by Instagram username / brand name</p>
 
 <div class="searchbox">
-
 <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchSellers()">
-
 </div>
 
 <div id="sellerContainer"></div>
@@ -159,7 +167,6 @@ margin-left:5px;
 function searchSellers(){
 
 let input = document.getElementById("searchInput").value.toLowerCase();
-
 let sellers = document.getElementsByClassName("sellerCard");
 
 for (let i = 0; i < sellers.length; i++){
@@ -176,6 +183,7 @@ sellers[i].style.display="none";
 
 }
 
+
 /* CATEGORY FILTER */
 
 function filterCategory(category){
@@ -186,7 +194,9 @@ for (let i = 0; i < sellers.length; i++){
 
 let text = sellers[i].innerText;
 
-if(text.includes(category)){
+if(category === "All"){
+sellers[i].style.display="";
+}else if(text.includes(category)){
 sellers[i].style.display="";
 }else{
 sellers[i].style.display="none";
@@ -218,41 +228,56 @@ let categories = new Set();
 
 data.forEach(seller => {
 
-if(seller["Featured"] === "Yes"){
-
-featuredContainer.innerHTML += `
-<div class="sellerCard">
-⭐ ${seller["Business Name"]}
-</div>
-`;
-
-}
-
-sellerContainer.innerHTML += `
-<div class="sellerCard">
-${seller["Business Name"]}
-</div>
-`;
-
-});
 let badge = "";
 
 if(seller["Verified"] === "Yes"){
 badge = `<span class="badge">✔ Verified</span>`;
 }
 
-let instagram = seller["Instagram Link"];
+let instagram = seller["Instagram Link"] || "";
 
-if(!instagram.startsWith("http")){
+if(instagram && !instagram.startsWith("http")){
 instagram = "https://" + instagram;
 }
 
+let logo = seller["Logo"] || "https://via.placeholder.com/55";
+
+/* FEATURED SELLERS */
+
+if(seller["Featured"] === "Yes"){
+
+featuredContainer.innerHTML += `
+
+<div class="sellerCard">
+
+<img class="logo" src="${logo}">
+
+<div>
+
+<div class="sellerName">
+⭐ ${seller["Business Name"]} ${badge}
+</div>
+
+<a class="button" href="${instagram}" target="_blank">
+Visit Instagram
+</a>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* ALL SELLERS */
+
 sellerContainer.innerHTML += `
 
-<div class="sellerCard" style="display:flex;gap:15px;align-items:center">
+<div class="sellerCard">
 
-<img src="${seller["Logo"]}" 
-style="width:55px;height:55px;border-radius:50%;object-fit:cover">
+<img class="logo" src="${logo}">
 
 <div>
 
@@ -273,20 +298,29 @@ View Seller
 </div>
 
 </div>
+
 `;
 
-categories.add(seller["Category"]);
+categories.add((seller["Category"] || "").trim());
 
 });
 
 
+/* CREATE CATEGORY BUTTONS */
+
 categories.forEach(cat => {
 
+if(cat){
+
 categoryContainer.innerHTML += `
+
 <div class="category" onclick="filterCategory('${cat}')">
 ${cat}
 </div>
+
 `;
+
+}
 
 });
 
@@ -296,5 +330,4 @@ ${cat}
 
 
 </body>
-
 </html>
