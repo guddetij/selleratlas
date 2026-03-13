@@ -15,8 +15,7 @@ background:#f4f7f6;
 
 header{
 background:#1F7A63;
-color:white;
-padding:20px;
+padding:12px 30px;
 }
 
 nav a{
@@ -85,6 +84,40 @@ color:white;
 text-align:center;
 }
 
+  .navContainer{
+display:flex;
+align-items:center;
+justify-content:space-between;
+max-width:1200px;
+margin:auto;
+}
+
+.logoSection{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.logo{
+height:45px;
+}
+
+.brandName{
+font-size:22px;
+font-weight:bold;
+color:white;
+}
+
+nav{
+display:flex;
+gap:25px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-weight:600;
+}
 </style>
 
 </head>
@@ -93,8 +126,11 @@ text-align:center;
 
 <header>
 
-<div class="logoContainer">
-<img src="logo.png" alt="SellerAtlas">
+<div class="navContainer">
+
+<div class="logoSection">
+<img src="logo.png" class="logo">
+<span class="brandName">SellerAtlas</span>
 </div>
 
 <nav>
@@ -102,6 +138,8 @@ text-align:center;
 <a href="sellers.html">Browse Sellers</a>
 <a href="submit.html">List Your Business</a>
 </nav>
+
+</div>
 
 </header>
 
