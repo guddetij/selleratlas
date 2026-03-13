@@ -220,7 +220,12 @@ instagram = "https://" + instagram;
 
 sellerContainer.innerHTML += `
 
-<div class="sellerCard">
+<div class="sellerCard" style="display:flex;gap:15px;align-items:center">
+
+<img src="${seller["Logo"]}" 
+style="width:55px;height:55px;border-radius:50%;object-fit:cover">
+
+<div>
 
 <div class="categoryLabel">${seller["Category"]}</div>
 
@@ -238,6 +243,7 @@ View Seller
 
 </div>
 
+</div>
 `;
 
 categories.add(seller["Category"]);
