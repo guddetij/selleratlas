@@ -300,9 +300,25 @@ sellerContainer.innerHTML += `
 
 <div class="sellerCard">
 
-<img class="logo" src="${logo}">
+<img src="${seller["Logo"]}">
 
-<div>
+<div class="categoryLabel">${seller["Category"]}</div>
+
+<div class="sellerName">
+${seller["Business Name"]}
+</div>
+
+<div class="sellerHandle">
+@${seller["Instagram Username"] || ""}
+</div>
+
+<a class="button" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
+View Seller
+</a>
+
+</div>
+
+`;
 
 <div class="categoryLabel">${seller["Category"]}</div>
 
