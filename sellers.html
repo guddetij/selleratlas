@@ -124,20 +124,7 @@ margin-left:5px;
 
 <h2>Browse Categories</h2>
 
-<div class="categories">
-
-<div class="category" onclick="filterCategory('Women')">👗 Women's Wear</div>
-<div class="category" onclick="filterCategory('Men')">👕 Men's Wear</div>
-<div class="category" onclick="filterCategory('Shoes')">👟 Shoes</div>
-<div class="category" onclick="filterCategory('Jewelry')">💍 Jewelry</div>
-<div class="category" onclick="filterCategory('Kids')">🧸 Kids Clothing</div>
-<div class="category" onclick="filterCategory('Home')">🏠 Home</div>
-<div class="category" onclick="filterCategory('Books')">📚 Books</div>
-<div class="category" onclick="filterCategory('Toys')">🧸 Toys</div>
-<div class="category" onclick="filterCategory('Sports')">🏋️ Sports/Fitness</div>
-<div class="category" onclick="filterCategory('Beauty')">💄 Beauty</div>
-
-</div>
+<div id="categoryContainer" class="categories"></div>
 
 <h2>All Sellers</h2>
 
@@ -209,11 +196,17 @@ const sheetID = "1rJc2bltxs2wfYAq0RLPBfrjUfauaTi8Go6PYghvlT-Q";
 
 const url = `https://opensheet.elk.sh/${sheetID}/Sheet2`;
 
+const sheetID = "1rJc2bltxs2wfYAq0RLPBfrjUfauaTi8Go6PYghvlT-Q";
+const url = `https://opensheet.elk.sh/${sheetID}/Sheet2`;
+
 fetch(url)
 .then(res => res.json())
 .then(data => {
 
-const container = document.getElementById("sellerContainer");
+const sellerContainer = document.getElementById("sellerContainer");
+const categoryContainer = document.getElementById("categoryContainer");
+
+let categories = new Set();
 
 data.forEach(seller => {
 
@@ -229,7 +222,7 @@ if(!instagram.startsWith("http")){
 instagram = "https://" + instagram;
 }
 
-container.innerHTML += `
+sellerContainer.innerHTML += `
 
 <div class="sellerCard">
 
@@ -247,6 +240,29 @@ ${seller["Business Name"]} ${badge}
 Visit Instagram
 </a>
 
+</div>
+`;
+
+categories.add(seller["Category"]);
+
+});
+
+
+/* Generate category buttons */
+
+categories.forEach(cat => {
+
+categoryContainer.innerHTML += `
+
+<div class="category" onclick="filterCategory('${cat}')">
+${cat}
+</div>
+
+`;
+
+});
+
+});
 </div>
 
 `;
