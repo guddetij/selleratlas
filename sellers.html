@@ -194,9 +194,9 @@ let sellers = document.getElementsByClassName("sellerCard");
 
 for (let i = 0; i < sellers.length; i++){
 
-let text = sellers[i].innerText;
+let sellerCategory = sellers[i].getAttribute("data-category");
 
-if(text.includes(category)){
+if(sellerCategory === category){
 sellers[i].style.display="";
 }else{
 sellers[i].style.display="none";
@@ -253,7 +253,7 @@ if(seller["Featured"] === "Yes"){
 
 featuredContainer.innerHTML += `
 
-<div class="sellerCard">
+<div class="sellerCard" data-category="${seller["Category"]}">
 
 <img class="logo" src="${logo}">
 
@@ -281,7 +281,7 @@ View Seller
 
 sellerContainer.innerHTML += `
 
-<div class="sellerCard">
+<div class="sellerCard" data-category="${seller["Category"]}">
 
 <img class="logo" src="${logo}">
 
@@ -312,7 +312,12 @@ categories.add((seller["Category"] || "").trim());
 });
 
 /* CREATE CATEGORY BUTTONS */
-
+/* Add "All" button first */
+categoryContainer.innerHTML += `
+<div class="category" onclick="filterCategory('All')">
+All
+</div>
+`;
 categories.forEach(cat => {
 
 if(cat){
