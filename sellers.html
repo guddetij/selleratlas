@@ -32,15 +32,6 @@ margin:auto;
 padding:30px;
 }
 
-.gstBadge{
-background:#e6f5ef;
-color:#1F7A63;
-padding:3px 7px;
-border-radius:5px;
-font-size:11px;
-margin-left:5px;
-}
-
 h2{
 margin-top:30px;
 }
@@ -60,11 +51,6 @@ font-weight:bold;
 cursor:pointer;
 box-shadow:0 2px 8px rgba(0,0,0,0.08);
 text-align:center;
-transition:0.2s;
-}
-
-.category:hover{
-transform:translateY(-2px);
 }
 
 .searchbox{
@@ -85,6 +71,13 @@ border-bottom:1px solid #ddd;
 display:flex;
 gap:15px;
 align-items:center;
+}
+
+.logo{
+width:55px;
+height:55px;
+border-radius:50%;
+object-fit:cover;
 }
 
 .categoryLabel{
@@ -121,11 +114,13 @@ font-size:11px;
 margin-left:5px;
 }
 
-.logo{
-width:55px;
-height:55px;
-border-radius:50%;
-object-fit:cover;
+.gstBadge{
+background:#e6f5ef;
+color:#1F7A63;
+padding:3px 7px;
+border-radius:5px;
+font-size:11px;
+margin-left:5px;
 }
 
 </style>
@@ -168,7 +163,6 @@ object-fit:cover;
 
 </div>
 
-
 <script>
 
 /* SEARCH FUNCTION */
@@ -192,7 +186,6 @@ sellers[i].style.display="none";
 
 }
 
-
 /* CATEGORY FILTER */
 
 function filterCategory(category){
@@ -203,9 +196,7 @@ for (let i = 0; i < sellers.length; i++){
 
 let text = sellers[i].innerText;
 
-if(category === "All"){
-sellers[i].style.display="";
-}else if(text.includes(category)){
+if(text.includes(category)){
 sellers[i].style.display="";
 }else{
 sellers[i].style.display="none";
@@ -236,7 +227,9 @@ const categoryContainer = document.getElementById("categoryContainer");
 let categories = new Set();
 
 data.forEach(seller => {
+
 if(seller["Approved"] !== "Yes") return;
+
 let verifiedBadge = "";
 let gstBadge = "";
 
@@ -250,17 +243,6 @@ verifiedBadge = `<span class="badge">✔ Verified</span>`;
 
 if(seller["GST Number"] && seller["GST Number"].length > 5){
 gstBadge = `<span class="gstBadge">🧾 GST Verified</span>`;
-}
-let badge = "";
-
-if(seller["Verified"] === "Yes"){
-badge = `<span class="badge">✔ Verified</span>`;
-}
-
-let instagram = seller["Instagram Link"] || "";
-
-if(instagram && !instagram.startsWith("http")){
-instagram = "https://" + instagram;
 }
 
 let logo = seller["Logo"] || "https://via.placeholder.com/55";
@@ -278,8 +260,10 @@ featuredContainer.innerHTML += `
 <div>
 
 <div class="sellerName">
-⭐ ${seller["Business Name"]} ${badge}
+⭐ ${seller["Business Name"]} ${verifiedBadge} ${gstBadge}
 </div>
+
+<div class="categoryLabel">${seller["Category"]}</div>
 
 <a class="button" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
 View Seller
@@ -293,32 +277,15 @@ View Seller
 
 }
 
-
 /* ALL SELLERS */
 
 sellerContainer.innerHTML += `
 
 <div class="sellerCard">
 
-<img src="${seller["Logo"]}">
+<img class="logo" src="${logo}">
 
-<div class="categoryLabel">${seller["Category"]}</div>
-
-<div class="sellerName">
-${seller["Business Name"]}
-</div>
-
-<div class="sellerHandle">
-@${seller["Instagram Username"] || ""}
-</div>
-
-<a class="button" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
-View Seller
-</a>
-
-</div>
-
-`;
+<div>
 
 <div class="categoryLabel">${seller["Category"]}</div>
 
@@ -344,7 +311,6 @@ categories.add((seller["Category"] || "").trim());
 
 });
 
-
 /* CREATE CATEGORY BUTTONS */
 
 categories.forEach(cat => {
@@ -366,7 +332,6 @@ ${cat}
 });
 
 </script>
-
 
 </body>
 </html>
