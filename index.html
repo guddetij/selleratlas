@@ -1,21 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
-<title>SellerAtlas</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>SellerAtlas - Discover Trusted Small Businesses</title>
+
+<meta name="description" content="Discover trusted small businesses, handmade creators, and independent brands on SellerAtlas.">
+
 <link rel="icon" type="image/png" href="/favicon.png">
+
 <style>
 
 body{
-font-family:Arial;
+font-family:Arial, Helvetica, sans-serif;
 margin:0;
 background:#f4f7f6;
 }
 
-/* HEADER */
+/* TOP BAR */
 
-header{
+.topBar{
+background:#0e3d66;
+color:white;
+font-size:13px;
+}
+
+.topBarContent{
+max-width:1200px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:8px 20px;
+}
+
+.topLinks a{
+color:white;
+text-decoration:none;
+margin-left:15px;
+}
+
+/* NAVBAR */
+
+.navbar{
 background:#1F7A63;
 padding:14px 30px;
 }
@@ -28,50 +58,36 @@ align-items:center;
 justify-content:space-between;
 }
 
-.logoSection{
-display:flex;
-align-items:center;
-gap:10px;
-}
-
 .logo{
 height:38px;
 }
 
-.brandName{
-color:white;
-font-weight:bold;
-font-size:20px;
-}
-
-.mainNav{
+.navLinks{
 display:flex;
 gap:30px;
 }
 
-.mainNav a{
+.navLinks a{
 color:white;
 text-decoration:none;
 font-weight:600;
 }
 
-nav{
-display:flex;
-gap:25px;
-}
-
-nav a{
+.ctaButton{
+background:#2a7f62;
 color:white;
+padding:10px 18px;
+border-radius:6px;
 text-decoration:none;
-font-weight:600;
+font-weight:bold;
 }
 
-/* MAIN CONTAINER */
+/* PAGE CONTAINER */
 
 .container{
-padding:20px 40px 40px 40px;
 max-width:1100px;
 margin:auto;
+padding:40px 20px;
 }
 
 /* HERO */
@@ -79,10 +95,10 @@ margin:auto;
 .hero{
 text-align:center;
 max-width:650px;
-margin:40px auto 20px auto;
+margin:40px auto;
 }
 
-.hero h2{
+.hero h1{
 margin-bottom:10px;
 }
 
@@ -94,15 +110,42 @@ border-radius:8px;
 text-decoration:none;
 font-weight:bold;
 display:inline-block;
-margin-top:18px;
-font-size:16px;
+margin-top:20px;
+}
+
+/* CATEGORY GRID */
+
+.categoriesSection{
+margin-top:50px;
+text-align:center;
+}
+
+.categoryGrid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:15px;
+margin-top:20px;
+max-width:700px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.categoryCard{
+background:white;
+padding:14px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.08);
+cursor:pointer;
+font-weight:bold;
+transition:0.2s;
+}
+
+.categoryCard:hover{
+transform:translateY(-3px);
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
 /* TOP SELLERS */
-
-.topSellers{
-margin-top:40px;
-}
 
 .topSellerGrid{
 display:grid;
@@ -135,7 +178,6 @@ font-size:18px;
 font-size:12px;
 color:#8FB339;
 font-weight:bold;
-margin-bottom:4px;
 }
 
 .topSellerButton{
@@ -165,10 +207,6 @@ border-radius:10px;
 box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
-.card h3{
-margin-top:0;
-}
-
 /* TRUST BADGES */
 
 .badges{
@@ -176,6 +214,7 @@ margin-top:40px;
 display:flex;
 gap:20px;
 flex-wrap:wrap;
+justify-content:center;
 }
 
 .badge{
@@ -195,87 +234,21 @@ color:white;
 text-align:center;
 }
 
-.viewAll{
-margin-top:20px;
-text-align:right;
-}
-
-.viewAll a{
-color:#1F7A63;
-text-decoration:none;
-font-weight:bold;
-}
-
-.viewAll a:hover{
-text-decoration:underline;
-}
-.topBar{
-background:#0e3d66;
+footer a{
 color:white;
-font-size:13px;
-}
-
-.topBarContent{
-max-width:1200px;
-margin:auto;
-display:flex;
-justify-content:space-between;
-padding:8px 20px;
-align-items:center;
-}
-
-.topLinks a{
-color:white;
-margin-left:15px;
 text-decoration:none;
-}
-.ctaButton{
-background:#2a7f62;
-color:white;
-padding:10px 18px;
-border-radius:6px;
-text-decoration:none;
-font-weight:bold;
+margin:0 10px;
 }
 
-.ctaButton:hover{
-background:#236b52;
-}
-
-.categoriesSection{
-margin-top:50px;
-text-align:center;
-}
-
-.categoryGrid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-gap:15px;
-margin-top:20px;
-max-width:700px;
-margin-left:auto;
-margin-right:auto;
-}
-
-.categoryCard{
-background:white;
-padding:14px;
-border-radius:10px;
-box-shadow:0 2px 6px rgba(0,0,0,0.08);
-cursor:pointer;
-font-weight:bold;
-transition:0.2s;
-}
-
-.categoryCard:hover{
-transform:translateY(-3px);
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-
-
-
-  
 </style>
+
+</head>
+
+<body>
+
+
+<!-- TOP BAR -->
+
 <div class="topBar">
 
 <div class="topBarContent">
@@ -283,54 +256,56 @@ box-shadow:0 4px 10px rgba(0,0,0,0.1);
 <span>Discover trusted small businesses and independent brands</span>
 
 <div class="topLinks">
-<a href="about.html">About</a>
-<a href="privacy.html">Privacy</a>
+<a href="/about.html">About</a>
+<a href="/privacy.html">Privacy</a>
 </div>
 
 </div>
 
 </div>
-</head>
 
-<body>
 
-<header>
+<!-- NAVBAR -->
+
+<header class="navbar">
 
 <div class="navContainer">
 
-<div class="logoSection">
 <a href="/">
-  <img src="/logo.png" class="logo" alt="SellerAtlas">
+<img src="/logo.png" class="logo" alt="SellerAtlas">
+</a>
 
-
-<nav class="mainNav">
-<a href="index.html">Home</a>
-<a href="sellers.html">Browse Sellers</a>
-<a href="submit.html">List Your Business</a>
-<a href="contact.html">Contact</a>
+<nav class="navLinks">
+<a href="/">Home</a>
+<a href="/sellers.html">Browse Sellers</a>
+<a href="/submit.html">List Your Business</a>
+<a href="/contact.html">Contact</a>
 </nav>
 
-<a class="ctaButton" href="submit.html">Add Your Store</a>
+<a class="ctaButton" href="/submit.html">Add Your Store</a>
 
 </div>
 
 </header>
 
+
 <div class="container">
+
 
 <!-- HERO -->
 
 <section class="hero">
 
-<h2>Discover Trusted Sellers</h2>
+<h1>Discover Trusted Sellers</h1>
 
-<p>Find reliable small businesses, handmade creators, and unique brands.</p>
+<p>Find reliable small businesses, handmade creators, and independent brands.</p>
 
-<a href="sellers.html" class="heroButton">Browse Sellers</a>
+<a href="/sellers.html" class="heroButton">Browse Sellers</a>
 
 </section>
 
-<!-- TOP SELLERS -->
+
+<!-- CATEGORY SECTION -->
 
 <section class="categoriesSection">
 
@@ -340,19 +315,19 @@ box-shadow:0 4px 10px rgba(0,0,0,0.1);
 
 </section>
 
-<section class="topSellers">
 
-<h2>Top Verified Sellers</h2>
+<!-- TOP SELLERS -->
+
+<section>
+
+<h2 style="margin-top:50px;">Top Verified Sellers</h2>
 
 <div id="topSellerContainer" class="topSellerGrid"></div>
 
-<div class="viewAll">
-<a href="sellers.html">View All Sellers →</a>
-</div>
-
 </section>
 
-<!-- FEATURE CARDS -->
+
+<!-- INFO CARDS -->
 
 <div class="cards">
 
@@ -373,6 +348,7 @@ box-shadow:0 4px 10px rgba(0,0,0,0.1);
 
 </div>
 
+
 <!-- TRUST BADGES -->
 
 <div class="badges">
@@ -387,11 +363,19 @@ box-shadow:0 4px 10px rgba(0,0,0,0.1);
 
 </div>
 
+
 <footer>
-SellerAtlas © 2026 | 
-<a href="about.html" style="color:white;">About</a> | 
-<a href="privacy.html" style="color:white;">Privacy Policy</a>
+
+<p>SellerAtlas © 2026</p>
+
+<div>
+<a href="/about.html">About</a>
+<a href="/privacy.html">Privacy</a>
+<a href="/contact.html">Contact</a>
+</div>
+
 </footer>
+
 
 <script>
 
@@ -402,32 +386,32 @@ fetch(url)
 .then(res => res.json())
 .then(data => {
 
-const container = document.getElementById("topSellerContainer");
+const sellerContainer = document.getElementById("topSellerContainer");
+const categoryGrid = document.getElementById("categoryGrid");
 
-let sellers = data
-.filter(s => s["Approved"] === "Yes")
-.filter(s => s["Verified"] === "Yes")
-.slice(0,3);
+let categories = new Set();
 
-sellers.forEach(seller => {
+data.forEach(seller => {
 
-let instagram = seller["Instagram Link"] || "#";
+if(seller["Approved"] === "Yes"){
 
-if(instagram && !instagram.startsWith("http")){
-instagram = "https://" + instagram;
+if(seller["Category"]){
+categories.add(seller["Category"]);
 }
+
+if(seller["Verified"] === "Yes"){
 
 let logo = seller["Logo"] || "https://via.placeholder.com/50";
 
-container.innerHTML += `
+sellerContainer.innerHTML += `
 
 <div class="topSellerCard">
 
 <img src="${logo}">
 
-<div class="topSellerCategory">${seller["Category"] || ""}</div>
+<div class="topSellerCategory">${seller["Category"]}</div>
 
-<div class="topSellerName">${seller["Business Name"] || ""}</div>
+<div class="topSellerName">${seller["Business Name"]}</div>
 
 <a class="topSellerButton" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
 View Seller
@@ -437,23 +421,12 @@ View Seller
 
 `;
 
-});
+}
 
-});
-
-/* CATEGORY LIST */
-
-const categoryGrid = document.getElementById("categoryGrid");
-
-let categories = new Set();
-
-data.forEach(seller => {
-
-if(seller["Category"]){
-categories.add(seller["Category"]);
 }
 
 });
+
 
 categories.forEach(cat => {
 
@@ -469,8 +442,11 @@ ${cat}
 `;
 
 });
-  
+
+});
+
 </script>
+
 
 </body>
 </html>
