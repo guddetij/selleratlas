@@ -17,15 +17,15 @@ background:#f4f7f6;
 
 header{
 background:#1F7A63;
-padding:12px 30px;
+padding:14px 30px;
 }
 
 .navContainer{
+max-width:1200px;
+margin:auto;
 display:flex;
 align-items:center;
 justify-content:space-between;
-max-width:1200px;
-margin:auto;
 }
 
 .logoSection{
@@ -39,9 +39,20 @@ height:38px;
 }
 
 .brandName{
-font-size:22px;
-font-weight:bold;
 color:white;
+font-weight:bold;
+font-size:20px;
+}
+
+.mainNav{
+display:flex;
+gap:30px;
+}
+
+.mainNav a{
+color:white;
+text-decoration:none;
+font-weight:600;
 }
 
 nav{
@@ -226,6 +237,10 @@ border-radius:6px;
 text-decoration:none;
 font-weight:bold;
 }
+
+.ctaButton:hover{
+background:#236b52;
+}
 </style>
 <div class="topBar">
 
@@ -254,16 +269,15 @@ font-weight:bold;
 <span class="brandName">SellerAtlas</span>
 </div>
 
-<nav>
-
+<nav class="mainNav">
 <a href="index.html">Home</a>
 <a href="sellers.html">Browse Sellers</a>
 <a href="submit.html">List Your Business</a>
 <a href="contact.html">Contact</a>
+</nav>
 
 <a class="ctaButton" href="submit.html">Add Your Store</a>
 
-</nav>
 </div>
 
 </header>
