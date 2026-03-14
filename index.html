@@ -241,6 +241,40 @@ font-weight:bold;
 .ctaButton:hover{
 background:#236b52;
 }
+
+.categoriesSection{
+margin-top:50px;
+text-align:center;
+}
+
+.categoryGrid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+gap:15px;
+margin-top:20px;
+max-width:700px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.categoryCard{
+background:white;
+padding:14px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.08);
+cursor:pointer;
+font-weight:bold;
+transition:0.2s;
+}
+
+.categoryCard:hover{
+transform:translateY(-3px);
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+
+
+  
 </style>
 <div class="topBar">
 
@@ -297,6 +331,14 @@ background:#236b52;
 </section>
 
 <!-- TOP SELLERS -->
+
+<section class="categoriesSection">
+
+<h2>Shop by Category</h2>
+
+<div id="categoryGrid" class="categoryGrid"></div>
+
+</section>
 
 <section class="topSellers">
 
@@ -399,6 +441,35 @@ View Seller
 
 });
 
+/* CATEGORY LIST */
+
+const categoryGrid = document.getElementById("categoryGrid");
+
+let categories = new Set();
+
+data.forEach(seller => {
+
+if(seller["Category"]){
+categories.add(seller["Category"]);
+}
+
+});
+
+categories.forEach(cat => {
+
+categoryGrid.innerHTML += `
+
+<div class="categoryCard"
+onclick="window.location='sellers.html?category=${encodeURIComponent(cat)}'">
+
+${cat}
+
+</div>
+
+`;
+
+});
+  
 </script>
 
 </body>
