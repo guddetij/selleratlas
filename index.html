@@ -198,9 +198,49 @@ font-weight:bold;
 .viewAll a:hover{
 text-decoration:underline;
 }
+.topBar{
+background:#0e3d66;
+color:white;
+font-size:13px;
+}
 
+.topBarContent{
+max-width:1200px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+padding:8px 20px;
+align-items:center;
+}
+
+.topLinks a{
+color:white;
+margin-left:15px;
+text-decoration:none;
+}
+.ctaButton{
+background:#2a7f62;
+color:white;
+padding:10px 18px;
+border-radius:6px;
+text-decoration:none;
+font-weight:bold;
+}
 </style>
+<div class="topBar">
 
+<div class="topBarContent">
+
+<span>Discover trusted small businesses and independent brands</span>
+
+<div class="topLinks">
+<a href="about.html">About</a>
+<a href="privacy.html">Privacy</a>
+</div>
+
+</div>
+
+</div>
 </head>
 
 <body>
@@ -215,12 +255,15 @@ text-decoration:underline;
 </div>
 
 <nav>
+
 <a href="index.html">Home</a>
 <a href="sellers.html">Browse Sellers</a>
 <a href="submit.html">List Your Business</a>
 <a href="contact.html">Contact</a>
-</nav>
 
+<a class="ctaButton" href="submit.html">Add Your Store</a>
+
+</nav>
 </div>
 
 </header>
