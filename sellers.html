@@ -1,99 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Browse Sellers - SellerAtlas</title>
+
+<meta name="description" content="Browse verified small businesses and independent brands on SellerAtlas.">
+
 <link rel="icon" type="image/png" href="/favicon.png">
+
 <style>
 
 body{
-font-family:Arial;
+font-family:Arial, Helvetica, sans-serif;
 margin:0;
-background:#F4F7F6;
+background:#f4f7f6;
 }
 
-header{
+/* TOP BAR */
+
+.topBar{
+background:#0e3d66;
+color:white;
+font-size:13px;
+}
+
+.topBarContent{
+max-width:1200px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:8px 20px;
+}
+
+.topLinks a{
+color:white;
+text-decoration:none;
+margin-left:15px;
+}
+
+/* NAVBAR */
+
+.navbar{
 background:#1F7A63;
-color:white;
-padding:20px;
+padding:14px 30px;
 }
 
-nav a{
+.navContainer{
+max-width:1200px;
+margin:auto;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+height:38px;
+}
+
+.navLinks{
+display:flex;
+gap:30px;
+}
+
+.navLinks a{
 color:white;
-margin-right:20px;
+text-decoration:none;
+font-weight:600;
+}
+
+.ctaButton{
+background:#2a7f62;
+color:white;
+padding:10px 18px;
+border-radius:6px;
 text-decoration:none;
 font-weight:bold;
 }
 
+/* PAGE */
+
 .container{
-max-width:900px;
+max-width:1000px;
 margin:auto;
-padding:30px;
+padding:40px 20px;
 }
 
-h2{
-margin-top:30px;
-}
+/* CATEGORY GRID */
 
 .categories{
 display:grid;
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
 gap:12px;
 margin-top:20px;
 }
 
 .category{
 background:white;
-padding:16px;
-border-radius:12px;
-font-weight:bold;
+padding:14px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.08);
 cursor:pointer;
-box-shadow:0 2px 8px rgba(0,0,0,0.08);
+font-weight:bold;
 text-align:center;
 }
 
-.searchbox{
-margin-top:15px;
+.category:hover{
+transform:translateY(-2px);
 }
 
-.searchbox input{
+/* SEARCH */
+
+.searchBox{
+margin-top:25px;
+}
+
+.searchBox input{
 width:100%;
 padding:12px;
 border-radius:8px;
 border:1px solid #ccc;
 }
 
+/* SELLER LIST */
+
 .sellerCard{
 display:flex;
 gap:15px;
-align-items:flex-start;
-padding:18px 0;
-border-bottom:1px solid #ddd;
-}
-.sellerInfo{
-display:flex;
-flex-direction:column;
-gap:6px;
+align-items:center;
+background:white;
+padding:16px;
+border-radius:10px;
+margin-top:15px;
+box-shadow:0 2px 6px rgba(0,0,0,0.08);
 }
 
-.logo{
-height:40px;
-vertical-align:middle;
+.sellerLogo{
+width:50px;
+height:50px;
+border-radius:50%;
+object-fit:cover;
 }
-.categoryLabel{
-color:#8FB339;
-font-size:12px;
-font-weight:bold;
+
+.sellerInfo{
+flex:1;
 }
 
 .sellerName{
-font-size:20px;
+font-size:18px;
+font-weight:bold;
+}
+
+.categoryLabel{
+font-size:12px;
+color:#8FB339;
 font-weight:bold;
 }
 
 .sellerHandle{
 color:#777;
+font-size:13px;
 }
 
 .button{
@@ -102,17 +172,10 @@ color:white;
 padding:6px 14px;
 border-radius:6px;
 text-decoration:none;
-display:inline-block;
-margin-top:8px;
 font-size:13px;
-width:auto;
 }
-.sellerInfo .button{
-align-self:flex-start;
-}
-.button:hover{
-background:#176653;
-}
+
+/* BADGES */
 
 .badge{
 background:#8FB339;
@@ -132,36 +195,20 @@ font-size:11px;
 margin-left:5px;
 }
 
-.navbar{
-display:flex;
-align-items:center;
-justify-content:space-between;
-background-color:#2c7a63;
-padding:12px 40px;
+/* FOOTER */
+
+footer{
+margin-top:60px;
+padding:20px;
+background:#1F7A63;
+color:white;
+text-align:center;
 }
 
-.logo{
-height:40px;
-}
-
-.nav-links{
-display:flex;
-gap:30px;
-}
-
-.nav-links a{
+footer a{
 color:white;
 text-decoration:none;
-font-weight:500;
-}
-
-.cta-button{
-background:#3aa67a;
-color:white;
-padding:8px 16px;
-border-radius:6px;
-text-decoration:none;
-font-weight:600;
+margin:0 10px;
 }
 
 </style>
@@ -170,22 +217,46 @@ font-weight:600;
 
 <body>
 
+
+<!-- TOP BAR -->
+
+<div class="topBar">
+<div class="topBarContent">
+
+<span>Discover trusted small businesses and independent brands</span>
+
+<div class="topLinks">
+<a href="/about.html">About</a>
+<a href="/privacy.html">Privacy</a>
+</div>
+
+</div>
+</div>
+
+
+<!-- NAVBAR -->
+
 <header class="navbar">
 
+<div class="navContainer">
+
 <a href="/">
-<img src="/logo.png" alt="SellerAtlas" class="logo">
+<img src="/logo.png" class="logo">
 </a>
 
-<nav class="nav-links">
+<nav class="navLinks">
 <a href="/">Home</a>
 <a href="/sellers.html">Browse Sellers</a>
 <a href="/submit.html">List Your Business</a>
 <a href="/contact.html">Contact</a>
 </nav>
 
-<a href="/submit.html" class="cta-button">Add Your Store</a>
+<a class="ctaButton" href="/submit.html">Add Your Store</a>
+
+</div>
 
 </header>
+
 
 <div class="container">
 
@@ -193,32 +264,40 @@ font-weight:600;
 
 <div id="categoryContainer" class="categories"></div>
 
-<h2>Featured Sellers</h2>
+<h2 style="margin-top:40px;">All Sellers</h2>
 
-<div id="featuredContainer"></div>
+<p>Search by brand name or Instagram username</p>
 
-<h2>All Sellers</h2>
-
-<p>Search by Instagram username / brand name</p>
-
-<div class="searchbox">
-<input type="text" id="searchInput" placeholder="Search..." onkeyup="searchSellers()">
+<div class="searchBox">
+<input type="text" id="searchInput" placeholder="Search sellers..." onkeyup="searchSellers()">
 </div>
 
 <div id="sellerContainer"></div>
 
 </div>
 
-<script>
 
-/* SEARCH FUNCTION */
+<footer>
+
+<p>SellerAtlas © 2026</p>
+
+<div>
+<a href="/about.html">About</a>
+<a href="/privacy.html">Privacy</a>
+<a href="/contact.html">Contact</a>
+</div>
+
+</footer>
+
+
+<script>
 
 function searchSellers(){
 
 let input = document.getElementById("searchInput").value.toLowerCase();
 let sellers = document.getElementsByClassName("sellerCard");
 
-for (let i = 0; i < sellers.length; i++){
+for(let i=0;i<sellers.length;i++){
 
 let text = sellers[i].innerText.toLowerCase();
 
@@ -232,113 +311,42 @@ sellers[i].style.display="none";
 
 }
 
-/* CATEGORY FILTER */
+const sheetID="1rJc2bltxs2wfYAq0RLPBfrjUfauaTi8Go6PYghvlT-Q";
+const url=`https://opensheet.elk.sh/${sheetID}/Sheet1`;
 
-function filterCategory(category){
-
-let sellers = document.getElementsByClassName("sellerCard");
-
-for (let i = 0; i < sellers.length; i++){
-
-let sellerCategory = sellers[i].getAttribute("data-category");
-
-if(sellerCategory === category){
-sellers[i].style.display="";
-}else{
-sellers[i].style.display="none";
-}
-
-}
-
-}
-
-</script>
-
-
-<script>
-
-/* GOOGLE SHEET DIRECTORY */
-
-const sheetID = "1rJc2bltxs2wfYAq0RLPBfrjUfauaTi8Go6PYghvlT-Q";
-const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
-
-/* CATEGORY FILTER FROM URL */
-const params = new URLSearchParams(window.location.search);
-const selectedCategory = params.get("category");
-
-  
 fetch(url)
-.then(res => res.json())
-.then(data => {
+.then(res=>res.json())
+.then(data=>{
 
-const sellerContainer = document.getElementById("sellerContainer");
-const featuredContainer = document.getElementById("featuredContainer");
-const categoryContainer = document.getElementById("categoryContainer");
+const sellerContainer=document.getElementById("sellerContainer");
+const categoryContainer=document.getElementById("categoryContainer");
 
-let categories = new Set();
+let categories=new Set();
 
-data.forEach(seller => {
+data.forEach(seller=>{
 
-if(selectedCategory && seller["Category"] !== selectedCategory){
-return;
+if(seller["Approved"]!=="Yes") return;
+
+categories.add(seller["Category"]);
+
+let verifiedBadge="";
+let gstBadge="";
+
+if(seller["Verified"]==="Yes"){
+verifiedBadge=`<span class="badge">✔ Verified</span>`;
 }
 
-if(seller["Approved"] !== "Yes") return;
-
-let verifiedBadge = "";
-let gstBadge = "";
-
-/* PLATFORM VERIFIED */
-
-if(seller["Verified"] === "Yes"){
-verifiedBadge = `<span class="badge">✔ Verified</span>`;
+if(seller["GST Number"] && seller["GST Number"].length>5){
+gstBadge=`<span class="gstBadge">🧾 GST Verified</span>`;
 }
 
-/* GST VERIFIED */
+let logo=seller["Logo"] || "https://via.placeholder.com/50";
 
-if(seller["GST Number"] && seller["GST Number"].length > 5){
-gstBadge = `<span class="gstBadge">🧾 GST Verified</span>`;
-}
-
-let logo = seller["Logo"] || "https://via.placeholder.com/55";
-
-/* FEATURED SELLERS */
-
-if(seller["Featured"] === "Yes"){
-
-featuredContainer.innerHTML += `
-
-<div class="sellerCard" data-category="${seller["Category"]}">
-
-<img class="logo" src="${logo}">
-
-<div>
-
-<div class="sellerName">
-⭐ ${seller["Business Name"]} ${verifiedBadge} ${gstBadge}
-</div>
-
-<div class="categoryLabel">${seller["Category"]}</div>
-
-<a class="button" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
-View Seller
-</a>
-
-</div>
-
-</div>
-
-`;
-
-}
-
-/* ALL SELLERS */
-
-sellerContainer.innerHTML += `
+sellerContainer.innerHTML+=`
 
 <div class="sellerCard">
 
-<img class="logo" src="${logo}">
+<img class="sellerLogo" src="${logo}">
 
 <div class="sellerInfo">
 
@@ -352,35 +360,35 @@ ${seller["Business Name"]} ${verifiedBadge} ${gstBadge}
 @${seller["Instagram Username"] || ""}
 </div>
 
+</div>
+
 <a class="button" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
 View Seller
 </a>
 
 </div>
 
-</div>
-
 `;
-
-categories.add((seller["Category"] || "").trim());
 
 });
 
-/* CREATE CATEGORY BUTTONS */
-/* Add "All" button first */
-categoryContainer.innerHTML += `
-<div class="category" onclick="window.location='sellers.html'">
-All
-</div>
+categoryContainer.innerHTML+=`
+<div class="category" onclick="window.location='sellers.html'">All</div>
 `;
-categories.forEach(cat => {
+
+categories.forEach(cat=>{
 
 if(cat){
 
-categoryContainer.innerHTML += `
-<div class="category" onclick="window.location='sellers.html?category=${encodeURIComponent(cat)}'">
+categoryContainer.innerHTML+=`
+
+<div class="category"
+onclick="window.location='sellers.html?category=${encodeURIComponent(cat)}'">
+
 ${cat}
+
 </div>
+
 `;
 
 }
@@ -390,6 +398,7 @@ ${cat}
 });
 
 </script>
+
 
 </body>
 </html>
