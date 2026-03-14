@@ -1,30 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
-<title>Contact Us - SellerAtlas</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Contact SellerAtlas</title>
+
 <link rel="icon" type="image/png" href="/favicon.png">
+
 <style>
 
 body{
 font-family:Arial;
 margin:0;
-background:#F4F7F6;
+background:#f4f7f6;
 }
 
-header{
+/* TOP BAR */
+
+.topBar{
+background:#0e3d66;
+color:white;
+font-size:13px;
+}
+
+.topBarContent{
+max-width:1200px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:8px 20px;
+}
+
+.topLinks a{
+color:white;
+margin-left:15px;
+text-decoration:none;
+}
+
+/* NAVBAR */
+
+.navbar{
 background:#1F7A63;
-color:white;
-padding:20px;
+padding:14px 30px;
 }
 
-nav a{
+.navContainer{
+max-width:1200px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+height:38px;
+}
+
+.navLinks{
+display:flex;
+gap:30px;
+}
+
+.navLinks a{
 color:white;
-margin-right:20px;
+text-decoration:none;
+font-weight:600;
+}
+
+.ctaButton{
+background:#2a7f62;
+color:white;
+padding:10px 18px;
+border-radius:6px;
 text-decoration:none;
 font-weight:bold;
 }
+
+/* PAGE */
 
 .container{
 max-width:700px;
@@ -32,69 +88,27 @@ margin:auto;
 padding:60px 20px;
 }
 
-h2{
-margin-bottom:10px;
-}
-
-.contactCard{
+.card{
 background:white;
-padding:40px;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(0,0,0,0.08);
-max-width:500px;
-margin-top:30px;
+padding:35px;
+border-radius:10px;
+box-shadow:0 3px 12px rgba(0,0,0,0.08);
 }
 
-.contactInfo{
-margin-top:25px;
-font-size:15px;
-}
-
-.contactInfo p{
-margin:8px 0;
-}
-
-.responseTime{
-color:#777;
-font-size:13px;
-margin-top:10px;
-}
-
-label{
-display:block;
-margin-top:15px;
-font-weight:bold;
-}
-
-input, textarea{
-width:100%;
-padding:10px;
-margin-top:5px;
-border-radius:6px;
-border:1px solid #ccc;
-font-size:14px;
-}
-
-textarea{
-height:120px;
-resize:vertical;
-}
+/* BUTTON */
 
 .button{
 background:#1F7A63;
 color:white;
-padding:12px 18px;
-border:none;
+padding:12px 20px;
 border-radius:6px;
-cursor:pointer;
-font-weight:bold;
 text-decoration:none;
 display:inline-block;
+margin-top:20px;
+font-weight:bold;
 }
 
-.button:hover{
-background:#176653;
-}
+/* FOOTER */
 
 footer{
 margin-top:60px;
@@ -103,37 +117,13 @@ background:#1F7A63;
 color:white;
 text-align:center;
 }
-.navbar{
-display:flex;
-align-items:center;
-justify-content:space-between;
-background-color:#2c7a63;
-padding:12px 40px;
-}
 
-.logo{
-height:40px;
-}
-
-.nav-links{
-display:flex;
-gap:30px;
-}
-
-.nav-links a{
+footer a{
 color:white;
 text-decoration:none;
-font-weight:500;
+margin:0 10px;
 }
 
-.cta-button{
-background:#3aa67a;
-color:white;
-padding:8px 16px;
-border-radius:6px;
-text-decoration:none;
-font-weight:600;
-}
 </style>
 
 </head>
@@ -142,23 +132,19 @@ font-weight:600;
 
 <div class="topBar">
 <div class="topBarContent">
-
 <span>Discover trusted small businesses and independent brands</span>
-
 <div class="topLinks">
 <a href="/about.html">About</a>
 <a href="/privacy.html">Privacy</a>
 </div>
-
 </div>
 </div>
 
 <header class="navbar">
-
 <div class="navContainer">
 
 <a href="/">
-<img src="/logo.png" class="logo" alt="SellerAtlas">
+<img src="/logo.png" class="logo">
 </a>
 
 <nav class="navLinks">
@@ -171,42 +157,49 @@ font-weight:600;
 <a class="ctaButton" href="/submit.html">Add Your Store</a>
 
 </div>
-
 </header>
 
 <div class="container">
 
-<h2>Contact Us</h2>
+<h1>Contact Us</h1>
 
+<div class="card">
 
-</form>
-<div class="contactCard">
+<p>
+If you have questions about listings, partnerships, verification, or need help with your business listing, feel free to contact us.
+</p>
 
-<h3>Get in Touch</h3>
-
-<p>If you have questions about listings, partnerships, verification, or need help with your business listing, feel free to reach out.</p>
-
-<a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLSdg92bj7v5EVUQujV3vNTN68QGJjCOVV26ITY4aOAoWOUPsqA/viewform?usp=sharing&ouid=106075848133265085920" target="_blank">
+<a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLSdg92bj7v5EVUQujV3vNTN68QGJjCOVV26ITY4aOAoWOUPsqA/viewform" target="_blank">
 Open Contact Form
 </a>
 
-<div class="contactInfo">
+<p style="margin-top:25px;">
+<strong>Email:</strong> contact@selleratlas.in
+</p>
 
-<p><strong>Email:</strong> contact@selleratlas.in</p>
+<p>
+<strong>Instagram:</strong> @selleratlas
+</p>
 
-<p><strong>Instagram:</strong> @selleratlas</p>
-
-<p class="responseTime">We usually respond within 24–48 hours.</p>
+<p style="color:#777;font-size:14px;">
+We usually respond within 24-48 hours.
+</p>
 
 </div>
 
 </div>
 
 <footer>
-SellerAtlas © 2026 | 
-<a href="about.html" style="color:white;">About</a> | 
-<a href="privacy.html" style="color:white;">Privacy Policy</a>
-</footer>
-</body>
 
+<p>SellerAtlas © 2026</p>
+
+<div>
+<a href="/about.html">About</a>
+<a href="/privacy.html">Privacy</a>
+<a href="/contact.html">Contact</a>
+</div>
+
+</footer>
+
+</body>
 </html>
