@@ -336,7 +336,7 @@ categories.add((seller["Category"] || "").trim());
 /* CREATE CATEGORY BUTTONS */
 /* Add "All" button first */
 categoryContainer.innerHTML += `
-<div class="category" onclick="filterCategory('All')">
+<div class="category" onclick="window.location='sellers.html'">
 All
 </div>
 `;
@@ -345,11 +345,9 @@ categories.forEach(cat => {
 if(cat){
 
 categoryContainer.innerHTML += `
-
-<div class="category" onclick="filterCategory('${cat}')">
+<div class="category" onclick="window.location='sellers.html?category=${encodeURIComponent(cat)}'">
 ${cat}
 </div>
-
 `;
 
 }
