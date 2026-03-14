@@ -103,23 +103,57 @@ background:#1F7A63;
 color:white;
 text-align:center;
 }
+.navbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+background-color:#2c7a63;
+padding:12px 40px;
+}
 
+.logo{
+height:40px;
+}
+
+.nav-links{
+display:flex;
+gap:30px;
+}
+
+.nav-links a{
+color:white;
+text-decoration:none;
+font-weight:500;
+}
+
+.cta-button{
+background:#3aa67a;
+color:white;
+padding:8px 16px;
+border-radius:6px;
+text-decoration:none;
+font-weight:600;
+}
 </style>
 
 </head>
 
 <body>
 
-<header>
+<header class="navbar">
 
-<h1>SellerAtlas</h1>
+<a href="/">
+<img src="/logo.png" alt="SellerAtlas" class="logo">
+</a>
 
-<nav>
-<a href="index.html">Home</a>
-<a href="sellers.html">Browse Sellers</a>
-<a href="submit.html">List Your Business</a>
-<a href="contact.html">Contact</a>
+<nav class="nav-links">
+<a href="/">Home</a>
+<a href="/sellers.html">Browse Sellers</a>
+<a href="/submit.html">List Your Business</a>
+<a href="/contact.html">Contact</a>
 </nav>
+
+<a href="/submit.html" class="cta-button">Add Your Store</a>
 
 </header>
 
