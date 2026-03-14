@@ -1,58 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Privacy Policy - SellerAtlas</title>
+
+<meta name="description" content="Privacy policy for SellerAtlas, a platform for discovering trusted small businesses and independent brands.">
+
 <link rel="icon" type="image/png" href="/favicon.png">
+
 <style>
 
 body{
-font-family:Arial;
+font-family:Arial, Helvetica, sans-serif;
 margin:0;
 background:#f4f7f6;
 }
 
-/* HEADER */
+/* TOP BAR */
 
-header{
+.topBar{
+background:#0e3d66;
+color:white;
+font-size:13px;
+}
+
+.topBarContent{
+max-width:1200px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:8px 20px;
+}
+
+.topLinks a{
+color:white;
+text-decoration:none;
+margin-left:15px;
+}
+
+/* NAVBAR */
+
+.navbar{
 background:#1F7A63;
-padding:12px 30px;
+padding:14px 30px;
 }
 
 .navContainer{
+max-width:1200px;
+margin:auto;
 display:flex;
 align-items:center;
 justify-content:space-between;
-max-width:1200px;
-margin:auto;
-}
-
-.logoSection{
-display:flex;
-align-items:center;
-gap:10px;
 }
 
 .logo{
 height:38px;
 }
 
-.brandName{
-font-size:22px;
-font-weight:bold;
-color:white;
-}
-
-nav{
+.navLinks{
 display:flex;
-gap:25px;
+gap:30px;
 }
 
-nav a{
+.navLinks a{
 color:white;
 text-decoration:none;
 font-weight:600;
+}
+
+.ctaButton{
+background:#2a7f62;
+color:white;
+padding:10px 18px;
+border-radius:6px;
+text-decoration:none;
+font-weight:bold;
 }
 
 /* PAGE */
@@ -60,16 +87,12 @@ font-weight:600;
 .container{
 max-width:800px;
 margin:auto;
-padding:40px;
-}
-
-h1{
-margin-bottom:20px;
+padding:60px 20px;
 }
 
 p{
-line-height:1.6;
-margin-bottom:16px;
+line-height:1.7;
+margin-bottom:18px;
 }
 
 /* FOOTER */
@@ -82,30 +105,45 @@ color:white;
 text-align:center;
 }
 
+footer a{
+color:white;
+text-decoration:none;
+margin:0 10px;
+}
+
 </style>
 
 </head>
 
 <body>
 
-<header>
+<div class="topBar">
+<div class="topBarContent">
+<span>Discover trusted small businesses and independent brands</span>
+<div class="topLinks">
+<a href="/about.html">About</a>
+<a href="/privacy.html">Privacy</a>
+</div>
+</div>
+</div>
 
+<header class="navbar">
 <div class="navContainer">
 
-<div class="logoSection">
-<img src="logo.png" class="logo">
-<span class="brandName">SellerAtlas</span>
-</div>
+<a href="/">
+<img src="/logo.png" class="logo" alt="SellerAtlas">
+</a>
 
-<nav>
-<a href="index.html">Home</a>
-<a href="sellers.html">Browse Sellers</a>
-<a href="submit.html">List Your Business</a>
-<a href="contact.html">Contact</a>
+<nav class="navLinks">
+<a href="/">Home</a>
+<a href="/sellers.html">Browse Sellers</a>
+<a href="/submit.html">List Your Business</a>
+<a href="/contact.html">Contact</a>
 </nav>
 
-</div>
+<a class="ctaButton" href="/submit.html">Add Your Store</a>
 
+</div>
 </header>
 
 <div class="container">
@@ -113,37 +151,36 @@ text-align:center;
 <h1>Privacy Policy</h1>
 
 <p>
-SellerAtlas respects your privacy. We do not collect personal information from
-visitors unless they voluntarily provide it through forms such as contact
-forms or business listing submissions.
+SellerAtlas respects your privacy. We do not collect personal information from visitors unless it is voluntarily provided through forms such as business submissions or contact requests.
 </p>
 
 <p>
-Information submitted by sellers (such as business name, category, social
-media links, and website links) may be displayed publicly on the SellerAtlas
-platform to help users discover businesses.
+Information submitted by sellers (business name, category, social media links, or website links) may be displayed publicly on SellerAtlas to help users discover businesses.
 </p>
 
 <p>
-SellerAtlas does not sell or share personal information with third parties.
+SellerAtlas does not sell personal information to third parties.
 </p>
 
 <p>
-External links on this website may lead to third-party platforms such as
-Instagram, Amazon, Flipkart, Myntra, or other websites. SellerAtlas is not
-responsible for the privacy practices of these platforms.
+External links on this website may lead to third-party platforms such as Instagram, Amazon, Flipkart, Myntra, or independent websites. SellerAtlas is not responsible for the privacy practices of these platforms.
 </p>
 
 <p>
-If you have any questions about this policy, please contact us through the
-Contact page.
+If you have questions about this policy, please contact us through the Contact page.
 </p>
 
 </div>
 
 <footer>
 
-SellerAtlas © 2026
+<p>SellerAtlas © 2026</p>
+
+<div>
+<a href="/about.html">About</a>
+<a href="/privacy.html">Privacy</a>
+<a href="/contact.html">Contact</a>
+</div>
 
 </footer>
 
