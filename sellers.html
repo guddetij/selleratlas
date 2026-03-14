@@ -65,12 +65,16 @@ border:1px solid #ccc;
 }
 
 .sellerCard{
-margin-top:20px;
-padding:15px 0;
-border-bottom:1px solid #ddd;
 display:flex;
 gap:15px;
-align-items:center;
+align-items:flex-start;
+padding:18px 0;
+border-bottom:1px solid #ddd;
+}
+.sellerInfo{
+display:flex;
+flex-direction:column;
+gap:6px;
 }
 
 .logo{
@@ -98,11 +102,16 @@ color:#777;
 .button{
 background:#1F7A63;
 color:white;
-padding:8px 14px;
+padding:8px 16px;
 border-radius:6px;
 text-decoration:none;
 display:inline-block;
-margin-top:8px;
+margin-top:6px;
+font-size:14px;
+}
+
+.button:hover{
+background:#176653;
 }
 
 .badge{
@@ -282,17 +291,17 @@ View Seller
 
 sellerContainer.innerHTML += `
 
-<div class="sellerCard" data-category="${seller["Category"]}">
+<div class="sellerCard">
 
 <img class="logo" src="${logo}">
 
-<div>
-
-<div class="categoryLabel">${seller["Category"]}</div>
+<div class="sellerInfo">
 
 <div class="sellerName">
 ${seller["Business Name"]} ${verifiedBadge} ${gstBadge}
 </div>
+
+<div class="categoryLabel">${seller["Category"]}</div>
 
 <div class="sellerHandle">
 @${seller["Instagram Username"] || ""}
