@@ -1,66 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>About SellerAtlas</title>
+
+<meta name="description" content="SellerAtlas helps people discover trusted small businesses, independent creators, and unique online brands across different marketplaces.">
+
 <link rel="icon" type="image/png" href="/favicon.png">
+
 <style>
 
 body{
-font-family:Arial;
+font-family:Arial, Helvetica, sans-serif;
 margin:0;
 background:#f4f7f6;
 }
 
-/* HEADER */
+/* TOP BAR */
 
-header{
+.topBar{
+background:#0e3d66;
+color:white;
+font-size:13px;
+}
+
+.topBarContent{
+max-width:1200px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:8px 20px;
+}
+
+.topLinks a{
+color:white;
+text-decoration:none;
+margin-left:15px;
+}
+
+
+/* NAVBAR */
+
+.navbar{
 background:#1F7A63;
-padding:12px 30px;
+padding:14px 30px;
 }
 
 .navContainer{
+max-width:1200px;
+margin:auto;
 display:flex;
 align-items:center;
 justify-content:space-between;
-max-width:1200px;
-margin:auto;
-}
-
-.logoSection{
-display:flex;
-align-items:center;
-gap:10px;
 }
 
 .logo{
 height:38px;
 }
 
-.brandName{
-font-size:22px;
-font-weight:bold;
-color:white;
-}
-
-nav{
+.navLinks{
 display:flex;
-gap:25px;
+gap:30px;
 }
 
-nav a{
+.navLinks a{
 color:white;
 text-decoration:none;
 font-weight:600;
 }
+
+.ctaButton{
+background:#2a7f62;
+color:white;
+padding:10px 18px;
+border-radius:6px;
+text-decoration:none;
+font-weight:bold;
+}
+
+.ctaButton:hover{
+background:#236b52;
+}
+
 
 /* PAGE */
 
 .container{
 max-width:800px;
 margin:auto;
-padding:40px;
+padding:60px 20px;
 }
 
 h1{
@@ -68,9 +101,22 @@ margin-bottom:20px;
 }
 
 p{
-line-height:1.6;
-margin-bottom:16px;
+line-height:1.7;
+margin-bottom:18px;
+color:#333;
 }
+
+
+/* TRUST BOX */
+
+.trustBox{
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+margin-top:30px;
+}
+
 
 /* FOOTER */
 
@@ -82,13 +128,23 @@ color:white;
 text-align:center;
 }
 
+footer a{
+color:white;
+text-decoration:none;
+margin:0 10px;
+}
+
 </style>
 
 </head>
 
 <body>
 
+
+<!-- TOP BAR -->
+
 <div class="topBar">
+
 <div class="topBarContent">
 
 <span>Discover trusted small businesses and independent brands</span>
@@ -99,14 +155,18 @@ text-align:center;
 </div>
 
 </div>
+
 </div>
+
+
+<!-- NAVBAR -->
 
 <header class="navbar">
 
 <div class="navContainer">
 
 <a href="/">
-<img src="/logo.png" class="logo" alt="SellerAtlas">
+<img src="/logo.png" alt="SellerAtlas" class="logo">
 </a>
 
 <nav class="navLinks">
@@ -121,39 +181,71 @@ text-align:center;
 </div>
 
 </header>
+
+
+<!-- PAGE CONTENT -->
+
 <div class="container">
 
 <h1>About SellerAtlas</h1>
 
 <p>
 SellerAtlas is a platform designed to help people discover trusted small businesses,
-independent creators, and unique brands across different online marketplaces.
+independent creators, and unique online brands.
 </p>
 
 <p>
-Many talented sellers operate on platforms like Instagram, Amazon, Flipkart,
-Myntra, and independent websites, but discovering them can be difficult.
+Many talented sellers operate on platforms such as Instagram, Amazon, Flipkart,
+Myntra, and their own websites, but discovering them can be difficult.
 SellerAtlas brings these sellers together in one place so buyers can explore
 reliable businesses more easily.
 </p>
 
 <p>
-Our mission is simple: make it easier for people to find and support genuine
+Our goal is simple: make it easier for people to discover and support genuine
 small businesses and independent brands.
 </p>
 
+<div class="trustBox">
+
+<strong>Why SellerAtlas?</strong>
+
 <p>
-If you are a seller and would like to list your business, you can submit your
-store through the <strong>List Your Business</strong> section.
+✔ Verified sellers help build buyer confidence
+</p>
+
+<p>
+✔ Independent brands get more visibility
+</p>
+
+<p>
+✔ Buyers can discover unique products and creators
 </p>
 
 </div>
 
+<p style="margin-top:30px;">
+If you are a seller and would like to list your business, you can submit your store through the
+<strong>List Your Business</strong> page.
+</p>
+
+</div>
+
+
+<!-- FOOTER -->
+
 <footer>
 
-SellerAtlas © 2026
+<p>SellerAtlas © 2026</p>
+
+<div>
+<a href="/about.html">About</a>
+<a href="/privacy.html">Privacy</a>
+<a href="/contact.html">Contact</a>
+</div>
 
 </footer>
+
 
 </body>
 </html>
