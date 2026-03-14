@@ -229,6 +229,11 @@ sellers[i].style.display="none";
 const sheetID = "1rJc2bltxs2wfYAq0RLPBfrjUfauaTi8Go6PYghvlT-Q";
 const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
 
+/* CATEGORY FILTER FROM URL */
+const params = new URLSearchParams(window.location.search);
+const selectedCategory = params.get("category");
+
+  
 fetch(url)
 .then(res => res.json())
 .then(data => {
@@ -240,6 +245,10 @@ const categoryContainer = document.getElementById("categoryContainer");
 let categories = new Set();
 
 data.forEach(seller => {
+
+if(selectedCategory && seller["Category"] !== selectedCategory){
+return;
+}
 
 if(seller["Approved"] !== "Yes") return;
 
