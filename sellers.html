@@ -398,8 +398,10 @@ if(seller["Verified"]==="Yes"){
 verifiedBadge=`<span class="badge">✔ Verified</span>`;
 }
 
-if(seller["GST Number"] && seller["GST Number"].length>5){
-gstBadge=`<span class="gstBadge">🧾 GST Verified</span>`;
+let gstBadge = "";
+
+if(seller["GST Verified"] === "Yes"){
+gstBadge = `<span class="gstBadge">🧾 GST Verified</span>`;
 }
 
 let logo=seller["Logo"] || "https://via.placeholder.com/50";
