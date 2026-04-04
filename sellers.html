@@ -299,6 +299,11 @@ let approved = (seller["Approved"] || "").trim();
 if(approved !== "Yes") return;
 
 let category = (seller["Category"] || "").trim();
+
+/* 🔥 ADD THIS FILTER */
+if(selectedCategory && selectedCategory !== category){
+return;
+}
 categories.add(category);
 
 /* BADGES */
