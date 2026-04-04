@@ -8,14 +8,12 @@
 
 <title>Browse Sellers - SellerAtlas</title>
 
-<meta name="description" content="Browse verified small businesses and independent brands on SellerAtlas.">
-
 <link rel="icon" type="image/png" href="/favicon.png">
 
 <style>
 
 body{
-font-family:Arial, Helvetica, sans-serif;
+font-family:Arial;
 margin:0;
 background:#f4f7f6;
 }
@@ -33,14 +31,13 @@ max-width:1200px;
 margin:auto;
 display:flex;
 justify-content:space-between;
-align-items:center;
 padding:8px 20px;
 }
 
 .topLinks a{
 color:white;
-text-decoration:none;
 margin-left:15px;
+text-decoration:none;
 }
 
 /* NAVBAR */
@@ -90,7 +87,7 @@ margin:auto;
 padding:40px 20px;
 }
 
-/* CATEGORY GRID */
+/* CATEGORY */
 
 .categories{
 display:grid;
@@ -105,12 +102,8 @@ padding:14px;
 border-radius:10px;
 box-shadow:0 2px 6px rgba(0,0,0,0.08);
 cursor:pointer;
-font-weight:bold;
 text-align:center;
-}
-
-.category:hover{
-transform:translateY(-2px);
+font-weight:bold;
 }
 
 /* SEARCH */
@@ -126,7 +119,7 @@ border-radius:8px;
 border:1px solid #ccc;
 }
 
-/* SELLER LIST */
+/* SELLERS */
 
 .sellerCard{
 display:flex;
@@ -211,95 +204,25 @@ text-decoration:none;
 margin:0 10px;
 }
 
-<style>
-
-body{
-font-family:Arial, Helvetica, sans-serif;
-margin:0;
-background:#f4f7f6;
-}
-
-/* all your existing CSS */
-
-
-/* MOBILE FIX */
-
-@media (max-width: 768px){
-
-.navContainer{
-flex-direction:column;
-align-items:flex-start;
-gap:12px;
-}
-
-.navLinks{
-flex-wrap:wrap;
-gap:15px;
-}
-
-.ctaButton{
-margin-top:8px;
-}
-
-.container{
-padding:25px 15px;
-}
-
-.hero{
-margin:25px auto;
-padding:0 10px;
-}
-
-.categoryGrid{
-grid-template-columns:repeat(2,1fr);
-}
-
-.topSellerGrid{
-grid-template-columns:1fr;
-}
-
-.cards{
-grid-template-columns:1fr;
-}
-
-.sellerCard{
-flex-direction:column;
-align-items:flex-start;
-gap:10px;
-}
-
-}
-
-</style>
-
-  
 </style>
 
 </head>
 
 <body>
 
-
 <!-- TOP BAR -->
-
 <div class="topBar">
 <div class="topBarContent">
-
 <span>Discover trusted small businesses and independent brands</span>
-
 <div class="topLinks">
 <a href="/about.html">About</a>
 <a href="/privacy.html">Privacy</a>
 </div>
-
 </div>
 </div>
-
 
 <!-- NAVBAR -->
-
 <header class="navbar">
-
 <div class="navContainer">
 
 <a href="/">
@@ -316,114 +239,98 @@ gap:10px;
 <a class="ctaButton" href="/submit.html">Add Your Store</a>
 
 </div>
-
 </header>
-
 
 <div class="container">
 
 <h2>Browse Categories</h2>
-
 <div id="categoryContainer" class="categories"></div>
 
 <h2 style="margin-top:40px;">All Sellers</h2>
 
-<p>Search by brand name or Instagram username</p>
-
 <div class="searchBox">
-<input type="text" id="searchInput" placeholder="Search sellers..." onkeyup="searchSellers()">
+<input type="text" id="searchInput" placeholder="Search..." onkeyup="searchSellers()">
 </div>
 
 <div id="sellerContainer"></div>
 
 </div>
 
-
 <footer>
-
 <p>SellerAtlas © 2026</p>
-
 <div>
 <a href="/about.html">About</a>
 <a href="/privacy.html">Privacy</a>
 <a href="/contact.html">Contact</a>
 </div>
-
 </footer>
-
 
 <script>
 
-function searchSellers(){
+/* SEARCH */
 
+function searchSellers(){
 let input = document.getElementById("searchInput").value.toLowerCase();
 let sellers = document.getElementsByClassName("sellerCard");
 
 for(let i=0;i<sellers.length;i++){
-
 let text = sellers[i].innerText.toLowerCase();
-
-if(text.includes(input)){
-sellers[i].style.display="";
-}else{
-sellers[i].style.display="none";
+sellers[i].style.display = text.includes(input) ? "" : "none";
+}
 }
 
-}
+/* FETCH DATA */
 
-}
-
-const sheetID="1rJc2bltxs2wfYAq0RLPBfrjUfauaTi8Go6PYghvlT-Q";
-const url=`https://opensheet.elk.sh/${sheetID}/Sheet1`;
+const sheetID = "1rJc2bltxs2wfYAq0RLPBfrjUfauaTi8Go6PYghvlT-Q";
+const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
 
 fetch(url)
-.then(res=>res.json())
-.then(data=>{
+.then(res => res.json())
+.then(data => {
 
-const sellerContainer=document.getElementById("sellerContainer");
-const categoryContainer=document.getElementById("categoryContainer");
+const sellerContainer = document.getElementById("sellerContainer");
+const categoryContainer = document.getElementById("categoryContainer");
 
-let categories=new Set();
+let categories = new Set();
 
-data.forEach(seller=>{
+data.forEach(seller => {
 
-if(seller["Approved"]!=="Yes") return;
+let approved = (seller["Approved"] || "").trim();
+if(approved !== "Yes") return;
 
-categories.add(seller["Category"]);
+let category = (seller["Category"] || "").trim();
+categories.add(category);
 
-let verifiedBadge="";
-let gstBadge="";
+/* BADGES */
 
-if(seller["Verified"]==="Yes"){
-verifiedBadge=`<span class="badge">✔ Verified</span>`;
-}
-
+let verifiedBadge = "";
 let gstBadge = "";
 
-if(seller["GST Verified"] === "Yes"){
+if((seller["Verified"] || "").trim() === "Yes"){
+verifiedBadge = `<span class="badge">✔ Verified</span>`;
+}
+
+if((seller["GST Verified"] || "").trim() === "Yes"){
 gstBadge = `<span class="gstBadge">🧾 GST Verified</span>`;
 }
 
-let logo=seller["Logo"] || "https://via.placeholder.com/50";
+let logo = seller["Logo"] || "https://via.placeholder.com/50";
 
-sellerContainer.innerHTML+=`
-
+sellerContainer.innerHTML += `
 <div class="sellerCard">
 
 <img class="sellerLogo" src="${logo}">
 
 <div class="sellerInfo">
-
 <div class="sellerName">
 ${seller["Business Name"]} ${verifiedBadge} ${gstBadge}
 </div>
 
-<div class="categoryLabel">${seller["Category"]}</div>
+<div class="categoryLabel">${category}</div>
 
 <div class="sellerHandle">
 @${seller["Instagram Username"] || ""}
 </div>
-
 </div>
 
 <a class="button" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
@@ -431,38 +338,30 @@ View Seller
 </a>
 
 </div>
-
 `;
 
 });
 
-categoryContainer.innerHTML+=`
+/* CATEGORY BUTTONS */
+
+categoryContainer.innerHTML += `
 <div class="category" onclick="window.location='sellers.html'">All</div>
 `;
 
-categories.forEach(cat=>{
-
+categories.forEach(cat => {
 if(cat){
-
-categoryContainer.innerHTML+=`
-
+categoryContainer.innerHTML += `
 <div class="category"
 onclick="window.location='sellers.html?category=${encodeURIComponent(cat)}'">
-
 ${cat}
-
 </div>
-
 `;
-
 }
-
 });
 
 });
 
 </script>
-
 
 </body>
 </html>
