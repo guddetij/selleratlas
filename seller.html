@@ -2,7 +2,13 @@
 <html lang="en">
 
 <head>
+<title id="pageTitle">SellerAtlas</title>
 
+<meta name="description" id="metaDescription" content="Discover trusted sellers on SellerAtlas">
+
+<meta name="keywords" id="metaKeywords" content="small business, instagram sellers">
+
+<meta name="robots" content="index, follow">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -173,7 +179,18 @@ const container = document.getElementById("profileContainer");
 data.forEach(seller => {
 
 if(seller["Business Name"] === sellerName){
+document.getElementById("pageTitle").innerText =
+seller["Business Name"] + " - " + seller["Category"] + " | SellerAtlas";
 
+document.getElementById("metaDescription").setAttribute(
+"content",
+"Explore " + seller["Business Name"] + ", a " + seller["Category"] + " brand. Discover more independent sellers on SellerAtlas."
+);
+
+document.getElementById("metaKeywords").setAttribute(
+"content",
+seller["Business Name"] + ", " + seller["Category"] + ", instagram sellers india, small business india"
+);
 /* BADGES */
 
 let verifiedBadge = "";
@@ -210,8 +227,9 @@ container.innerHTML = `
 
 <div class="category">${seller["Category"] || ""}</div>
 
-<div class="name">
+<h1 class="name">
 ${seller["Business Name"]} ${verifiedBadge} ${gstBadge}
+</h1>
 </div>
 
 <div class="links">
