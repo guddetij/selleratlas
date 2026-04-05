@@ -1,22 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Seller Profile - SellerAtlas</title>
+
 <link rel="icon" type="image/png" href="/favicon.png">
+
 <style>
 
 body{
-font-family:Arial;
+font-family:Arial, Helvetica, sans-serif;
 margin:0;
 background:#F4F7F6;
 }
+
+/* HEADER */
 
 header{
 background:#1F7A63;
 color:white;
 padding:15px 30px;
+}
+
+nav{
+margin-top:10px;
 }
 
 nav a{
@@ -26,11 +37,15 @@ text-decoration:none;
 font-weight:bold;
 }
 
+/* PAGE */
+
 .container{
 max-width:900px;
 margin:auto;
 padding:40px 20px;
 }
+
+/* CARD */
 
 .profileCard{
 background:white;
@@ -59,6 +74,8 @@ font-size:28px;
 font-weight:bold;
 }
 
+/* BADGES */
+
 .badge{
 background:#8FB339;
 color:white;
@@ -67,6 +84,17 @@ border-radius:6px;
 font-size:12px;
 margin-left:6px;
 }
+
+.gstBadge{
+background:#e6f5ef;
+color:#1F7A63;
+padding:5px 10px;
+border-radius:6px;
+font-size:12px;
+margin-left:6px;
+}
+
+/* LINKS */
 
 .links{
 margin-top:25px;
@@ -82,70 +110,27 @@ color:white;
 padding:10px 16px;
 border-radius:6px;
 text-decoration:none;
+font-size:14px;
 }
 
-<style>
+/* MOBILE */
 
-body{
-font-family:Arial, Helvetica, sans-serif;
-margin:0;
-background:#f4f7f6;
-}
-
-/* all your existing CSS */
-
-
-/* MOBILE FIX */
-
-@media (max-width: 768px){
-
-.navContainer{
-flex-direction:column;
-align-items:flex-start;
-gap:12px;
-}
-
-.navLinks{
-flex-wrap:wrap;
-gap:15px;
-}
-
-.ctaButton{
-margin-top:8px;
-}
+@media (max-width:768px){
 
 .container{
 padding:25px 15px;
 }
 
-.hero{
-margin:25px auto;
-padding:0 10px;
+.profileCard{
+padding:20px;
 }
 
-.categoryGrid{
-grid-template-columns:repeat(2,1fr);
-}
-
-.topSellerGrid{
-grid-template-columns:1fr;
-}
-
-.cards{
-grid-template-columns:1fr;
-}
-
-.sellerCard{
-flex-direction:column;
-align-items:flex-start;
-gap:10px;
+.name{
+font-size:22px;
 }
 
 }
 
-</style>
-
-  
 </style>
 
 </head>
@@ -189,32 +174,51 @@ data.forEach(seller => {
 
 if(seller["Business Name"] === sellerName){
 
+/* BADGES */
+
 let verifiedBadge = "";
-if(seller["Verified"] === "Yes"){
-verifiedBadge = `<span class="badge">GST Verified</span>`;
+let gstBadge = "";
+
+if((seller["Verified"] || "").trim() === "Yes"){
+verifiedBadge = `<span class="badge">✔ Verified</span>`;
 }
 
+if((seller["GST Verified"] || "").trim() === "Yes"){
+gstBadge = `<span class="gstBadge">🧾 GST Verified</span>`;
+}
+
+/* LINKS */
+
 let instagram = seller["Instagram Link"];
+let pinterest = seller["Pinterest Link"];
 let amazon = seller["Amazon Link"];
 let flipkart = seller["Flipkart Link"];
 let myntra = seller["Myntra Link"];
 let website = seller["Business Website Link"];
 
+/* LOGO FALLBACK */
+
+let logo = seller["Logo"] || "https://via.placeholder.com/120";
+
+/* RENDER */
+
 container.innerHTML = `
 
 <div class="profileCard">
 
-<img src="${seller["Logo"]}" class="logo">
+<img src="${logo}" class="logo">
 
-<div class="category">${seller["Category"]}</div>
+<div class="category">${seller["Category"] || ""}</div>
 
 <div class="name">
-${seller["Business Name"]} ${verifiedBadge}
+${seller["Business Name"]} ${verifiedBadge} ${gstBadge}
 </div>
 
 <div class="links">
 
 ${instagram ? `<a class="button" href="${instagram}" target="_blank">Instagram</a>` : ""}
+
+${pinterest ? `<a class="button" href="${pinterest}" target="_blank">Pinterest</a>` : ""}
 
 ${amazon ? `<a class="button" href="${amazon}" target="_blank">Amazon</a>` : ""}
 
@@ -239,5 +243,4 @@ ${website ? `<a class="button" href="${website}" target="_blank">Website</a>` : 
 </script>
 
 </body>
-
 </html>
