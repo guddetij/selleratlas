@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <url>
-    <loc>https://selleratlas.in/</loc>
-  </url>
+<url>
+<loc>https://selleratlas.in/</loc>
+</url>
 
-  <url>
-    <loc>https://selleratlas.in/sellers.html</loc>
-  </url>
+<url>
+<loc>https://selleratlas.in/sellers.html</loc>
+</url>
 
-  <url>
-    <loc>https://selleratlas.in/about.html</loc>
-  </url>
+<url>
+<loc>https://selleratlas.in/seller.html?name=Brand1</loc>
+</url>
+
+<url>
+<loc>https://selleratlas.in/seller.html?name=Brand2</loc>
+</url>
 
 </urlset>
