@@ -453,20 +453,38 @@ const categoryGrid = document.getElementById("categoryGrid");
 
 let categories = new Set();
 
-data.forEach(seller => {
+// STEP 1: Filter approved + verified sellers
+const verifiedSellers = data.filter(seller =>
+  seller["Approved"] === "Yes" && seller["Verified"] === "Yes"
+);
 
-if(seller["Approved"] === "Yes"){
+// STEP 2: LIMIT to 5 sellers
+const top5 = verifiedSellers.slice(0, 5);
 
-if(seller["Category"]){
-categories.add(seller["Category"]);
-}
+// STEP 3: Render only these 5
+top5.forEach(seller => {
 
-if(seller["Verified"] === "Yes"){
+  let logo = seller["Logo"] || "https://via.placeholder.com/50";
 
-let logo = seller["Logo"] || "https://via.placeholder.com/50";
+  sellerContainer.innerHTML += `
 
-sellerContainer.innerHTML += `
+  <div class="topSellerCard">
 
+  <img src="${logo}">
+
+  <div class="topSellerCategory">${seller["Category"]}</div>
+
+  <div class="topSellerName">${seller["Business Name"]}</div>
+
+  <a class="topSellerButton" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
+  View Seller
+  </a>
+
+  </div>
+
+  `;
+
+});
 <div class="topSellerCard">
 
 <img src="${logo}">
