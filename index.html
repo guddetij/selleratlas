@@ -1,444 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-<link rel="icon" href="/favicon.ico" type="image/x-icon">
-<link rel="icon" type="image/png" href="/favicon.png">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>SellerAtlas - Discover Trusted Small Businesses</title>
-
-<meta name="description" content="Discover trusted small businesses, handmade creators, and independent brands on SellerAtlas.">
-
-<link rel="icon" type="image/png" href="/favicon.png">
-
-<style>
-
-body{
-font-family:Arial, Helvetica, sans-serif;
-margin:0;
-background:#f4f7f6;
-}
-
-/* TOP BAR */
-
-.topBar{
-background:#0e3d66;
-color:white;
-font-size:13px;
-}
-
-.topBarContent{
-max-width:1200px;
-margin:auto;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:8px 20px;
-}
-
-.topLinks a{
-color:white;
-text-decoration:none;
-margin-left:15px;
-}
-
-/* NAVBAR */
-
-.navbar{
-background:#1F7A63;
-padding:14px 30px;
-}
-
-.navContainer{
-max-width:1200px;
-margin:auto;
-display:flex;
-align-items:center;
-justify-content:space-between;
-}
-
-.logo{
-height:38px;
-}
-
-.navLinks{
-display:flex;
-gap:30px;
-}
-
-.navLinks a{
-color:white;
-text-decoration:none;
-font-weight:600;
-}
-
-.ctaButton{
-background:#2a7f62;
-color:white;
-padding:10px 18px;
-border-radius:6px;
-text-decoration:none;
-font-weight:bold;
-}
-
-/* PAGE CONTAINER */
-
-.container{
-max-width:1100px;
-margin:auto;
-padding:40px 20px;
-}
-
-/* HERO */
-
-.hero{
-text-align:center;
-max-width:650px;
-margin:40px auto;
-}
-
-.hero h1{
-margin-bottom:10px;
-}
-
-.heroButton{
-background:#1F7A63;
-color:white;
-padding:14px 28px;
-border-radius:8px;
-text-decoration:none;
-font-weight:bold;
-display:inline-block;
-margin-top:20px;
-}
-
-/* CATEGORY GRID */
-
-.categoriesSection{
-margin-top:50px;
-text-align:center;
-}
-
-.categoryGrid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-gap:15px;
-margin-top:20px;
-max-width:700px;
-margin-left:auto;
-margin-right:auto;
-}
-
-.categoryCard{
-background:white;
-padding:14px;
-border-radius:10px;
-box-shadow:0 2px 6px rgba(0,0,0,0.08);
-cursor:pointer;
-font-weight:bold;
-transition:0.2s;
-}
-
-.categoryCard:hover{
-transform:translateY(-3px);
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* TOP SELLERS */
-
-.topSellerGrid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-margin-top:20px;
-}
-
-.topSellerCard{
-background:white;
-padding:18px;
-border-radius:10px;
-box-shadow:0 2px 8px rgba(0,0,0,0.08);
-}
-
-.topSellerCard img{
-width:50px;
-height:50px;
-border-radius:50%;
-object-fit:cover;
-margin-bottom:10px;
-}
-
-.topSellerName{
-font-weight:bold;
-font-size:18px;
-}
-
-.topSellerCategory{
-font-size:12px;
-color:#8FB339;
-font-weight:bold;
-}
-
-.topSellerButton{
-background:#1F7A63;
-color:white;
-padding:8px 12px;
-border-radius:6px;
-text-decoration:none;
-display:inline-block;
-margin-top:10px;
-font-size:14px;
-}
-
-/* INFO CARDS */
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-margin-top:50px;
-}
-
-.card{
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
-}
-
-/* TRUST BADGES */
-
-.badges{
-margin-top:40px;
-display:flex;
-gap:20px;
-flex-wrap:wrap;
-justify-content:center;
-}
-
-.badge{
-background:white;
-padding:15px;
-border-radius:8px;
-box-shadow:0 2px 6px rgba(0,0,0,0.08);
-}
-
-/* FOOTER */
-
-footer{
-margin-top:60px;
-padding:20px;
-background:#1F7A63;
-color:white;
-text-align:center;
-}
-
-footer a{
-color:white;
-text-decoration:none;
-margin:0 10px;
-}
-
-<style>
-
-body{
-font-family:Arial, Helvetica, sans-serif;
-margin:0;
-background:#f4f7f6;
-}
-
-/* all your existing CSS */
-
-
-/* MOBILE FIX */
-
-@media (max-width: 768px){
-
-.navContainer{
-flex-direction:column;
-align-items:flex-start;
-gap:12px;
-}
-
-.navLinks{
-flex-wrap:wrap;
-gap:15px;
-}
-
-.ctaButton{
-margin-top:8px;
-}
-
-.container{
-padding:25px 15px;
-}
-
-.hero{
-margin:25px auto;
-padding:0 10px;
-}
-
-.categoryGrid{
-grid-template-columns:repeat(2,1fr);
-}
-
-.topSellerGrid{
-grid-template-columns:1fr;
-}
-
-.cards{
-grid-template-columns:1fr;
-}
-
-.sellerCard{
-flex-direction:column;
-align-items:flex-start;
-gap:10px;
-}
-
-}
-
-</style>
-  
-</style>
-
-</head>
-
-<body>
-
-
-<!-- TOP BAR -->
-
-<div class="topBar">
-
-<div class="topBarContent">
-
-<span>Discover trusted small businesses and independent brands</span>
-
-<div class="topLinks">
-<a href="/about.html">About</a>
-<a href="/privacy.html">Privacy</a>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- NAVBAR -->
-
-<header class="navbar">
-
-<div class="navContainer">
-
-<a href="/">
-<img src="/logo.png" class="logo" alt="SellerAtlas">
-</a>
-
-<nav class="navLinks">
-<a href="/">Home</a>
-<a href="/sellers.html">Browse Sellers</a>
-<a href="/submit.html">List Your Business</a>
-<a href="/contact.html">Contact</a>
-</nav>
-
-<a class="ctaButton" href="/submit.html">Add Your Store</a>
-
-</div>
-
-</header>
-
-
-<div class="container">
-
-
-<!-- HERO -->
-
-<section class="hero">
-
-<h1>Discover Trusted Sellers</h1>
-
-<p>Find reliable small businesses, handmade creators, and independent brands.</p>
-
-<a href="/sellers.html" class="heroButton">Browse Sellers</a>
-
-</section>
-
-
-<!-- CATEGORY SECTION -->
-
-<section class="categoriesSection">
-
-<h2>Shop by Category</h2>
-
-<div id="categoryGrid" class="categoryGrid"></div>
-
-</section>
-
-
-<!-- TOP SELLERS -->
-
-<section>
-
-<h2 style="margin-top:50px;">Top Verified Sellers</h2>
-
-<div id="topSellerContainer" class="topSellerGrid"></div>
-
-</section>
-
-
-<!-- INFO CARDS -->
-
-<div class="cards">
-
-<div class="card">
-<h3>Handmade Products</h3>
-<p>Discover talented handmade creators.</p>
-</div>
-
-<div class="card">
-<h3>Sustainable Brands</h3>
-<p>Find eco-friendly and sustainable products.</p>
-</div>
-
-<div class="card">
-<h3>Unique Businesses</h3>
-<p>Support independent brands and creators.</p>
-</div>
-
-</div>
-
-
-<!-- TRUST BADGES -->
-
-<div class="badges">
-
-<div class="badge">✔ Verified Sellers</div>
-
-<div class="badge">✔ Independent Brands</div>
-
-<div class="badge">✔ Trusted Listings</div>
-
-</div>
-
-</div>
-
-
-<footer>
-
-<p>SellerAtlas © 2026</p>
-
-<div>
-<a href="/about.html">About</a>
-<a href="/privacy.html">Privacy</a>
-<a href="/contact.html">Contact</a>
-</div>
-
-</footer>
-
-
 <script>
 
 const sheetID = "1rJc2bltxs2wfYAq0RLPBfrjUfauaTi8Go6PYghvlT-Q";
@@ -453,15 +12,22 @@ const categoryGrid = document.getElementById("categoryGrid");
 
 let categories = new Set();
 
-// STEP 1: Filter approved + verified sellers
-const verifiedSellers = data.filter(seller =>
-  seller["Approved"] === "Yes" && seller["Verified"] === "Yes"
+// CLEAN FUNCTION (handles spaces + case issues)
+const clean = (value) => (value || "").toString().trim().toLowerCase();
+
+// STEP 1: FILTER VERIFIED + APPROVED
+const verifiedSellers = data.filter(seller => 
+  clean(seller["Approved"]) === "yes" &&
+  clean(seller["Verified"]) === "yes"
 );
 
-// STEP 2: LIMIT to 5 sellers
+// STEP 2: LIMIT TO 5
 const top5 = verifiedSellers.slice(0, 5);
 
-// STEP 3: Render only these 5
+// DEBUG (optional - remove later)
+console.log("Total verified sellers:", verifiedSellers.length);
+
+// STEP 3: RENDER SELLERS
 top5.forEach(seller => {
 
   let logo = seller["Logo"] || "https://via.placeholder.com/50";
@@ -470,15 +36,15 @@ top5.forEach(seller => {
 
   <div class="topSellerCard">
 
-  <img src="${logo}">
+    <img src="${logo}">
 
-  <div class="topSellerCategory">${seller["Category"]}</div>
+    <div class="topSellerCategory">${seller["Category"] || ""}</div>
 
-  <div class="topSellerName">${seller["Business Name"]}</div>
+    <div class="topSellerName">${seller["Business Name"] || "Unknown"}</div>
 
-  <a class="topSellerButton" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
-  View Seller
-  </a>
+    <a class="topSellerButton" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
+      View Seller
+    </a>
 
   </div>
 
@@ -486,51 +52,36 @@ top5.forEach(seller => {
 
 });
 
-<div style="text-align:center; margin-top:20px;">
-  <a href="/sellers.html" class="heroButton">View All Verified Sellers</a>
-</div>
-<div class="topSellerCard">
+// STEP 4: BUILD CATEGORY GRID (ALL APPROVED SELLERS)
+data.forEach(seller => {
 
-<img src="${logo}">
-
-<div class="topSellerCategory">${seller["Category"]}</div>
-
-<div class="topSellerName">${seller["Business Name"]}</div>
-
-<a class="topSellerButton" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
-View Seller
-</a>
-
-</div>
-
-`;
-
-}
-
-}
+  if(clean(seller["Approved"]) === "yes"){
+    if(seller["Category"]){
+      categories.add(seller["Category"]);
+    }
+  }
 
 });
 
-
+// STEP 5: RENDER CATEGORIES
 categories.forEach(cat => {
 
-categoryGrid.innerHTML += `
+  categoryGrid.innerHTML += `
 
-<div class="categoryCard"
-onclick="window.location='sellers.html?category=${encodeURIComponent(cat)}'">
+  <div class="categoryCard"
+    onclick="window.location='sellers.html?category=${encodeURIComponent(cat)}'">
 
-${cat}
+    ${cat}
 
-</div>
+  </div>
 
-`;
+  `;
 
 });
 
+})
+.catch(err => {
+  console.error("Error loading data:", err);
 });
 
 </script>
-
-
-</body>
-</html>
