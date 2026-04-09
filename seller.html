@@ -301,11 +301,20 @@ ${seller["Myntra Link"] ? `<a href="${seller["Myntra Link"]}" target="_blank" cl
 `;
 
 /* RELATED */
-let related = data.filter(s =>
-clean(s["Category"]).toLowerCase() === clean(seller["Category"]).toLowerCase() &&
-clean(s["Business Name"]).toLowerCase() !== clean(seller["Business Name"]).toLowerCase() &&
-clean(s["Approved"]) === "yes"
-).slice(0,4);
+let currentCategory = clean(seller["Category"]).toLowerCase();
+
+let related = data.filter(s => {
+
+let cat = clean(s["Category"]).toLowerCase();
+let name = clean(s["Business Name"]);
+
+return (
+cat.includes(currentCategory) || currentCategory.includes(cat)
+) &&
+name !== clean(seller["Business Name"]) &&
+clean(s["Approved"]).toLowerCase() === "yes";
+
+}).slice(0,4);
 
 let relatedHTML = related.map(r => `
 <div class="relatedCard"
