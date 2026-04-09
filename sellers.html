@@ -7,29 +7,25 @@
 
 <title>Browse Sellers - SellerAtlas</title>
 
-<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="icon" href="/favicon.png">
 
 <style>
 
 body{
-font-family:Arial, Helvetica, sans-serif;
+font-family:Arial;
 margin:0;
 background:#f4f7f6;
-}
-
-.navContainer{
-max-width:1200px;
-margin-left:0;
-margin-right:auto;
-padding-left:20px;
-display:flex;
-align-items:center;
-gap:30px;
 }
 
 .navbar{
 background:#1F7A63;
 padding:14px 30px;
+}
+
+.navContainer{
+display:flex;
+gap:30px;
+align-items:center;
 }
 
 .navLinks{
@@ -40,11 +36,6 @@ gap:25px;
 .navLinks a{
 color:white;
 text-decoration:none;
-font-weight:600;
-}
-
-.logo{
-height:38px;
 }
 
 .container{
@@ -53,38 +44,6 @@ margin:auto;
 padding:30px 20px;
 }
 
-/* CATEGORY */
-#categoryContainer{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-margin-bottom:20px;
-}
-
-.category{
-background:white;
-padding:8px 14px;
-border-radius:20px;
-box-shadow:0 2px 6px rgba(0,0,0,0.08);
-cursor:pointer;
-font-size:13px;
-}
-
-.category:hover{
-background:#1F7A63;
-color:white;
-}
-
-/* SEARCH */
-.searchBox input{
-width:100%;
-padding:12px;
-border-radius:8px;
-border:1px solid #ccc;
-margin-bottom:20px;
-}
-
-/* GRID */
 #sellerContainer{
 display:grid;
 grid-template-columns:repeat(2,1fr);
@@ -95,9 +54,6 @@ gap:15px;
 background:white;
 padding:14px;
 border-radius:10px;
-box-shadow:0 2px 6px rgba(0,0,0,0.08);
-display:flex;
-flex-direction:column;
 }
 
 .sellerTop{
@@ -110,44 +66,16 @@ align-items:center;
 width:40px;
 height:40px;
 border-radius:50%;
-object-fit:cover;
 }
 
 .sellerName{
 font-weight:bold;
-font-size:16px;
-}
-
-.categoryLabel{
-font-size:11px;
-color:#8FB339;
-}
-
-.sellerHint{
-font-size:12px;
-margin-top:5px;
-color:#555;
 }
 
 .cardActions{
 display:flex;
 justify-content:space-between;
-align-items:center;
 margin-top:10px;
-}
-
-.iconButton{
-width:32px;
-height:32px;
-display:flex;
-align-items:center;
-justify-content:center;
-background:#f1f1f1;
-border-radius:50%;
-}
-
-.iconButton img{
-width:16px;
 }
 
 .viewButton{
@@ -156,127 +84,78 @@ color:white;
 padding:6px 12px;
 border-radius:6px;
 text-decoration:none;
-font-size:13px;
-}
-
-@media(max-width:768px){
-#sellerContainer{
-grid-template-columns:1fr;
-}
 }
 
 </style>
+
 </head>
 
 <body>
 
-<header class="navbar">
-<div class="navContainer">
-<a href="/"><img src="/logo.png" class="logo"></a>
-<nav class="navLinks">
-<a href="/">Home</a>
-<a href="/sellers.html">Browse Sellers</a>
-<a href="/submit.html">List Your Business</a>
-</nav>
-</div>
-</header>
-
 <div class="container">
-
-<h2>Browse Categories</h2>
-<div id="categoryContainer"></div>
-
 <h2>All Sellers</h2>
-
-<div class="searchBox">
-<input type="text" id="searchInput" placeholder="Search..." onkeyup="searchSellers()">
-</div>
-
 <div id="sellerContainer"></div>
-
 </div>
 
 <script>
 
-/* SAFE CLEAN FUNCTION */
-function clean(val){
-return (val || "").toString().trim().toLowerCase();
-}
-
-/* SEARCH */
-function searchSellers(){
-let input = document.getElementById("searchInput").value.toLowerCase();
-let cards = document.getElementsByClassName("sellerCard");
-
-for(let i=0;i<cards.length;i++){
-let text = cards[i].innerText.toLowerCase();
-cards[i].style.display = text.includes(input) ? "" : "none";
-}
-}
-
-/* FETCH */
 const sheetID = "1rJc2bltxs2wfYAq0RLPBfrjUfauaTi8Go6PYghvlT-Q";
 const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
+
+function safe(val){
+return (val || "").toString().trim();
+}
+
+function clean(val){
+return safe(val).toLowerCase();
+}
 
 fetch(url)
 .then(res => res.json())
 .then(data => {
 
-const sellerContainer = document.getElementById("sellerContainer");
-const categoryContainer = document.getElementById("categoryContainer");
+const container = document.getElementById("sellerContainer");
 
-let categories = new Set();
-let validSellers = [];
-
-/* FILTER SAFELY */
-data.forEach(seller => {
-
-if(clean(seller["Approved"]) !== "yes") return;
-
-validSellers.push(seller);
-
-if(seller["Category"]){
-categories.add(seller["Category"].trim());
-}
-
-});
-
-/* DEBUG (remove later) */
-if(validSellers.length === 0){
-sellerContainer.innerHTML = "<p>No approved sellers found. Check 'Approved' column.</p>";
+if(!data || data.length === 0){
+container.innerHTML = "<p>No data found</p>";
 return;
 }
 
-/* RENDER SELLERS */
-validSellers.forEach(seller => {
+data.forEach(seller => {
 
-let logo = seller["Logo"] || "https://via.placeholder.com/50";
-let instagram = seller["Instagram Link"];
+try{
 
-sellerContainer.innerHTML += `
+// ✅ Skip if not approved
+if(clean(seller["Approved"]) !== "yes") return;
+
+// ✅ Skip broken rows
+if(!seller["Business Name"]) return;
+
+// SAFE VALUES
+let name = safe(seller["Business Name"]);
+let category = safe(seller["Category"]);
+let logo = safe(seller["Logo"]) || "https://via.placeholder.com/40";
+let instagram = safe(seller["Instagram Link"]);
+
+// RENDER
+container.innerHTML += `
 <div class="sellerCard">
 
 <div class="sellerTop">
 <img src="${logo}" class="sellerLogo">
 
 <div>
-<div class="sellerName">${seller["Business Name"] || ""}</div>
-<div class="categoryLabel">${seller["Category"] || ""}</div>
+<div class="sellerName">${name}</div>
+<div style="font-size:12px;color:#777;">${category}</div>
 </div>
-</div>
-
-<div class="sellerHint">
-View pricing • COD • returns →
 </div>
 
 <div class="cardActions">
 ${instagram ? `
-<a href="${instagram}" target="_blank" class="iconButton">
-<img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
-</a>` : ""}
+<a href="${instagram}" target="_blank">Instagram</a>` : ""}
 
-<a class="viewButton" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
-View Details
+<a class="viewButton" href="seller.html?name=${encodeURIComponent(name)}">
+View
 </a>
 
 </div>
@@ -284,30 +163,18 @@ View Details
 </div>
 `;
 
-});
-
-/* RENDER CATEGORIES */
-categoryContainer.innerHTML = `<div class="category" onclick="location.reload()">All</div>`;
-
-categories.forEach(cat => {
-categoryContainer.innerHTML += `
-<div class="category" onclick="filterCategory('${cat}')">
-${cat}
-</div>
-`;
-});
-
-});
-
-/* CATEGORY FILTER */
-function filterCategory(cat){
-let cards = document.getElementsByClassName("sellerCard");
-
-for(let i=0;i<cards.length;i++){
-let text = cards[i].innerText.toLowerCase();
-cards[i].style.display = text.includes(cat.toLowerCase()) ? "" : "none";
+}catch(err){
+console.log("Skipping broken row", err);
 }
-}
+
+});
+
+})
+.catch(err => {
+document.getElementById("sellerContainer").innerHTML =
+"<p>Error loading data</p>";
+console.error(err);
+});
 
 </script>
 
