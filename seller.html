@@ -216,6 +216,51 @@ color:white;
 text-align:center;
 }
 
+.actions{
+display:flex;
+gap:10px;
+margin-top:12px;
+flex-wrap:wrap;
+}
+
+.iconBtn{
+width:42px;
+height:42px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:8px;
+background:#f1f1f1;
+transition:0.2s;
+}
+
+.iconBtn img{
+width:20px;
+height:20px;
+object-fit:contain;
+}
+
+.iconBtn:hover{
+transform:scale(1.05);
+}
+
+/* BRAND COLORS */
+.instagram{
+background:#ffe5ec;
+}
+
+.amazon{
+background:#fff4e5;
+}
+
+.flipkart{
+background:#e6f0ff;
+}
+
+.myntra{
+background:#ffe6f3;
+}  
+  
 @media (max-width:768px){
 .infoGrid{
 grid-template-columns:1fr;
@@ -293,11 +338,34 @@ ${seller["Active Since"] ? ` • 🗓 Since ${seller["Active Since"]}` : ""}
 
 /* LINKS */
 let linksHTML = `
-${seller["Website"] ? `<a href="${seller["Website"]}" target="_blank" class="button">Website</a>` : ""}
-${seller["Instagram Link"] ? `<a href="${seller["Instagram Link"]}" target="_blank" class="button">Instagram</a>` : ""}
-${seller["Amazon Link"] ? `<a href="${seller["Amazon Link"]}" target="_blank" class="button">Amazon</a>` : ""}
-${seller["Flipkart Link"] ? `<a href="${seller["Flipkart Link"]}" target="_blank" class="button">Flipkart</a>` : ""}
-${seller["Myntra Link"] ? `<a href="${seller["Myntra Link"]}" target="_blank" class="button">Myntra</a>` : ""}
+<div class="actions">
+
+${seller["Website"] ? `
+<a href="${seller["Website"]}" target="_blank" class="iconBtn">
+<img src="https://cdn-icons-png.flaticon.com/512/841/841364.png">
+</a>` : ""}
+
+${seller["Instagram Link"] ? `
+<a href="${seller["Instagram Link"]}" target="_blank" class="iconBtn instagram">
+<img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
+</a>` : ""}
+
+${seller["Amazon Link"] ? `
+<a href="${seller["Amazon Link"]}" target="_blank" class="iconBtn amazon">
+<img src="https://cdn-icons-png.flaticon.com/512/5968/5968874.png">
+</a>` : ""}
+
+${seller["Flipkart Link"] ? `
+<a href="${seller["Flipkart Link"]}" target="_blank" class="iconBtn flipkart">
+<img src="https://cdn-icons-png.flaticon.com/512/5968/5968866.png">
+</a>` : ""}
+
+${seller["Myntra Link"] ? `
+<a href="${seller["Myntra Link"]}" target="_blank" class="iconBtn myntra">
+<img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Myntra_Logo.png">
+</a>` : ""}
+
+</div>
 `;
 
 /* RELATED */
