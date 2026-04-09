@@ -301,7 +301,7 @@ const sheetID = "17A0iSszEqDQydQX4nLY51Lua6lJprBx7X_3kV59h4n8";
 const API_URL = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
 
 const CACHE_KEY = "sellerAtlasData";
-const CACHE_TIME = 5 * 60 * 1000; // 5 minutes
+const CACHE_TIME = 5 * 60 * 1000;
 
 function clean(val){
   return (val || "").toString().trim();
@@ -334,7 +334,7 @@ async function getData(){
 
   } catch(e){
     document.getElementById("sellerContent").innerHTML =
-      "<p>⚠️ Failed to load data. Try again later.</p>";
+      "<p>⚠️ Failed to load data.</p>";
     throw e;
   }
 }
@@ -365,18 +365,23 @@ function renderSeller(seller, data){
 
   const container = document.getElementById("sellerContent");
 
+  /* TAGS */
   let types = seller["Product Types"] ? seller["Product Types"].split(",") : [];
   let tagsHTML = types.map(t => `<div class="tag">${t.trim()}</div>`).join("");
 
-  let verified = seller["Verified"] === "Yes"
-    ? `<span class="badge">✔ Verified</span>` : "";
+  /* BADGES */
+  let verified = seller["Verified"] === "Yes" ? `<span class="badge">✔ Verified</span>` : "";
+  let gst = seller["GST Verified"] === "Yes" ? `<span class="gstBadge">✔ GST Verified</span>` : "";
 
-  let gst = seller["GST Verified"] === "Yes"
-    ? `<span class="gstBadge">✔ GST Verified</span>` : "";
+  /* TRUST */
+  let trustHTML = `
+    ${seller["Instagram Followers"] ? `👥 ${seller["Instagram Followers"]} followers` : ""}
+    ${seller["Active Since"] ? ` • 🗓 Since ${seller["Active Since"]}` : ""}
+  `;
 
+  /* CTA */
   let whatsapp = formatWhatsApp(seller["WhatsApp"]);
 
-  // 🔥 PRIMARY CTA (VISIBLE)
   let ctaHTML = `
     <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
       ${whatsapp ? `<a href="${whatsapp}" target="_blank" class="button">💬 Chat on WhatsApp</a>` : ""}
@@ -384,8 +389,8 @@ function renderSeller(seller, data){
     </div>
   `;
 
-  // secondary icons
-  let iconsHTML = `
+  /* ICON LINKS */
+  let linksHTML = `
     <div class="actions">
       ${seller["Instagram Link"] ? `<a href="${seller["Instagram Link"]}" target="_blank" class="iconBtn instagram"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg"></a>` : ""}
       ${seller["Amazon Link"] ? `<a href="${seller["Amazon Link"]}" target="_blank" class="iconBtn amazon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/amazon.svg"></a>` : ""}
@@ -394,7 +399,7 @@ function renderSeller(seller, data){
     </div>
   `;
 
-  // RELATED SELLERS
+  /* RELATED */
   let currentCategory = clean(seller["Category"]).toLowerCase();
 
   let related = data.filter(s => {
@@ -412,6 +417,7 @@ function renderSeller(seller, data){
     </div>
   `).join("");
 
+  /* FINAL BUILD */
   container.innerHTML = `
 
   <div class="sellerHeader">
@@ -427,9 +433,11 @@ function renderSeller(seller, data){
 
       <div class="badges">${verified}${gst}</div>
 
+      <div class="trust">${trustHTML}</div>
+
       ${ctaHTML}
 
-      ${iconsHTML}
+      ${linksHTML}
 
       <div class="tags">${tagsHTML}</div>
 
@@ -448,11 +456,18 @@ function renderSeller(seller, data){
   </div>
 
   <div class="section">
+    <h3>Who is this for?</h3>
+    <div><strong>Best for:</strong> ${seller["Best For"] || "N/A"}</div>
+    <div><strong>Not ideal for:</strong> ${seller["Not Ideal For"] || "N/A"}</div>
+  </div>
+
+  <div class="section">
     <h3>Similar Sellers</h3>
     <div class="relatedGrid">
       ${relatedHTML || "<p>No similar sellers found</p>"}
     </div>
   </div>
+
   `;
 }
 
@@ -471,6 +486,5 @@ function renderSeller(seller, data){
 
 })();
 
-</script>
-</body>
+</script></body>
 </html>
