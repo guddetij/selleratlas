@@ -2,15 +2,10 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>SellerAtlas</title>
-
-<meta name="description" content="Discover trusted sellers on SellerAtlas">
-<meta name="keywords" content="small business, instagram sellers">
-<meta name="robots" content="index, follow">
+<title>Seller Details - SellerAtlas</title>
 
 <link rel="icon" type="image/png" href="/favicon.png">
 
@@ -19,114 +14,196 @@
 body{
 font-family:Arial, Helvetica, sans-serif;
 margin:0;
-background:#F4F7F6;
+background:#f4f7f6;
 }
 
-/* HEADER */
-
-header{
+/* NAVBAR */
+.navbar{
 background:#1F7A63;
-color:white;
-padding:15px 30px;
+padding:14px 30px;
 }
 
-nav{
-margin-top:10px;
+.navContainer{
+max-width:1200px;
+margin-left:0;
+margin-right:auto;
+padding-left:20px;
+display:flex;
+align-items:center;
+gap:30px;
 }
 
-nav a{
+.navLinks{
+display:flex;
+gap:25px;
+}
+
+.navLinks a{
 color:white;
-margin-right:20px;
 text-decoration:none;
-font-weight:bold;
-}
-
-/* PAGE */
-
-.container{
-max-width:900px;
-margin:auto;
-padding:40px 20px;
-}
-
-/* CARD */
-
-.profileCard{
-background:white;
-padding:30px;
-border-radius:12px;
-box-shadow:0 3px 10px rgba(0,0,0,0.1);
-text-align:center;
+font-weight:600;
 }
 
 .logo{
-width:120px;
-height:120px;
+height:38px;
+}
+
+/* PAGE */
+.container{
+max-width:900px;
+margin:auto;
+padding:30px 20px;
+}
+
+/* HEADER */
+.sellerHeader{
+display:flex;
+gap:15px;
+align-items:center;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.08);
+}
+
+.sellerLogo{
+width:60px;
+height:60px;
 border-radius:50%;
 object-fit:cover;
-margin-bottom:15px;
+}
+
+.sellerName{
+font-size:22px;
+font-weight:bold;
 }
 
 .category{
+font-size:13px;
 color:#8FB339;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.name{
-font-size:28px;
 font-weight:bold;
 }
 
 /* BADGES */
+.badges{
+margin-top:6px;
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
 
 .badge{
-background:#8FB339;
+background:#1F7A63;
 color:white;
-padding:5px 10px;
+padding:4px 8px;
 border-radius:6px;
 font-size:12px;
-margin-left:6px;
 }
 
 .gstBadge{
 background:#e6f5ef;
 color:#1F7A63;
-padding:5px 10px;
+padding:4px 8px;
 border-radius:6px;
 font-size:12px;
-margin-left:6px;
 }
 
-/* LINKS */
-
-.links{
-margin-top:25px;
+/* ACTION BUTTONS */
+.actions{
+margin-top:15px;
 display:flex;
+gap:10px;
 flex-wrap:wrap;
-justify-content:center;
-gap:12px;
 }
 
 .button{
 background:#1F7A63;
 color:white;
-padding:10px 16px;
+padding:8px 14px;
 border-radius:6px;
 text-decoration:none;
+font-size:13px;
+}
+
+/* SECTION */
+.section{
+background:white;
+margin-top:20px;
+padding:18px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.08);
+}
+
+.section h3{
+margin-top:0;
+}
+
+/* INFO GRID */
+.infoGrid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:10px;
+}
+
+.infoItem{
 font-size:14px;
 }
 
-@media (max-width:768px){
-.container{
-padding:25px 15px;
+/* DECISION */
+.decision{
+margin-top:10px;
+font-size:14px;
 }
-.profileCard{
+
+/* RELATED SELLERS */
+.relatedGrid{
+display:grid;
+grid-template-columns:repeat(2, 1fr);
+gap:15px;
+margin-top:10px;
+}
+
+.relatedCard{
+background:#f9f9f9;
+padding:12px;
+border-radius:8px;
+display:flex;
+gap:10px;
+align-items:center;
+cursor:pointer;
+}
+
+.relatedCard img{
+width:40px;
+height:40px;
+border-radius:50%;
+}
+
+.relatedName{
+font-size:14px;
+font-weight:bold;
+}
+
+footer{
+margin-top:60px;
 padding:20px;
+background:#1F7A63;
+color:white;
+text-align:center;
 }
-.name{
-font-size:22px;
+
+/* MOBILE */
+@media (max-width:768px){
+
+.relatedGrid{
+grid-template-columns:1fr;
 }
+
+.infoGrid{
+grid-template-columns:1fr;
+}
+
 }
 
 </style>
@@ -135,126 +212,161 @@ font-size:22px;
 
 <body>
 
-<header>
-
-<h2>SellerAtlas</h2>
-
-<nav>
-<a href="index.html">Home</a>
-<a href="sellers.html">Browse Sellers</a>
-<a href="submit.html">List Your Business</a>
-<a href="contact.html">Contact</a>
+<header class="navbar">
+<div class="navContainer">
+<a href="/"><img src="/logo.png" class="logo"></a>
+<nav class="navLinks">
+<a href="/">Home</a>
+<a href="/sellers.html">Browse Sellers</a>
+<a href="/submit.html">List Your Business</a>
 </nav>
-
+</div>
 </header>
 
 <div class="container">
 
-<div id="profileContainer"></div>
+<div id="sellerContent"></div>
 
 </div>
 
-<script>
+<footer>
+<p>SellerAtlas © 2026</p>
+</footer>
 
-const params = new URLSearchParams(window.location.search);
-const sellerName = params.get("name");
+<script>
 
 const sheetID = "1rJc2bltxs2wfYAq0RLPBfrjUfauaTi8Go6PYghvlT-Q";
 const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
+
+function clean(val){
+return (val || "").toString().trim();
+}
+
+const params = new URLSearchParams(window.location.search);
+const sellerName = params.get("name");
 
 fetch(url)
 .then(res => res.json())
 .then(data => {
 
-const container = document.getElementById("profileContainer");
+const container = document.getElementById("sellerContent");
 
-data.forEach(seller => {
-
-if(seller["Business Name"] === sellerName){
-
-/* 🔥 SEO FIX (THIS IS THE IMPORTANT PART) */
-
-document.title =
-(seller["Business Name"] || "") + " - " +
-(seller["Category"] || "") + " | SellerAtlas";
-
-let metaDesc = document.querySelector('meta[name="description"]');
-if(metaDesc){
-metaDesc.setAttribute(
-"content",
-"Explore " + seller["Business Name"] + ", a " +
-seller["Category"] + " brand on SellerAtlas."
+const seller = data.find(s =>
+clean(s["Business Name"]).toLowerCase() === clean(sellerName).toLowerCase()
 );
+
+if(!seller){
+container.innerHTML = "<p>Seller not found</p>";
+return;
 }
 
-let metaKeywords = document.querySelector('meta[name="keywords"]');
-if(metaKeywords){
-metaKeywords.setAttribute(
-"content",
-seller["Business Name"] + ", " +
-seller["Category"] +
-", instagram sellers india, small business india"
-);
-}
+let logo = seller["Logo"] || "https://via.placeholder.com/60";
 
-/* BADGES */
+let verified = seller["Verified"] === "Yes" ? `<span class="badge">✔ Verified</span>` : "";
+let gst = seller["GST Verified"] === "Yes" ? `<span class="gstBadge">✔ GST Verified</span>` : "";
 
-let verifiedBadge = "";
-let gstBadge = "";
-
-if((seller["Verified"] || "").trim() === "Yes"){
-verifiedBadge = `<span class="badge">✔ Verified</span>`;
-}
-
-if((seller["GST Verified"] || "").trim() === "Yes"){
-gstBadge = `<span class="gstBadge">🧾 GST Verified</span>`;
-}
-
-/* LINKS */
-
+let website = seller["Website"];
 let instagram = seller["Instagram Link"];
-let pinterest = seller["Pinterest Link"];
 let amazon = seller["Amazon Link"];
 let flipkart = seller["Flipkart Link"];
 let myntra = seller["Myntra Link"];
-let website = seller["Business Website Link"];
 
-/* LOGO */
+let rating = seller["Google Rating"];
+let reviews = seller["Reviews Count"];
+let ratingHTML = rating ? `⭐ ${rating} (${reviews || 0} reviews)` : "";
 
-let logo = seller["Logo"] || "https://via.placeholder.com/120";
+/* RELATED SELLERS (same category) */
+let related = data.filter(s =>
+clean(s["Category"]).toLowerCase() === clean(seller["Category"]).toLowerCase() &&
+clean(s["Business Name"]).toLowerCase() !== clean(seller["Business Name"]).toLowerCase() &&
+clean(s["Approved"]) === "yes"
+).slice(0,4);
 
-/* RENDER */
+let relatedHTML = "";
+
+related.forEach(r => {
+
+let rLogo = r["Logo"] || "https://via.placeholder.com/40";
+
+relatedHTML += `
+<div class="relatedCard"
+onclick="window.location='seller.html?name=${encodeURIComponent(r["Business Name"])}'">
+
+<img src="${rLogo}">
+<div class="relatedName">${r["Business Name"]}</div>
+
+</div>
+`;
+
+});
 
 container.innerHTML = `
 
-<div class="profileCard">
+<div class="sellerHeader">
 
-<img src="${logo}" class="logo">
+<img src="${logo}" class="sellerLogo">
 
+<div>
+<div class="sellerName">${seller["Business Name"]}</div>
 <div class="category">${seller["Category"] || ""}</div>
 
-<h1 class="name">
-${seller["Business Name"]} ${verifiedBadge} ${gstBadge}
-</h1>
+<div>${ratingHTML}</div>
 
-<div class="links">
+<div class="badges">
+${verified}
+${gst}
+</div>
 
-${instagram ? `<a class="button" href="${instagram}" target="_blank">Instagram</a>` : ""}
-${pinterest ? `<a class="button" href="${pinterest}" target="_blank">Pinterest</a>` : ""}
-${amazon ? `<a class="button" href="${amazon}" target="_blank">Amazon</a>` : ""}
-${flipkart ? `<a class="button" href="${flipkart}" target="_blank">Flipkart</a>` : ""}
-${myntra ? `<a class="button" href="${myntra}" target="_blank">Myntra</a>` : ""}
-${website ? `<a class="button" href="${website}" target="_blank">Website</a>` : ""}
+<div class="actions">
+${website ? `<a href="${website}" target="_blank" class="button">Website</a>` : ""}
+${instagram ? `<a href="${instagram}" target="_blank" class="button">Instagram</a>` : ""}
+${amazon ? `<a href="${amazon}" target="_blank" class="button">Amazon</a>` : ""}
+${flipkart ? `<a href="${flipkart}" target="_blank" class="button">Flipkart</a>` : ""}
+${myntra ? `<a href="${myntra}" target="_blank" class="button">Myntra</a>` : ""}
+</div>
 
+</div>
+
+</div>
+
+
+<div class="section">
+<h3>Buying Info</h3>
+
+<div class="infoGrid">
+<div class="infoItem"><strong>Price:</strong> ${seller["Price Range"] || "N/A"}</div>
+<div class="infoItem"><strong>COD:</strong> ${seller["COD Available"] || "N/A"}</div>
+<div class="infoItem"><strong>Returns:</strong> ${seller["Return Policy"] || "N/A"}</div>
+<div class="infoItem"><strong>Shipping:</strong> ${seller["International Shipping"] || "N/A"}</div>
+</div>
+
+</div>
+
+
+<div class="section">
+<h3>Who is this for?</h3>
+
+<div class="decision">
+<strong>Best for:</strong> ${seller["Best For"] || "N/A"}
+</div>
+
+<div class="decision">
+<strong>Not ideal for:</strong> ${seller["Not Ideal For"] || "N/A"}
+</div>
+
+</div>
+
+
+<div class="section">
+<h3>Similar Sellers</h3>
+
+<div class="relatedGrid">
+${relatedHTML || "<p>No similar sellers found</p>"}
 </div>
 
 </div>
 
 `;
-
-}
-
-});
 
 });
 
