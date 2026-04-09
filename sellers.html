@@ -222,7 +222,10 @@ gap:10px;
 
 <div class="container">
 
-<h2>All Sellers</h2>
+<h2>Browse Categories</h2>
+<div id="categoryContainer"></div>
+  
+<h2 style="margin-top:20px;">All Sellers</h2>
 
 <div class="searchBox">
 <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchSellers()">
@@ -262,10 +265,32 @@ fetch(url)
 .then(data => {
 
 const sellerContainer = document.getElementById("sellerContainer");
+const categoryContainer = document.getElementById("categoryContainer");
 
+let categories = new Set();
 data.forEach(seller => {
 
 if(clean(seller["Approved"]) !== "yes") return;
+
+if(seller["Category"]){
+  categories.add(seller["Category"]);
+}
+
+// ADD "All" button
+categoryContainer.innerHTML += `
+<div class="category" onclick="window.location='sellers.html'">
+All
+</div>
+`;
+
+// ADD CATEGORY BUTTONS
+categories.forEach(cat => {
+  categoryContainer.innerHTML += `
+  <div class="category" onclick="window.location='sellers.html?category=${encodeURIComponent(cat)}'">
+    ${cat}
+  </div>
+  `;
+});
 
 let logo = seller["Logo"] || "https://via.placeholder.com/50";
 
