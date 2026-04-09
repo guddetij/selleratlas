@@ -350,21 +350,25 @@ let instagram = seller["Instagram Link"];
 let pinterest = seller["Pinterest Link"];
 
 sellerContainer.innerHTML += `
-<div class="sellerCard">
+<div class="topSellerCard">
 
-<img class="sellerLogo" src="${logo}">
+  <img src="${logo}">
 
-<div class="sellerInfo">
+  <div class="topSellerCategory">${seller["Category"] || ""}</div>
 
-<div class="sellerName">
-${seller["Business Name"]} ${verifiedBadge} ${gstBadge}
+  <div class="topSellerName">${seller["Business Name"]}</div>
+
+  <!-- HOOK LINE -->
+  <div class="sellerHint">
+    View pricing, COD, returns & more →
+  </div>
+
+  <a class="topSellerButton" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
+    View Details
+  </a>
+
 </div>
-
-<div class="categoryLabel">${category}</div>
-
-<div class="sellerHandle">
-@${seller["Instagram Username"] || ""}
-</div>
+`;
 
 <div class="linkButtons">
 ${instagram ? `<a class="linkButton" href="${instagram}" target="_blank">Instagram</a>` : ""}
