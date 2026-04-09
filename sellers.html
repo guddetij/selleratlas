@@ -17,7 +17,6 @@ margin:0;
 background:#f4f7f6;
 }
 
-/* NAVBAR */
 .navContainer{
 max-width:1200px;
 margin-left:0;
@@ -48,20 +47,18 @@ font-weight:600;
 height:38px;
 }
 
-/* PAGE */
 .container{
 max-width:1000px;
 margin:auto;
 padding:30px 20px;
 }
 
-/* CATEGORY SECTION (FIXED VISIBILITY) */
+/* CATEGORY */
 #categoryContainer{
 display:flex;
 flex-wrap:wrap;
 gap:10px;
-margin-top:15px;
-margin-bottom:25px; /* IMPORTANT spacing */
+margin-bottom:20px;
 }
 
 .category{
@@ -71,8 +68,6 @@ border-radius:20px;
 box-shadow:0 2px 6px rgba(0,0,0,0.08);
 cursor:pointer;
 font-size:13px;
-white-space:nowrap;
-transition:0.2s;
 }
 
 .category:hover{
@@ -81,26 +76,21 @@ color:white;
 }
 
 /* SEARCH */
-.searchBox{
-margin-top:10px;
-margin-bottom:20px;
-}
-
 .searchBox input{
 width:100%;
 padding:12px;
 border-radius:8px;
 border:1px solid #ccc;
+margin-bottom:20px;
 }
 
-/* SELLER GRID */
+/* GRID */
 #sellerContainer{
 display:grid;
-grid-template-columns: repeat(2, 1fr);
+grid-template-columns:repeat(2,1fr);
 gap:15px;
 }
 
-/* CARD */
 .sellerCard{
 background:white;
 padding:14px;
@@ -108,15 +98,8 @@ border-radius:10px;
 box-shadow:0 2px 6px rgba(0,0,0,0.08);
 display:flex;
 flex-direction:column;
-justify-content:space-between;
-transition:0.2s;
 }
 
-.sellerCard:hover{
-transform:translateY(-2px);
-}
-
-/* TOP SECTION */
 .sellerTop{
 display:flex;
 gap:10px;
@@ -131,77 +114,55 @@ object-fit:cover;
 }
 
 .sellerName{
-font-size:16px;
 font-weight:bold;
+font-size:16px;
 }
 
 .categoryLabel{
 font-size:11px;
 color:#8FB339;
-font-weight:bold;
 }
 
-/* INFO */
 .sellerHint{
 font-size:12px;
-color:#555;
 margin-top:5px;
+color:#555;
 }
 
-/* ACTIONS */
 .cardActions{
 display:flex;
-align-items:center;
 justify-content:space-between;
+align-items:center;
 margin-top:10px;
 }
 
 .iconButton{
-width:34px;
-height:34px;
+width:32px;
+height:32px;
 display:flex;
 align-items:center;
 justify-content:center;
-border-radius:50%;
 background:#f1f1f1;
+border-radius:50%;
 }
 
 .iconButton img{
-width:18px;
-height:18px;
+width:16px;
 }
 
 .viewButton{
 background:#1F7A63;
 color:white;
-padding:7px 14px;
+padding:6px 12px;
 border-radius:6px;
 text-decoration:none;
 font-size:13px;
 }
 
-/* FOOTER */
-footer{
-margin-top:60px;
-padding:20px;
-background:#1F7A63;
-color:white;
-text-align:center;
-}
-
-/* MOBILE */
-@media (max-width:768px){
-
+@media(max-width:768px){
 #sellerContainer{
-grid-template-columns: 1fr;
+grid-template-columns:1fr;
 }
-
-.navContainer{
-flex-direction:column;
-align-items:flex-start;
-gap:10px;
-}
-
 }
 
 </style>
@@ -224,8 +185,8 @@ gap:10px;
 
 <h2>Browse Categories</h2>
 <div id="categoryContainer"></div>
-  
-<h2 style="margin-top:20px;">All Sellers</h2>
+
+<h2>All Sellers</h2>
 
 <div class="searchBox">
 <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchSellers()">
@@ -235,30 +196,27 @@ gap:10px;
 
 </div>
 
-<footer>
-<p>SellerAtlas © 2026</p>
-</footer>
-
 <script>
+
+/* SAFE CLEAN FUNCTION */
+function clean(val){
+return (val || "").toString().trim().toLowerCase();
+}
 
 /* SEARCH */
 function searchSellers(){
 let input = document.getElementById("searchInput").value.toLowerCase();
-let sellers = document.getElementsByClassName("sellerCard");
+let cards = document.getElementsByClassName("sellerCard");
 
-for(let i=0;i<sellers.length;i++){
-let text = sellers[i].innerText.toLowerCase();
-sellers[i].style.display = text.includes(input) ? "" : "none";
+for(let i=0;i<cards.length;i++){
+let text = cards[i].innerText.toLowerCase();
+cards[i].style.display = text.includes(input) ? "" : "none";
 }
 }
 
 /* FETCH */
 const sheetID = "1rJc2bltxs2wfYAq0RLPBfrjUfauaTi8Go6PYghvlT-Q";
 const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
-
-function clean(val){
-return (val || "").toString().trim().toLowerCase();
-}
 
 fetch(url)
 .then(res => res.json())
@@ -268,79 +226,88 @@ const sellerContainer = document.getElementById("sellerContainer");
 const categoryContainer = document.getElementById("categoryContainer");
 
 let categories = new Set();
+let validSellers = [];
 
-// CLEAR (important)
-sellerContainer.innerHTML = "";
-categoryContainer.innerHTML = "";
-
-// LOOP
+/* FILTER SAFELY */
 data.forEach(seller => {
 
 if(clean(seller["Approved"]) !== "yes") return;
 
-// 👉 COLLECT CATEGORY ONLY (no rendering here)
+validSellers.push(seller);
+
 if(seller["Category"]){
 categories.add(seller["Category"].trim());
 }
 
-// 👉 RENDER SELLER CARD
+});
+
+/* DEBUG (remove later) */
+if(validSellers.length === 0){
+sellerContainer.innerHTML = "<p>No approved sellers found. Check 'Approved' column.</p>";
+return;
+}
+
+/* RENDER SELLERS */
+validSellers.forEach(seller => {
+
 let logo = seller["Logo"] || "https://via.placeholder.com/50";
 let instagram = seller["Instagram Link"];
-let website = seller["Website"];
 
 sellerContainer.innerHTML += `
 <div class="sellerCard">
 
-  <div class="sellerTop">
-    <img src="${logo}" class="sellerLogo">
+<div class="sellerTop">
+<img src="${logo}" class="sellerLogo">
 
-    <div>
-      <div class="sellerName">${seller["Business Name"]}</div>
-      <div class="categoryLabel">${seller["Category"] || ""}</div>
-    </div>
-  </div>
+<div>
+<div class="sellerName">${seller["Business Name"] || ""}</div>
+<div class="categoryLabel">${seller["Category"] || ""}</div>
+</div>
+</div>
 
-  <div class="sellerHint">
-    View pricing • COD • returns • shipping →
-  </div>
+<div class="sellerHint">
+View pricing • COD • returns →
+</div>
 
-  <div class="cardActions">
-    ${instagram ? `
-      <a href="${instagram}" target="_blank" class="iconButton">
-        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
-      </a>
-    ` : ""}
+<div class="cardActions">
+${instagram ? `
+<a href="${instagram}" target="_blank" class="iconButton">
+<img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
+</a>` : ""}
 
-    <a class="viewButton" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
-      View Details
-    </a>
-  </div>
+<a class="viewButton" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
+View Details
+</a>
+
+</div>
 
 </div>
 `;
 
 });
 
-// 👉 RENDER CATEGORY BUTTONS (ONLY ONCE)
+/* RENDER CATEGORIES */
+categoryContainer.innerHTML = `<div class="category" onclick="location.reload()">All</div>`;
 
-// "All" button
-categoryContainer.innerHTML += `
-<div class="category" onclick="window.location='sellers.html'">
-All
-</div>
-`;
-
-// Unique categories
 categories.forEach(cat => {
 categoryContainer.innerHTML += `
-<div class="category" onclick="window.location='sellers.html?category=${encodeURIComponent(cat)}'">
+<div class="category" onclick="filterCategory('${cat}')">
 ${cat}
 </div>
 `;
 });
 
-})
-.catch(err => console.error("Error:", err));
+});
+
+/* CATEGORY FILTER */
+function filterCategory(cat){
+let cards = document.getElementsByClassName("sellerCard");
+
+for(let i=0;i<cards.length;i++){
+let text = cards[i].innerText.toLowerCase();
+cards[i].style.display = text.includes(cat.toLowerCase()) ? "" : "none";
+}
+}
 
 </script>
 
