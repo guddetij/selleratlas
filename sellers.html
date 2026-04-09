@@ -1,91 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>Browse Sellers - SellerAtlas</title>
-
-<link rel="icon" href="/favicon.png">
+<title>Sellers</title>
 
 <style>
-
-body{
-font-family:Arial;
-margin:0;
-background:#f4f7f6;
-}
-
-.navbar{
-background:#1F7A63;
-padding:14px 30px;
-}
-
-.navContainer{
-display:flex;
-gap:30px;
-align-items:center;
-}
-
-.navLinks{
-display:flex;
-gap:25px;
-}
-
-.navLinks a{
-color:white;
-text-decoration:none;
-}
-
-.container{
-max-width:1000px;
-margin:auto;
-padding:30px 20px;
-}
-
-#sellerContainer{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px;
-}
-
-.sellerCard{
-background:white;
-padding:14px;
-border-radius:10px;
-}
-
-.sellerTop{
-display:flex;
-gap:10px;
-align-items:center;
-}
-
-.sellerLogo{
-width:40px;
-height:40px;
-border-radius:50%;
-}
-
-.sellerName{
-font-weight:bold;
-}
-
-.cardActions{
-display:flex;
-justify-content:space-between;
-margin-top:10px;
-}
-
-.viewButton{
-background:#1F7A63;
-color:white;
-padding:6px 12px;
-border-radius:6px;
-text-decoration:none;
-}
-
+body{font-family:Arial;background:#f4f7f6;margin:0;}
+.container{max-width:1000px;margin:auto;padding:30px;}
+#sellerContainer{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;}
+.sellerCard{background:white;padding:15px;border-radius:10px;}
+.sellerTop{display:flex;gap:10px;align-items:center;}
+.sellerLogo{width:40px;height:40px;border-radius:50%;}
+.viewButton{background:#1F7A63;color:white;padding:6px 10px;text-decoration:none;border-radius:5px;}
 </style>
 
 </head>
@@ -99,15 +25,14 @@ text-decoration:none;
 
 <script>
 
-const sheetID = "1rJc2bltxs2wfYAq0RLPBfrjUfauaTi8Go6PYghvlT-Q";
-const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
-
-function safe(val){
-return (val || "").toString().trim();
-}
+const url = "https://opensheet.elk.sh/17A0iSszEqDQydQX4nLY51Lua6lJprBx7X_3kV59h4n8/Sheet1";
 
 function clean(val){
-return safe(val).toLowerCase();
+return (val || "")
+.toString()
+.replace(/\r/g,"")
+.replace(/\n/g,"")
+.trim();
 }
 
 fetch(url)
@@ -125,34 +50,30 @@ data.forEach(seller => {
 
 try{
 
-// ✅ Skip if not approved
-if(clean(seller["Approved"]) !== "yes") return;
+let approved = clean(seller["Approved"]).toLowerCase();
+if(approved !== "yes") return;
 
-// ✅ Skip broken rows
-if(!seller["Business Name"]) return;
+let name = clean(seller["Business Name"]);
+if(!name) return;
 
-// SAFE VALUES
-let name = safe(seller["Business Name"]);
-let category = safe(seller["Category"]);
-let logo = safe(seller["Logo"]) || "https://via.placeholder.com/40";
-let instagram = safe(seller["Instagram Link"]);
+let category = clean(seller["Category"]);
+let logo = clean(seller["Logo"]) || "https://via.placeholder.com/40";
+let instagram = clean(seller["Instagram Link"]);
 
-// RENDER
 container.innerHTML += `
 <div class="sellerCard">
 
 <div class="sellerTop">
 <img src="${logo}" class="sellerLogo">
-
 <div>
-<div class="sellerName">${name}</div>
+<div><strong>${name}</strong></div>
 <div style="font-size:12px;color:#777;">${category}</div>
 </div>
 </div>
 
-<div class="cardActions">
-${instagram ? `
-<a href="${instagram}" target="_blank">Instagram</a>` : ""}
+<div style="margin-top:10px;display:flex;justify-content:space-between;">
+
+${instagram ? `<a href="${instagram}" target="_blank">Instagram</a>` : ""}
 
 <a class="viewButton" href="seller.html?name=${encodeURIComponent(name)}">
 View
@@ -163,17 +84,12 @@ View
 </div>
 `;
 
-}catch(err){
-console.log("Skipping broken row", err);
+}catch(e){
+console.log("Skipping row", e);
 }
 
 });
 
-})
-.catch(err => {
-document.getElementById("sellerContainer").innerHTML =
-"<p>Error loading data</p>";
-console.error(err);
 });
 
 </script>
