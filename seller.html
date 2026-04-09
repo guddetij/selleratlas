@@ -59,7 +59,7 @@ padding:30px 20px;
 .sellerHeader{
 display:flex;
 gap:15px;
-align-items:center;
+align-items:flex-start;
 background:white;
 padding:20px;
 border-radius:10px;
@@ -82,11 +82,18 @@ font-weight:bold;
 font-size:13px;
 color:#8FB339;
 font-weight:bold;
+margin-top:2px;
+}
+
+.description{
+font-size:14px;
+margin-top:6px;
+color:#444;
 }
 
 /* BADGES */
 .badges{
-margin-top:6px;
+margin-top:8px;
 display:flex;
 gap:8px;
 flex-wrap:wrap;
@@ -108,9 +115,16 @@ border-radius:6px;
 font-size:12px;
 }
 
-/* ACTION BUTTONS */
+/* TRUST */
+.trust{
+margin-top:8px;
+font-size:13px;
+color:#555;
+}
+
+/* ACTIONS */
 .actions{
-margin-top:15px;
+margin-top:12px;
 display:flex;
 gap:10px;
 flex-wrap:wrap;
@@ -119,10 +133,25 @@ flex-wrap:wrap;
 .button{
 background:#1F7A63;
 color:white;
-padding:8px 14px;
+padding:7px 14px;
 border-radius:6px;
 text-decoration:none;
 font-size:13px;
+}
+
+/* PRODUCT TAGS */
+.tags{
+margin-top:12px;
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+}
+
+.tag{
+background:#f1f1f1;
+padding:6px 10px;
+border-radius:20px;
+font-size:12px;
 }
 
 /* SECTION */
@@ -150,13 +179,7 @@ margin-top:10px;
 font-size:14px;
 }
 
-/* DECISION */
-.decision{
-margin-top:10px;
-font-size:14px;
-}
-
-/* RELATED SELLERS */
+/* RELATED */
 .relatedGrid{
 display:grid;
 grid-template-columns:repeat(2, 1fr);
@@ -193,17 +216,13 @@ color:white;
 text-align:center;
 }
 
-/* MOBILE */
 @media (max-width:768px){
-
-.relatedGrid{
-grid-template-columns:1fr;
-}
-
 .infoGrid{
 grid-template-columns:1fr;
 }
-
+.relatedGrid{
+grid-template-columns:1fr;
+}
 }
 
 </style>
@@ -224,9 +243,7 @@ grid-template-columns:1fr;
 </header>
 
 <div class="container">
-
 <div id="sellerContent"></div>
-
 </div>
 
 <footer>
@@ -260,69 +277,73 @@ container.innerHTML = "<p>Seller not found</p>";
 return;
 }
 
-let logo = seller["Logo"] || "https://via.placeholder.com/60";
+/* TAGS */
+let types = seller["Product Types"] ? seller["Product Types"].split(",") : [];
+let tagsHTML = types.map(t => `<div class="tag">${t.trim()}</div>`).join("");
 
+/* BADGES */
 let verified = seller["Verified"] === "Yes" ? `<span class="badge">✔ Verified</span>` : "";
 let gst = seller["GST Verified"] === "Yes" ? `<span class="gstBadge">✔ GST Verified</span>` : "";
 
-let website = seller["Website"];
-let instagram = seller["Instagram Link"];
-let amazon = seller["Amazon Link"];
-let flipkart = seller["Flipkart Link"];
-let myntra = seller["Myntra Link"];
+/* TRUST */
+let trustHTML = `
+${seller["Instagram Followers"] ? `👥 ${seller["Instagram Followers"]} followers` : ""}
+${seller["Active Since"] ? ` • 🗓 Since ${seller["Active Since"]}` : ""}
+`;
 
-let rating = seller["Google Rating"];
-let reviews = seller["Reviews Count"];
-let ratingHTML = rating ? `⭐ ${rating} (${reviews || 0} reviews)` : "";
+/* LINKS */
+let linksHTML = `
+${seller["Website"] ? `<a href="${seller["Website"]}" target="_blank" class="button">Website</a>` : ""}
+${seller["Instagram Link"] ? `<a href="${seller["Instagram Link"]}" target="_blank" class="button">Instagram</a>` : ""}
+${seller["Amazon Link"] ? `<a href="${seller["Amazon Link"]}" target="_blank" class="button">Amazon</a>` : ""}
+${seller["Flipkart Link"] ? `<a href="${seller["Flipkart Link"]}" target="_blank" class="button">Flipkart</a>` : ""}
+${seller["Myntra Link"] ? `<a href="${seller["Myntra Link"]}" target="_blank" class="button">Myntra</a>` : ""}
+`;
 
-/* RELATED SELLERS (same category) */
+/* RELATED */
 let related = data.filter(s =>
 clean(s["Category"]).toLowerCase() === clean(seller["Category"]).toLowerCase() &&
 clean(s["Business Name"]).toLowerCase() !== clean(seller["Business Name"]).toLowerCase() &&
 clean(s["Approved"]) === "yes"
 ).slice(0,4);
 
-let relatedHTML = "";
-
-related.forEach(r => {
-
-let rLogo = r["Logo"] || "https://via.placeholder.com/40";
-
-relatedHTML += `
+let relatedHTML = related.map(r => `
 <div class="relatedCard"
 onclick="window.location='seller.html?name=${encodeURIComponent(r["Business Name"])}'">
-
-<img src="${rLogo}">
+<img src="${r["Logo"] || "https://via.placeholder.com/40"}">
 <div class="relatedName">${r["Business Name"]}</div>
-
 </div>
-`;
+`).join("");
 
-});
-
+/* BUILD */
 container.innerHTML = `
 
 <div class="sellerHeader">
 
-<img src="${logo}" class="sellerLogo">
+<img src="${seller["Logo"] || "https://via.placeholder.com/60"}" class="sellerLogo">
 
 <div>
+
 <div class="sellerName">${seller["Business Name"]}</div>
 <div class="category">${seller["Category"] || ""}</div>
 
-<div>${ratingHTML}</div>
+<div class="description">${seller["Short Description"] || ""}</div>
 
 <div class="badges">
 ${verified}
 ${gst}
 </div>
 
+<div class="trust">
+${trustHTML}
+</div>
+
 <div class="actions">
-${website ? `<a href="${website}" target="_blank" class="button">Website</a>` : ""}
-${instagram ? `<a href="${instagram}" target="_blank" class="button">Instagram</a>` : ""}
-${amazon ? `<a href="${amazon}" target="_blank" class="button">Amazon</a>` : ""}
-${flipkart ? `<a href="${flipkart}" target="_blank" class="button">Flipkart</a>` : ""}
-${myntra ? `<a href="${myntra}" target="_blank" class="button">Myntra</a>` : ""}
+${linksHTML}
+</div>
+
+<div class="tags">
+${tagsHTML}
 </div>
 
 </div>
@@ -346,13 +367,8 @@ ${myntra ? `<a href="${myntra}" target="_blank" class="button">Myntra</a>` : ""}
 <div class="section">
 <h3>Who is this for?</h3>
 
-<div class="decision">
-<strong>Best for:</strong> ${seller["Best For"] || "N/A"}
-</div>
-
-<div class="decision">
-<strong>Not ideal for:</strong> ${seller["Not Ideal For"] || "N/A"}
-</div>
+<div><strong>Best for:</strong> ${seller["Best For"] || "N/A"}</div>
+<div><strong>Not ideal for:</strong> ${seller["Not Ideal For"] || "N/A"}</div>
 
 </div>
 
