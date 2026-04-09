@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -18,50 +17,25 @@ margin:0;
 background:#f4f7f6;
 }
 
-/* TOP BAR */
-
-.topBar{
-background:#0e3d66;
-color:white;
-font-size:13px;
-}
-
-.topBarContent{
+/* NAVBAR FIXED LEFT */
+.navContainer{
 max-width:1200px;
-margin:auto;
+margin-left:0;
+margin-right:auto;
+padding-left:20px;
 display:flex;
-justify-content:space-between;
-padding:8px 20px;
+align-items:center;
+gap:30px;
 }
-
-.topLinks a{
-color:white;
-margin-left:15px;
-text-decoration:none;
-}
-
-/* NAVBAR */
 
 .navbar{
 background:#1F7A63;
 padding:14px 30px;
 }
 
-.navContainer{
-max-width:1200px;
-margin:auto;
-display:flex;
-align-items:center;
-justify-content:space-between;
-}
-
-.logo{
-height:38px;
-}
-
 .navLinks{
 display:flex;
-gap:30px;
+gap:25px;
 }
 
 .navLinks a{
@@ -70,48 +44,18 @@ text-decoration:none;
 font-weight:600;
 }
 
-.ctaButton{
-background:#2a7f62;
-color:white;
-padding:10px 18px;
-border-radius:6px;
-text-decoration:none;
-font-weight:bold;
+.logo{
+height:38px;
 }
 
 /* PAGE */
-
 .container{
 max-width:1000px;
 margin:auto;
 padding:40px 20px;
 }
 
-/* CATEGORY */
-
-.categories{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-gap:12px;
-margin-top:20px;
-}
-
-.category{
-background:white;
-padding:14px;
-border-radius:10px;
-box-shadow:0 2px 6px rgba(0,0,0,0.08);
-cursor:pointer;
-text-align:center;
-font-weight:bold;
-}
-
 /* SEARCH */
-
-.searchBox{
-margin-top:25px;
-}
-
 .searchBox input{
 width:100%;
 padding:12px;
@@ -119,13 +63,8 @@ border-radius:8px;
 border:1px solid #ccc;
 }
 
-/* SELLERS */
-
+/* SELLER CARD */
 .sellerCard{
-display:flex;
-gap:15px;
-align-items:center;
-justify-content:space-between;
 background:white;
 padding:16px;
 border-radius:10px;
@@ -133,15 +72,17 @@ margin-top:15px;
 box-shadow:0 2px 6px rgba(0,0,0,0.08);
 }
 
+.sellerTop{
+display:flex;
+gap:15px;
+align-items:center;
+}
+
 .sellerLogo{
 width:50px;
 height:50px;
 border-radius:50%;
 object-fit:cover;
-}
-
-.sellerInfo{
-flex:1;
 }
 
 .sellerName{
@@ -155,24 +96,14 @@ color:#8FB339;
 font-weight:bold;
 }
 
-.sellerHandle{
-color:#777;
+.sellerHint{
 font-size:13px;
-}
-
-/* BUTTONS */
-
-.button{
-background:#1F7A63;
-color:white;
-padding:6px 14px;
-border-radius:6px;
-text-decoration:none;
-font-size:13px;
+color:#555;
+margin-top:6px;
 }
 
 .linkButtons{
-margin-top:8px;
+margin-top:10px;
 display:flex;
 gap:8px;
 flex-wrap:wrap;
@@ -187,27 +118,15 @@ text-decoration:none;
 font-size:12px;
 }
 
-/* BADGES */
-
-.badge{
-background:#8FB339;
+.viewButton{
+display:inline-block;
+margin-top:10px;
+background:#1F7A63;
 color:white;
-padding:3px 7px;
-border-radius:5px;
-font-size:11px;
-margin-left:5px;
+padding:8px 14px;
+border-radius:6px;
+text-decoration:none;
 }
-
-.gstBadge{
-background:#e6f5ef;
-color:#1F7A63;
-padding:3px 7px;
-border-radius:5px;
-font-size:11px;
-margin-left:5px;
-}
-
-/* FOOTER */
 
 footer{
 margin-top:60px;
@@ -217,69 +136,25 @@ color:white;
 text-align:center;
 }
 
-footer a{
-color:white;
-text-decoration:none;
-margin:0 10px;
-}
-
-/* MOBILE */
-
-@media (max-width:768px){
-.sellerCard{
-flex-direction:column;
-align-items:flex-start;
-}
-}
-.sellerHint{
-font-size:13px;
-color:#555;
-margin-top:6px;
-}
-  
 </style>
-
 </head>
 
 <body>
 
-<!-- TOP BAR -->
-<div class="topBar">
-<div class="topBarContent">
-<span>Discover trusted small businesses and independent brands</span>
-<div class="topLinks">
-<a href="/about.html">About</a>
-<a href="/privacy.html">Privacy</a>
-</div>
-</div>
-</div>
-
-<!-- NAVBAR -->
 <header class="navbar">
 <div class="navContainer">
-
-<a href="/">
-<img src="/logo.png" class="logo">
-</a>
-
+<a href="/"><img src="/logo.png" class="logo"></a>
 <nav class="navLinks">
 <a href="/">Home</a>
 <a href="/sellers.html">Browse Sellers</a>
 <a href="/submit.html">List Your Business</a>
-<a href="/contact.html">Contact</a>
 </nav>
-
-<a class="ctaButton" href="/submit.html">Add Your Store</a>
-
 </div>
 </header>
 
 <div class="container">
 
-<h2>Browse Categories</h2>
-<div id="categoryContainer" class="categories"></div>
-
-<h2 style="margin-top:40px;">All Sellers</h2>
+<h2>All Sellers</h2>
 
 <div class="searchBox">
 <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchSellers()">
@@ -291,11 +166,6 @@ margin-top:6px;
 
 <footer>
 <p>SellerAtlas © 2026</p>
-<div>
-<a href="/about.html">About</a>
-<a href="/privacy.html">Privacy</a>
-<a href="/contact.html">Contact</a>
-</div>
 </footer>
 
 <script>
@@ -311,97 +181,57 @@ sellers[i].style.display = text.includes(input) ? "" : "none";
 }
 }
 
-/* CATEGORY */
-const params = new URLSearchParams(window.location.search);
-const selectedCategory = params.get("category");
-
 /* FETCH */
 const sheetID = "1rJc2bltxs2wfYAq0RLPBfrjUfauaTi8Go6PYghvlT-Q";
 const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
+
+function clean(val){
+return (val || "").toString().trim().toLowerCase();
+}
 
 fetch(url)
 .then(res => res.json())
 .then(data => {
 
 const sellerContainer = document.getElementById("sellerContainer");
-const categoryContainer = document.getElementById("categoryContainer");
-
-let categories = new Set();
 
 data.forEach(seller => {
 
-if((seller["Approved"] || "").trim() !== "Yes") return;
-
-let category = (seller["Category"] || "").trim();
-
-if(selectedCategory && selectedCategory !== category) return;
-
-categories.add(category);
-
-let verifiedBadge = "";
-let gstBadge = "";
-
-if((seller["Verified"] || "").trim() === "Yes"){
-verifiedBadge = `<span class="badge">✔ Verified</span>`;
-}
-
-if((seller["GST Verified"] || "").trim() === "Yes"){
-gstBadge = `<span class="gstBadge">🧾 GST Verified</span>`;
-}
+if(clean(seller["Approved"]) !== "yes") return;
 
 let logo = seller["Logo"] || "https://via.placeholder.com/50";
 
 let instagram = seller["Instagram Link"];
-let pinterest = seller["Pinterest Link"];
+let website = seller["Website"];
 
 sellerContainer.innerHTML += `
-<div class="topSellerCard">
+<div class="sellerCard">
 
-  <img src="${logo}">
+  <div class="sellerTop">
+    <img src="${logo}" class="sellerLogo">
 
-  <div class="topSellerCategory">${seller["Category"] || ""}</div>
-
-  <div class="topSellerName">${seller["Business Name"]}</div>
-
-  <!-- HOOK LINE -->
-  <div class="sellerHint">
-    View pricing, COD, returns & more →
+    <div>
+      <div class="sellerName">${seller["Business Name"]}</div>
+      <div class="categoryLabel">${seller["Category"] || ""}</div>
+    </div>
   </div>
 
-  <a class="topSellerButton" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
+  <div class="sellerHint">
+    View pricing • COD • returns • shipping →
+  </div>
+
+  <div class="linkButtons">
+    ${website ? `<a class="linkButton" href="${website}" target="_blank">Website</a>` : ""}
+    ${instagram ? `<a class="linkButton" href="${instagram}" target="_blank">Instagram</a>` : ""}
+  </div>
+
+  <a class="viewButton" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
     View Details
   </a>
 
 </div>
 `;
 
-<div class="linkButtons">
-${instagram ? `<a class="linkButton" href="${instagram}" target="_blank">Instagram</a>` : ""}
-${pinterest ? `<a class="linkButton" href="${pinterest}" target="_blank">Pinterest</a>` : ""}
-</div>
-
-</div>
-
-<a class="button" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
-View Seller
-</a>
-
-</div>
-`;
-
-});
-
-/* CATEGORY BUTTONS */
-categoryContainer.innerHTML += `
-<div class="category" onclick="window.location='sellers.html'">All</div>
-`;
-
-categories.forEach(cat => {
-categoryContainer.innerHTML += `
-<div class="category" onclick="window.location='sellers.html?category=${encodeURIComponent(cat)}'">
-${cat}
-</div>
-`;
 });
 
 });
