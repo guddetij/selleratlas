@@ -268,32 +268,23 @@ const sellerContainer = document.getElementById("sellerContainer");
 const categoryContainer = document.getElementById("categoryContainer");
 
 let categories = new Set();
+
+// CLEAR (important)
+sellerContainer.innerHTML = "";
+categoryContainer.innerHTML = "";
+
+// LOOP
 data.forEach(seller => {
 
 if(clean(seller["Approved"]) !== "yes") return;
 
+// 👉 COLLECT CATEGORY ONLY (no rendering here)
 if(seller["Category"]){
-  categories.add(seller["Category"]);
+categories.add(seller["Category"].trim());
 }
 
-// ADD "All" button
-categoryContainer.innerHTML += `
-<div class="category" onclick="window.location='sellers.html'">
-All
-</div>
-`;
-
-// ADD CATEGORY BUTTONS
-categories.forEach(cat => {
-  categoryContainer.innerHTML += `
-  <div class="category" onclick="window.location='sellers.html?category=${encodeURIComponent(cat)}'">
-    ${cat}
-  </div>
-  `;
-});
-
+// 👉 RENDER SELLER CARD
 let logo = seller["Logo"] || "https://via.placeholder.com/50";
-
 let instagram = seller["Instagram Link"];
 let website = seller["Website"];
 
@@ -327,9 +318,29 @@ sellerContainer.innerHTML += `
 
 </div>
 `;
-});
 
 });
+
+// 👉 RENDER CATEGORY BUTTONS (ONLY ONCE)
+
+// "All" button
+categoryContainer.innerHTML += `
+<div class="category" onclick="window.location='sellers.html'">
+All
+</div>
+`;
+
+// Unique categories
+categories.forEach(cat => {
+categoryContainer.innerHTML += `
+<div class="category" onclick="window.location='sellers.html?category=${encodeURIComponent(cat)}'">
+${cat}
+</div>
+`;
+});
+
+})
+.catch(err => console.error("Error:", err));
 
 </script>
 
