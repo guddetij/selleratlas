@@ -249,18 +249,20 @@ sellerContainer.innerHTML += `
     View pricing • COD • returns • shipping →
   </div>
 
-  <div class="linkButtons">
-    ${website ? `<a class="linkButton" href="${website}" target="_blank">Website</a>` : ""}
-    ${instagram ? `<a class="linkButton" href="${instagram}" target="_blank">Instagram</a>` : ""}
-  </div>
+  <div class="cardActions">
+    ${instagram ? `
+      <a href="${instagram}" target="_blank" class="iconButton">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
+      </a>
+    ` : ""}
 
-  <a class="viewButton" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
-    View Details
-  </a>
+    <a class="viewButton" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
+      View Details
+    </a>
+  </div>
 
 </div>
 `;
-
 });
 
 });
