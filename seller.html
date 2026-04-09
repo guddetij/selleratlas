@@ -298,171 +298,170 @@ grid-template-columns:1fr;
 <script>
 
 const sheetID = "17A0iSszEqDQydQX4nLY51Lua6lJprBx7X_3kV59h4n8";
-const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
+const API_URL = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
+
+const CACHE_KEY = "sellerAtlasData";
+const CACHE_TIME = 5 * 60 * 1000; // 5 min
 
 function clean(val){
-return (val || "").toString().trim();
+  return (val || "").toString().trim();
 }
 
-const params = new URLSearchParams(window.location.search);
-const sellerName = params.get("name");
-
-fetch(url)
-.then(res => res.json())
-.then(data => {
-
-const container = document.getElementById("sellerContent");
-
-const seller = data.find(s =>
-clean(s["Business Name"]).toLowerCase() === clean(sellerName).toLowerCase()
-);
-
-if(!seller){
-container.innerHTML = "<p>Seller not found</p>";
-return;
+function getSellerSlug(name){
+  return clean(name).toLowerCase().replace(/\s+/g, "-");
 }
 
-/* TAGS */
-let types = seller["Product Types"] ? seller["Product Types"].split(",") : [];
-let tagsHTML = types.map(t => `<div class="tag">${t.trim()}</div>`).join("");
+async function getData(){
+  const cached = localStorage.getItem(CACHE_KEY);
 
-/* BADGES */
-let verified = seller["Verified"] === "Yes" ? `<span class="badge">✔ Verified</span>` : "";
-let gst = seller["GST Verified"] === "Yes" ? `<span class="gstBadge">✔ GST Verified</span>` : "";
+  if(cached){
+    const { data, timestamp } = JSON.parse(cached);
+    if(Date.now() - timestamp < CACHE_TIME){
+      return data;
+    }
+  }
 
-/* TRUST */
-let trustHTML = `
-${seller["Instagram Followers"] ? `👥 ${seller["Instagram Followers"]} followers` : ""}
-${seller["Active Since"] ? ` • 🗓 Since ${seller["Active Since"]}` : ""}
-`;
+  try{
+    const res = await fetch(API_URL);
+    const data = await res.json();
 
-/* LINKS */
-let linksHTML = `
-<div class="actions">
+    localStorage.setItem(CACHE_KEY, JSON.stringify({
+      data,
+      timestamp: Date.now()
+    }));
 
-${seller["Website"] ? `
-<a href="${seller["Website"]}" target="_blank" class="iconBtn">
-<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/googlechrome.svg">
-</a>` : ""}
+    return data;
 
-${seller["Instagram Link"] ? `
-<a href="${seller["Instagram Link"]}" target="_blank" class="iconBtn instagram">
-<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg">
-</a>` : ""}
+  } catch(e){
+    document.getElementById("sellerContent").innerHTML =
+      "<p>⚠️ Failed to load data. Try again later.</p>";
+    throw e;
+  }
+}
 
-${seller["Amazon Link"] ? `
-<a href="${seller["Amazon Link"]}" target="_blank" class="iconBtn amazon">
-<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/amazon.svg">
-</a>` : ""}
+function formatWhatsApp(num){
+  if(!num) return null;
+  return `https://wa.me/${num.replace(/\D/g,'')}`;
+}
 
-${seller["Flipkart Link"] ? `
-<a href="${seller["Flipkart Link"]}" target="_blank" class="iconBtn flipkart">
-<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/flipkart.svg">
-</a>` : ""}
+function renderSeller(seller, data){
 
-${seller["Myntra Link"] ? `
-<a href="${seller["Myntra Link"]}" target="_blank" class="iconBtn myntra">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Myntra_logo.png/512px-Myntra_logo.png">
+  const container = document.getElementById("sellerContent");
 
-</a>` : ""}
+  let types = seller["Product Types"] ? seller["Product Types"].split(",") : [];
 
-</div>
-`;
+  let tagsHTML = types.map(t =>
+    `<div class="tag">${t.trim()}</div>`
+  ).join("");
 
-/* RELATED */
-let currentCategory = clean(seller["Category"]).toLowerCase();
+  let verified = seller["Verified"] === "Yes"
+    ? `<span class="badge">✔ Verified</span>` : "";
 
-let related = data.filter(s => {
+  let gst = seller["GST Verified"] === "Yes"
+    ? `<span class="gstBadge">✔ GST Verified</span>` : "";
 
-let cat = clean(s["Category"]).toLowerCase();
-let name = clean(s["Business Name"]);
+  let whatsapp = formatWhatsApp(seller["WhatsApp"]);
 
-return (
-cat.includes(currentCategory) || currentCategory.includes(cat)
-) &&
-name !== clean(seller["Business Name"]) &&
-clean(s["Approved"]).toLowerCase() === "yes";
+  // 🔥 MAIN CTA (IMPORTANT)
+  let ctaHTML = `
+    <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+      ${whatsapp ? `<a href="${whatsapp}" target="_blank" class="button">💬 Chat on WhatsApp</a>` : ""}
+      ${seller["Website"] ? `<a href="${seller["Website"]}" target="_blank" class="button">🌐 Visit Website</a>` : ""}
+    </div>
+  `;
 
-}).slice(0,4);
+  // secondary icons
+  let iconsHTML = `
+    <div class="actions">
+      ${seller["Instagram Link"] ? `<a href="${seller["Instagram Link"]}" target="_blank" class="iconBtn instagram"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg"></a>` : ""}
+      ${seller["Amazon Link"] ? `<a href="${seller["Amazon Link"]}" target="_blank" class="iconBtn amazon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/amazon.svg"></a>` : ""}
+      ${seller["Flipkart Link"] ? `<a href="${seller["Flipkart Link"]}" target="_blank" class="iconBtn flipkart"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/flipkart.svg"></a>` : ""}
+      ${seller["Myntra Link"] ? `<a href="${seller["Myntra Link"]}" target="_blank" class="iconBtn myntra"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Myntra_logo.png/512px-Myntra_logo.png"></a>` : ""}
+    </div>
+  `;
 
-let relatedHTML = related.map(r => `
-<div class="relatedCard"
-onclick="window.location='seller.html?name=${encodeURIComponent(r["Business Name"])}'">
-<img src="${r["Logo"] || "https://via.placeholder.com/40"}">
-<div class="relatedName">${r["Business Name"]}</div>
-</div>
-`).join("");
+  // RELATED (same logic improved)
+  let currentCategory = clean(seller["Category"]).toLowerCase();
 
-/* BUILD */
-container.innerHTML = `
+  let related = data.filter(s => {
+    let cat = clean(s["Category"]).toLowerCase();
+    return cat === currentCategory &&
+      clean(s["Business Name"]) !== clean(seller["Business Name"]) &&
+      clean(s["Approved"]).toLowerCase() === "yes";
+  }).slice(0,4);
 
-<div class="sellerHeader">
+  let relatedHTML = related.map(r => `
+    <div class="relatedCard"
+    onclick="window.location='seller.html?slug=${getSellerSlug(r["Business Name"])}'">
+      <img src="${r["Logo"] || "https://via.placeholder.com/40"}">
+      <div class="relatedName">${r["Business Name"]}</div>
+    </div>
+  `).join("");
 
-<img src="${seller["Logo"] || "https://via.placeholder.com/60"}" class="sellerLogo">
+  container.innerHTML = `
 
-<div>
+  <div class="sellerHeader">
 
-<div class="sellerName">${seller["Business Name"]}</div>
-<div class="category">${seller["Category"] || ""}</div>
+    <img src="${seller["Logo"] || "https://via.placeholder.com/60"}" class="sellerLogo">
 
-<div class="description">${seller["Short Description"] || ""}</div>
+    <div>
 
-<div class="badges">
-${verified}
-${gst}
-</div>
+      <div class="sellerName">${seller["Business Name"]}</div>
+      <div class="category">${seller["Category"] || ""}</div>
 
-<div class="trust">
-${trustHTML}
-</div>
+      <div class="description">${seller["Short Description"] || ""}</div>
 
-<div class="actions">
-${linksHTML}
-</div>
+      <div class="badges">${verified}${gst}</div>
 
-<div class="tags">
-${tagsHTML}
-</div>
+      ${ctaHTML}
 
-</div>
+      ${iconsHTML}
 
-</div>
+      <div class="tags">${tagsHTML}</div>
 
+    </div>
 
-<div class="section">
-<h3>Buying Info</h3>
+  </div>
 
-<div class="infoGrid">
-<div class="infoItem"><strong>Price:</strong> ${seller["Price Range"] || "N/A"}</div>
-<div class="infoItem"><strong>COD:</strong> ${seller["COD Available"] || "N/A"}</div>
-<div class="infoItem"><strong>Returns:</strong> ${seller["Return Policy"] || "N/A"}</div>
-<div class="infoItem"><strong>Shipping:</strong> ${seller["International Shipping"] || "N/A"}</div>
-</div>
+  <div class="section">
+    <h3>Buying Info</h3>
+    <div class="infoGrid">
+      <div><strong>Price:</strong> ${seller["Price Range"] || "N/A"}</div>
+      <div><strong>COD:</strong> ${seller["COD Available"] || "N/A"}</div>
+      <div><strong>Returns:</strong> ${seller["Return Policy"] || "N/A"}</div>
+      <div><strong>Shipping:</strong> ${seller["International Shipping"] || "N/A"}</div>
+    </div>
+  </div>
 
-</div>
+  <div class="section">
+    <h3>Similar Sellers</h3>
+    <div class="relatedGrid">
+      ${relatedHTML || "<p>No similar sellers found</p>"}
+    </div>
+  </div>
+  `;
+}
 
+(async function(){
 
-<div class="section">
-<h3>Who is this for?</h3>
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get("slug");
 
-<div><strong>Best for:</strong> ${seller["Best For"] || "N/A"}</div>
-<div><strong>Not ideal for:</strong> ${seller["Not Ideal For"] || "N/A"}</div>
+  const data = await getData();
 
-</div>
+  const seller = data.find(s =>
+    getSellerSlug(s["Business Name"]) === slug
+  );
 
+  if(!seller){
+    document.getElementById("sellerContent").innerHTML =
+      "<p>Seller not found</p>";
+    return;
+  }
 
-<div class="section">
-<h3>Similar Sellers</h3>
+  renderSeller(seller, data);
 
-<div class="relatedGrid">
-${relatedHTML || "<p>No similar sellers found</p>"}
-</div>
-
-</div>
-
-`;
-
-});
+})();
 
 </script>
 
