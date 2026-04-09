@@ -135,7 +135,36 @@ background:#1F7A63;
 color:white;
 text-align:center;
 }
+.cardActions{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-top:12px;
+}
 
+.iconButton{
+width:36px;
+height:36px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+background:#f1f1f1;
+}
+
+.iconButton img{
+width:18px;
+height:18px;
+}
+
+.viewButton{
+background:#1F7A63;
+color:white;
+padding:8px 16px;
+border-radius:6px;
+text-decoration:none;
+font-size:14px;
+}
 </style>
 </head>
 
@@ -219,6 +248,21 @@ sellerContainer.innerHTML += `
   <div class="sellerHint">
     View pricing • COD • returns • shipping →
   </div>
+
+  <div class="cardActions">
+    ${instagram ? `
+      <a href="${instagram}" target="_blank" class="iconButton">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
+      </a>
+    ` : ""}
+
+    <a class="viewButton" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
+      View Details
+    </a>
+  </div>
+
+</div>
+`;
 
   <div class="linkButtons">
     ${website ? `<a class="linkButton" href="${website}" target="_blank">Website</a>` : ""}
