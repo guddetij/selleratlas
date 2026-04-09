@@ -298,16 +298,16 @@ grid-template-columns:1fr;
 <script>
 
 const sheetID = "17A0iSszEqDQydQX4nLY51Lua6lJprBx7X_3kV59h4n8";
-const API_URL = `https://opensheet.elk.sh/${17A0iSszEqDQydQX4nLY51Lua6lJprBx7X_3kV59h4n8}/Sheet1`;
+const API_URL = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
 
 const CACHE_KEY = "sellerAtlasData";
-const CACHE_TIME = 5 * 60 * 1000; // 5 min
+const CACHE_TIME = 5 * 60 * 1000; // 5 minutes
 
 function clean(val){
   return (val || "").toString().trim();
 }
 
-function getSellerSlug(name){
+function getSlug(name){
   return clean(name).toLowerCase().replace(/\s+/g, "-");
 }
 
@@ -344,15 +344,29 @@ function formatWhatsApp(num){
   return `https://wa.me/${num.replace(/\D/g,'')}`;
 }
 
+function findSeller(data){
+  const params = new URLSearchParams(window.location.search);
+
+  const slug = params.get("slug");
+  const name = params.get("name");
+
+  return data.find(s => {
+    const sellerName = clean(s["Business Name"]).toLowerCase();
+    const sellerSlug = getSlug(s["Business Name"]);
+
+    return (
+      (slug && sellerSlug === slug) ||
+      (name && sellerName === clean(name).toLowerCase())
+    );
+  });
+}
+
 function renderSeller(seller, data){
 
   const container = document.getElementById("sellerContent");
 
   let types = seller["Product Types"] ? seller["Product Types"].split(",") : [];
-
-  let tagsHTML = types.map(t =>
-    `<div class="tag">${t.trim()}</div>`
-  ).join("");
+  let tagsHTML = types.map(t => `<div class="tag">${t.trim()}</div>`).join("");
 
   let verified = seller["Verified"] === "Yes"
     ? `<span class="badge">✔ Verified</span>` : "";
@@ -362,7 +376,7 @@ function renderSeller(seller, data){
 
   let whatsapp = formatWhatsApp(seller["WhatsApp"]);
 
-  // 🔥 MAIN CTA (IMPORTANT)
+  // 🔥 PRIMARY CTA (VISIBLE)
   let ctaHTML = `
     <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
       ${whatsapp ? `<a href="${whatsapp}" target="_blank" class="button">💬 Chat on WhatsApp</a>` : ""}
@@ -380,7 +394,7 @@ function renderSeller(seller, data){
     </div>
   `;
 
-  // RELATED (same logic improved)
+  // RELATED SELLERS
   let currentCategory = clean(seller["Category"]).toLowerCase();
 
   let related = data.filter(s => {
@@ -392,7 +406,7 @@ function renderSeller(seller, data){
 
   let relatedHTML = related.map(r => `
     <div class="relatedCard"
-    onclick="window.location='seller.html?slug=${getSellerSlug(r["Business Name"])}'">
+    onclick="window.location='seller.html?name=${encodeURIComponent(r["Business Name"])}'">
       <img src="${r["Logo"] || "https://via.placeholder.com/40"}">
       <div class="relatedName">${r["Business Name"]}</div>
     </div>
@@ -444,14 +458,8 @@ function renderSeller(seller, data){
 
 (async function(){
 
-  const params = new URLSearchParams(window.location.search);
-  const slug = params.get("slug");
-
   const data = await getData();
-
-  const seller = data.find(s =>
-    getSellerSlug(s["Business Name"]) === slug
-  );
+  const seller = findSeller(data);
 
   if(!seller){
     document.getElementById("sellerContent").innerHTML =
@@ -464,6 +472,5 @@ function renderSeller(seller, data){
 })();
 
 </script>
-
 </body>
 </html>
