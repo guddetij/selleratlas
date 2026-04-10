@@ -228,6 +228,21 @@ text-decoration:none;
 margin:0 10px;
 }
 
+.intentBtn{
+background:#1F7A63;
+color:white;
+border:none;
+padding:12px 18px;
+border-radius:8px;
+font-size:14px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.intentBtn:hover{
+transform:scale(1.05);
+}
+  
 /* MOBILE */
 
 @media (max-width:768px){
@@ -265,9 +280,21 @@ margin:0 10px;
 <div class="container">
 
 <section class="hero">
-<h1>Discover Trusted Sellers</h1>
-<p>Find reliable small businesses and independent brands.</p>
-<a href="/sellers.html" class="heroButton">Browse Sellers</a>
+
+<h1>What are you looking for today?</h1>
+
+<p>Connect with sellers who are ready to take your order — not just showcase products.</p>
+
+<div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap; margin-top:20px;">
+
+<button onclick="selectIntent('gift')" class="intentBtn">🎁 Gift</button>
+
+<button onclick="selectIntent('personal')" class="intentBtn">👗 Personal Use</button>
+
+<button onclick="selectIntent('bulk')" class="intentBtn">📦 Bulk Order</button>
+
+</div>
+
 </section>
 
 <section class="categoriesSection">
@@ -335,6 +362,18 @@ margin:0 10px;
 const sheetID = "17A0iSszEqDQydQX4nLY51Lua6lJprBx7X_3kV59h4n8";
 const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
 
+let selectedIntent = null;
+
+// 🔥 INTENT FUNCTION
+function selectIntent(intent){
+  selectedIntent = intent;
+  window.location.href = `sellers.html?intent=${intent}`;
+}
+
+function clean(val){
+  return (val || "").toString().trim().toLowerCase();
+}
+
 fetch(url)
 .then(res => res.json())
 .then(data => {
@@ -344,17 +383,13 @@ const categoryGrid = document.getElementById("categoryGrid");
 
 let categories = new Set();
 
-function clean(val){
-return (val || "").toString().trim().toLowerCase();
-}
-
-// FILTER
+// FILTER VERIFIED
 const verified = data.filter(s =>
-clean(s["Approved"]) === "yes" &&
-clean(s["Verified"]) === "yes"
+  clean(s["Approved"]) === "yes" &&
+  clean(s["Verified"]) === "yes"
 );
 
-// LIMIT 5
+// SHOW TOP 5
 verified.slice(0,5).forEach(seller => {
 
 let logo = seller["Logo"] || "https://via.placeholder.com/50";
@@ -362,8 +397,18 @@ let logo = seller["Logo"] || "https://via.placeholder.com/50";
 sellerContainer.innerHTML += `
 <div class="topSellerCard">
 <img src="${logo}">
-<div>${seller["Business Name"]}</div>
-<a class="topSellerButton" href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">View Seller</a>
+<div class="topSellerName">${seller["Business Name"]}</div>
+<div class="topSellerCategory">${seller["Category"] || ""}</div>
+
+<div style="margin-top:6px; font-size:12px; color:#555;">
+💡 Best for: ${seller["Best For"] || "Various needs"}
+</div>
+
+<a class="topSellerButton"
+href="seller.html?name=${encodeURIComponent(seller["Business Name"])}&intent=${selectedIntent || ""}">
+💬 Get Price
+</a>
+
 </div>
 `;
 
@@ -378,7 +423,8 @@ categories.add(seller["Category"]);
 
 categories.forEach(cat=>{
 categoryGrid.innerHTML += `
-<div class="categoryCard" onclick="window.location='sellers.html?category=${encodeURIComponent(cat)}'">
+<div class="categoryCard"
+onclick="window.location='sellers.html?category=${encodeURIComponent(cat)}'">
 ${cat}
 </div>
 `;
