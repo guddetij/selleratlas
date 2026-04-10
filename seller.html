@@ -307,10 +307,6 @@ function clean(val){
   return (val || "").toString().trim();
 }
 
-function getSlug(name){
-  return clean(name).toLowerCase().replace(/\s+/g, "-");
-}
-
 async function getData(){
   const cached = localStorage.getItem(CACHE_KEY);
 
@@ -321,85 +317,77 @@ async function getData(){
     }
   }
 
-  try{
-    const res = await fetch(API_URL);
-    const data = await res.json();
+  const res = await fetch(API_URL);
+  const data = await res.json();
 
-    localStorage.setItem(CACHE_KEY, JSON.stringify({
-      data,
-      timestamp: Date.now()
-    }));
+  localStorage.setItem(CACHE_KEY, JSON.stringify({
+    data,
+    timestamp: Date.now()
+  }));
 
-    return data;
-
-  } catch(e){
-    document.getElementById("sellerContent").innerHTML =
-      "<p>⚠️ Failed to load data.</p>";
-    throw e;
-  }
+  return data;
 }
 
-function formatWhatsApp(num){
+function formatWhatsApp(num, seller, intent){
   if(!num) return null;
-  return `https://wa.me/${num.replace(/\D/g,'')}`;
+
+  const message = encodeURIComponent(
+`Hi, I found you on SellerAtlas.
+I'm looking for ${intent || seller["Best For"] || "your products"}.
+Budget: under ₹1000 (flexible).
+Can you share details?`
+  );
+
+  return `https://wa.me/${num.replace(/\D/g,'')}?text=${message}`;
 }
 
 function findSeller(data){
   const params = new URLSearchParams(window.location.search);
-
-  const slug = params.get("slug");
   const name = params.get("name");
 
-  return data.find(s => {
-    const sellerName = clean(s["Business Name"]).toLowerCase();
-    const sellerSlug = getSlug(s["Business Name"]);
-
-    return (
-      (slug && sellerSlug === slug) ||
-      (name && sellerName === clean(name).toLowerCase())
-    );
-  });
+  return data.find(s =>
+    clean(s["Business Name"]).toLowerCase() === clean(name).toLowerCase()
+  );
 }
 
 function renderSeller(seller, data){
 
   const container = document.getElementById("sellerContent");
 
-  /* TAGS */
   let types = seller["Product Types"] ? seller["Product Types"].split(",") : [];
   let tagsHTML = types.map(t => `<div class="tag">${t.trim()}</div>`).join("");
 
-  /* BADGES */
   let verified = seller["Verified"] === "Yes" ? `<span class="badge">✔ Verified</span>` : "";
   let gst = seller["GST Verified"] === "Yes" ? `<span class="gstBadge">✔ GST Verified</span>` : "";
 
-  /* TRUST */
   let trustHTML = `
     ${seller["Instagram Followers"] ? `👥 ${seller["Instagram Followers"]} followers` : ""}
     ${seller["Active Since"] ? ` • 🗓 Since ${seller["Active Since"]}` : ""}
   `;
 
-  /* CTA */
-  let whatsapp = formatWhatsApp(seller["WhatsApp"]);
+  // 🔥 INTENT (from homepage or default)
+  const params = new URLSearchParams(window.location.search);
+  const intent = params.get("intent");
+
+  let whatsapp = formatWhatsApp(seller["WhatsApp"], seller, intent);
 
   let ctaHTML = `
     <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-      ${whatsapp ? `<a href="${whatsapp}" target="_blank" class="button">💬 Chat on WhatsApp</a>` : ""}
-      ${seller["Website"] ? `<a href="${seller["Website"]}" target="_blank" class="button">🌐 Visit Website</a>` : ""}
+      ${whatsapp ? `<a href="${whatsapp}" target="_blank" class="button">💬 Get Price</a>` : ""}
+      ${seller["Website"] ? `<a href="${seller["Website"]}" target="_blank" class="button">🌐 Visit Store</a>` : ""}
     </div>
   `;
 
-  /* ICON LINKS */
   let linksHTML = `
     <div class="actions">
       ${seller["Instagram Link"] ? `<a href="${seller["Instagram Link"]}" target="_blank" class="iconBtn instagram"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg"></a>` : ""}
       ${seller["Amazon Link"] ? `<a href="${seller["Amazon Link"]}" target="_blank" class="iconBtn amazon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/amazon.svg"></a>` : ""}
       ${seller["Flipkart Link"] ? `<a href="${seller["Flipkart Link"]}" target="_blank" class="iconBtn flipkart"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/flipkart.svg"></a>` : ""}
-      ${seller["Myntra Link"] ? `<a href="${seller["Myntra Link"]}" target="_blank" class="iconBtn myntra"><img src="https://i.pinimg.com/1200x/68/6d/c5/686dc532a1d5ba6a70057b87815eb929.jpg" alt="Myntra"></a>` : ""}
+      ${seller["Myntra Link"] ? `<a href="${seller["Myntra Link"]}" target="_blank" class="iconBtn myntra"><img src="YOUR_WORKING_MYNTRA_ICON_LINK"></a>` : ""}
     </div>
   `;
 
-  /* RELATED */
+  // RELATED SELLERS
   let currentCategory = clean(seller["Category"]).toLowerCase();
 
   let related = data.filter(s => {
@@ -411,13 +399,12 @@ function renderSeller(seller, data){
 
   let relatedHTML = related.map(r => `
     <div class="relatedCard"
-    onclick="window.location='seller.html?name=${encodeURIComponent(r["Business Name"])}'">
+    onclick="window.location='seller.html?name=${encodeURIComponent(r["Business Name"])}&intent=${intent || ""}'">
       <img src="${r["Logo"] || "https://via.placeholder.com/40"}">
       <div class="relatedName">${r["Business Name"]}</div>
     </div>
   `).join("");
 
-  /* FINAL BUILD */
   container.innerHTML = `
 
   <div class="sellerHeader">
@@ -437,6 +424,10 @@ function renderSeller(seller, data){
 
       ${ctaHTML}
 
+      <div style="margin-top:8px; font-size:13px; color:#666;">
+        💡 Best for: ${seller["Best For"] || "N/A"}
+      </div>
+
       ${linksHTML}
 
       <div class="tags">${tagsHTML}</div>
@@ -451,7 +442,7 @@ function renderSeller(seller, data){
       <div><strong>Price:</strong> ${seller["Price Range"] || "N/A"}</div>
       <div><strong>COD:</strong> ${seller["COD Available"] || "N/A"}</div>
       <div><strong>Returns:</strong> ${seller["Return Policy"] || "N/A"}</div>
-      <div><strong>International Shipping:</strong> ${seller["International Shipping"] || "N/A"}</div>
+      <div><strong>Shipping:</strong> ${seller["International Shipping"] || "N/A"}</div>
     </div>
   </div>
 
@@ -486,5 +477,8 @@ function renderSeller(seller, data){
 
 })();
 
-</script></body>
+</script>
+
+</body>
+
 </html>
