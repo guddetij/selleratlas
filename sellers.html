@@ -145,6 +145,17 @@ grid-template-columns:1fr;
 
 <div class="container">
 
+<!-- 🔥 DECISION NUDGE -->
+<div class="flowBox" style="background:#e8f5f1; border:1px solid #cde7df;">
+  <div class="flowTitle">Not sure who to choose?</div>
+  <div style="font-size:13px; margin-bottom:10px;">
+    Answer 2 quick questions → get the best seller instantly
+  </div>
+  <div class="flowBtn" onclick="startGuidedFlow()" style="background:#1F7A63; color:white;">
+    Find my best seller
+  </div>
+</div>
+
 <div id="selectionFlow"></div>
 
 <div class="searchBox">
@@ -161,7 +172,6 @@ const url = "https://opensheet.elk.sh/17A0iSszEqDQydQX4nLY51Lua6lJprBx7X_3kV59h4
 
 let globalData = [];
 
-// FLOW STATE
 let flowStep = 0;
 let selectedCategory = null;
 let selectedOccasion = null;
@@ -173,14 +183,25 @@ const occasionMap = {
   "Accessories": ["Casual", "Trendy", "Budget", "Gifting"]
 };
 
+function startGuidedFlow(){
+  flowStep = 0;
+  flowActive = true;
+  renderFlow();
+}
+
 function renderFlow(){
 
   const container = document.getElementById("selectionFlow");
 
+  if(!flowActive){
+    container.innerHTML = "";
+    return;
+  }
+
   if(flowStep === 0){
     container.innerHTML = `
       <div class="flowBox">
-        <div class="flowTitle">Refine your search (optional)</div>
+        <div class="flowTitle">Choose a category</div>
         <div class="flowOptions">
           <div class="flowBtn" onclick="selectCategory('Jewellery')">Jewellery</div>
           <div class="flowBtn" onclick="selectCategory('Apparel')">Apparel</div>
@@ -208,9 +229,9 @@ function renderFlow(){
     container.innerHTML = `
       <div class="flowBox">
         <div class="flowTitle">
-          Showing best matches for: ${selectedCategory} → ${selectedOccasion}
+          Best match for: ${selectedCategory} → ${selectedOccasion}
         </div>
-        <div class="backBtn" onclick="resetFlow()">← Clear filter</div>
+        <div class="backBtn" onclick="resetFlow()">← Clear</div>
       </div>
     `;
   }
@@ -219,7 +240,6 @@ function renderFlow(){
 function selectCategory(cat){
   selectedCategory = cat;
   flowStep = 1;
-  flowActive = true;
   renderFlow();
 }
 
@@ -239,17 +259,13 @@ function resetFlow(){
   renderSellers();
 }
 
-/* TRUST */
+/* TRUST (improved) */
 function getTrustLine(seller){
-let followers = seller["Instagram Followers"];
-let verified = (seller["Verified"] || "").toLowerCase();
-
-let parts = [];
-
-if(followers) parts.push(`👥 ${followers}`);
-if(verified === "yes") parts.push("✔ Verified");
-
-return parts.join(" • ") || "Trusted seller";
+let response = seller["Response Time"] || "";
+if(response){
+  return `⚡ ${response}`;
+}
+return "⚡ Usually responds quickly";
 }
 
 /* BEST FOR */
@@ -262,9 +278,9 @@ return seller["Best For"];
 
 let category = (seller["Category"] || "").toLowerCase();
 
-if(category.includes("jewellery")) return "Gifting & special occasions";
+if(category.includes("jewellery")) return "Great for gifting & occasions";
 if(category.includes("apparel")) return "Daily wear & styling";
-if(category.includes("accessories")) return "Affordable everyday accessories";
+if(category.includes("accessories")) return "Affordable picks";
 
 return "Popular choice";
 }
@@ -285,6 +301,27 @@ if(bestFor.includes(selectedOccasion.toLowerCase())) score += 30;
 return score;
 }
 
+/* MATCH REASONS */
+function getMatchReasons(seller){
+
+let reasons = [];
+
+let category = (seller["Category"] || "").toLowerCase();
+let bestFor = (seller["Best For"] || "").toLowerCase();
+
+if(category.includes(selectedCategory?.toLowerCase())){
+  reasons.push("Matches your category");
+}
+
+if(bestFor.includes(selectedOccasion?.toLowerCase())){
+  reasons.push("Fits your occasion");
+}
+
+reasons.push("Responsive on WhatsApp");
+
+return reasons;
+}
+
 /* RENDER */
 function renderSellers(){
 
@@ -303,6 +340,48 @@ if(flowActive){
 
 container.innerHTML = "";
 
+/* BEST MATCH */
+if(flowActive && sellers.length > 0){
+
+let best = sellers[0];
+
+container.innerHTML += `
+<div style="background:#fff; padding:20px; border-radius:12px; margin-bottom:20px; border:2px solid #1F7A63;">
+
+<div style="font-weight:bold; margin-bottom:10px;">
+🎯 Best match for you
+</div>
+
+<div style="font-weight:bold;">
+${best["Business Name"]}
+</div>
+
+<div style="font-size:13px; color:#666;">
+${best["Category"]}
+</div>
+
+<div style="margin-top:10px; font-size:13px;">
+${getMatchReasons(best).map(r => `✔ ${r}`).join("<br>")}
+</div>
+
+<div style="margin-top:10px; font-weight:bold; color:#1F7A63;">
+🔥 ${best.score}% Match
+</div>
+
+<div style="margin-top:12px;">
+<a class="ctaButton"
+href="seller.html?name=${encodeURIComponent(best["Business Name"])}">
+💬 Chat on WhatsApp
+</a>
+</div>
+
+</div>
+`;
+
+sellers = sellers.slice(1);
+}
+
+/* OTHERS */
 sellers.forEach(seller => {
 
 let score = getMatchScore(seller);
@@ -321,18 +400,19 @@ container.innerHTML += `
 </div>
 
 <div class="bestFor">
-💡 Best for: ${generateBestFor(seller)}
+💡 ${generateBestFor(seller)}
 </div>
 
 ${score !== null ? `
-<div style="margin-top:6px; font-size:13px; color:#1F7A63; font-weight:bold;">
-🔥 ${score}% Match
-</div>` : ""}
+<div style="margin-top:6px; font-size:12px; color:#1F7A63;">
+${getMatchReasons(seller).join(" • ")}
+</div>
+` : ""}
 
 <div class="cardActions">
 <a class="ctaButton"
 href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
-💬 Contact Seller
+💬 Chat
 </a>
 </div>
 
@@ -342,13 +422,12 @@ href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
 
 }
 
-/* INIT */
 fetch(url)
 .then(res => res.json())
 .then(data => {
 globalData = data;
 renderFlow();
-renderSellers(); // 👈 IMPORTANT FIX
+renderSellers();
 });
 
 </script>
