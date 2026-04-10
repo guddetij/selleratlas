@@ -373,7 +373,30 @@ function selectIntent(intent){
 function clean(val){
   return (val || "").toString().trim().toLowerCase();
 }
+function generateBestFor(seller){
 
+  let bestFor = (seller["Best For"] || "").toLowerCase().trim();
+
+  if(bestFor && !bestFor.includes("various") && bestFor.length > 5){
+    return seller["Best For"];
+  }
+
+  let category = (seller["Category"] || "").toLowerCase();
+
+  if(category.includes("jewellery")){
+    return "Gifting & special occasions";
+  }
+
+  if(category.includes("apparel") || category.includes("clothing")){
+    return "Daily wear & styling";
+  }
+
+  if(category.includes("accessories")){
+    return "Affordable everyday accessories";
+  }
+
+  return "Popular choice for buyers";
+}
 fetch(url)
 .then(res => res.json())
 .then(data => {
@@ -401,8 +424,7 @@ sellerContainer.innerHTML += `
 <div class="topSellerCategory">${seller["Category"] || ""}</div>
 
 <div style="margin-top:6px; font-size:12px; color:#555;">
-💡 Best for: ${seller["Best For"] || "Various needs"}
-</div>
+💡 Best for: ${generateBestFor(seller)}</div>
 
 <a class="topSellerButton"
 href="seller.html?name=${encodeURIComponent(seller["Business Name"])}&intent=${selectedIntent || ""}">
