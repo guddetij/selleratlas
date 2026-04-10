@@ -1,19 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/seller/:slug",
-      "destination": "/seller.html?name=:slug"
-    },
-    {
-      "source": "/:slug",
-      "has": [
-        {
-          "type": "header",
-          "key": "x-vercel-rewrite",
-          "value": "1"
-        }
-      ],
-      "destination": "/seller.html?name=:slug"
+      "source": "/((?!about|privacy|contact|sellers|submit|index|favicon|logo|images|css|js).*)",
+      "destination": "/seller.html?name=$1"
     }
   ]
 }
