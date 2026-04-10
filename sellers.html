@@ -7,8 +7,6 @@
 
 <title>Browse Sellers - SellerAtlas</title>
 
-<link rel="icon" href="/favicon.png">
-
 <style>
 
 body{
@@ -17,48 +15,49 @@ margin:0;
 background:#f4f7f6;
 }
 
-/* NAVBAR */
-.navbar{
-background:#1F7A63;
-padding:14px 30px;
-}
-
-.navContainer{
-display:flex;
-align-items:center;
-gap:30px;
-}
-
-.navLinks{
-display:flex;
-gap:25px;
-}
-
-.navLinks a{
-color:white;
-text-decoration:none;
-font-weight:600;
-}
-
-.logo{
-height:38px;
-}
-
-/* PAGE */
 .container{
 max-width:1000px;
 margin:auto;
-padding:30px 20px;
+padding:20px;
 }
 
-/* INTENT HEADER */
-.intentHeader{
+/* FLOW */
+.flowBox{
 background:white;
-padding:12px;
-border-radius:8px;
+padding:15px;
+border-radius:10px;
 margin-bottom:15px;
-font-size:14px;
-display:none;
+}
+
+.flowTitle{
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.flowOptions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.flowBtn{
+padding:8px 14px;
+background:#eee;
+border-radius:20px;
+cursor:pointer;
+font-size:13px;
+}
+
+.flowBtn:hover{
+background:#1F7A63;
+color:white;
+}
+
+.backBtn{
+margin-top:10px;
+font-size:12px;
+cursor:pointer;
+color:#1F7A63;
 }
 
 /* SEARCH */
@@ -68,23 +67,6 @@ padding:12px;
 border-radius:8px;
 border:1px solid #ccc;
 margin-bottom:20px;
-}
-
-/* CATEGORY */
-#categoryContainer{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-margin-bottom:20px;
-}
-
-.category{
-background:white;
-padding:8px 14px;
-border-radius:20px;
-box-shadow:0 2px 6px rgba(0,0,0,0.08);
-cursor:pointer;
-font-size:13px;
 }
 
 /* GRID */
@@ -117,7 +99,6 @@ object-fit:cover;
 
 .sellerName{
 font-weight:bold;
-font-size:16px;
 }
 
 .categoryLabel{
@@ -125,25 +106,20 @@ font-size:12px;
 color:#8FB339;
 }
 
-/* TRUST */
 .trustLine{
 font-size:12px;
 color:#666;
 margin-top:2px;
 }
 
-/* BEST FOR */
 .bestFor{
-font-size:13px;
 margin-top:8px;
-color:#555;
+font-size:13px;
 }
 
-/* ACTION */
 .cardActions{
-display:flex;
-justify-content:flex-end;
-margin-top:12px;
+margin-top:10px;
+text-align:right;
 }
 
 .ctaButton{
@@ -153,15 +129,6 @@ padding:6px 14px;
 border-radius:6px;
 text-decoration:none;
 font-size:13px;
-}
-
-/* FOOTER */
-footer{
-margin-top:60px;
-padding:20px;
-background:#1F7A63;
-color:white;
-text-align:center;
 }
 
 @media(max-width:768px){
@@ -176,52 +143,95 @@ grid-template-columns:1fr;
 
 <body>
 
-<header class="navbar">
-<div class="navContainer">
-<img src="/logo.png" class="logo">
-
-<nav class="navLinks">
-<a href="/">Home</a>
-<a href="/sellers.html">Browse Sellers</a>
-<a href="/submit.html">List Your Business</a>
-</nav>
-</div>
-</header>
-
 <div class="container">
 
-<div id="intentHeader" class="intentHeader"></div>
+<div id="selectionFlow"></div>
 
 <div class="searchBox">
 <input type="text" id="searchInput" placeholder="Search sellers..." onkeyup="searchSellers()">
 </div>
 
-<div id="categoryContainer"></div>
-
 <div id="sellerContainer"></div>
 
 </div>
-
-<footer>
-<p>SellerAtlas © 2026</p>
-</footer>
 
 <script>
 
 const url = "https://opensheet.elk.sh/17A0iSszEqDQydQX4nLY51Lua6lJprBx7X_3kV59h4n8/Sheet1";
 
-const params = new URLSearchParams(window.location.search);
-const intent = params.get("intent");
+let globalData = [];
 
-/* SHOW INTENT */
-if(intent){
-const header = document.getElementById("intentHeader");
-header.style.display = "block";
-header.innerText = `Showing sellers for: ${intent.toUpperCase()}`;
+// FLOW STATE
+let flowStep = 0;
+let selectedCategory = null;
+let selectedOccasion = null;
+
+const occasionMap = {
+  "Jewellery": ["Everyday", "Office", "Party", "Bridal"],
+  "Apparel": ["Daily wear", "Office wear", "Party wear", "Ethnic"],
+  "Accessories": ["Casual", "Trendy", "Budget", "Gifting"]
+};
+
+function renderFlow(){
+
+  const container = document.getElementById("selectionFlow");
+
+  if(flowStep === 0){
+    container.innerHTML = `
+      <div class="flowBox">
+        <div class="flowTitle">What are you looking for?</div>
+        <div class="flowOptions">
+          <div class="flowBtn" onclick="selectCategory('Jewellery')">Jewellery</div>
+          <div class="flowBtn" onclick="selectCategory('Apparel')">Apparel</div>
+          <div class="flowBtn" onclick="selectCategory('Accessories')">Accessories</div>
+        </div>
+      </div>
+    `;
+  }
+
+  if(flowStep === 1){
+    let options = occasionMap[selectedCategory] || [];
+
+    container.innerHTML = `
+      <div class="flowBox">
+        <div class="flowTitle">Occasion?</div>
+        <div class="flowOptions">
+          ${options.map(o => `<div class="flowBtn" onclick="selectOccasion('${o}')">${o}</div>`).join("")}
+        </div>
+        <div class="backBtn" onclick="goBack()">← Back</div>
+      </div>
+    `;
+  }
+
+  if(flowStep === 2){
+    container.innerHTML = `
+      <div class="flowBox">
+        <div class="flowTitle">
+          Showing: ${selectedCategory} → ${selectedOccasion}
+        </div>
+        <div class="backBtn" onclick="goBack()">← Change</div>
+      </div>
+    `;
+
+    renderFilteredSellers();
+  }
 }
 
-function clean(val){
-return (val || "").toString().trim();
+function selectCategory(cat){
+  selectedCategory = cat;
+  flowStep = 1;
+  renderFlow();
+}
+
+function selectOccasion(occ){
+  selectedOccasion = occ;
+  flowStep = 2;
+  renderFlow();
+}
+
+function goBack(){
+  flowStep--;
+  renderFlow();
 }
 
 /* SEARCH */
@@ -235,19 +245,9 @@ cards[i].style.display = text.includes(input) ? "" : "none";
 }
 }
 
-/* FILTER */
-function filterCategory(cat){
-let cards = document.getElementsByClassName("sellerCard");
-
-for(let i=0;i<cards.length;i++){
-let text = cards[i].innerText.toLowerCase();
-cards[i].style.display = text.includes(cat.toLowerCase()) ? "" : "none";
-}
-}
-
-/* TRUST LINE */
+/* TRUST */
 function getTrustLine(seller){
-let followers = (seller["Instagram Followers"] || "").toString().trim();
+let followers = seller["Instagram Followers"];
 let verified = (seller["Verified"] || "").toLowerCase();
 
 let parts = [];
@@ -260,17 +260,13 @@ if(verified === "yes"){
 parts.push("✔ Verified");
 }
 
-if(parts.length === 0){
-return "Trusted seller";
+return parts.join(" • ") || "Trusted seller";
 }
 
-return parts.join(" • ");
-}
-
-/* BEST FOR GENERATOR */
+/* BEST FOR */
 function generateBestFor(seller){
 
-let bestFor = (seller["Best For"] || "").toLowerCase().trim();
+let bestFor = (seller["Best For"] || "").toLowerCase();
 
 if(bestFor && !bestFor.includes("various") && bestFor.length > 5){
 return seller["Best For"];
@@ -282,7 +278,7 @@ if(category.includes("jewellery")){
 return "Gifting & special occasions";
 }
 
-if(category.includes("apparel") || category.includes("clothing")){
+if(category.includes("apparel")){
 return "Daily wear & styling";
 }
 
@@ -290,41 +286,55 @@ if(category.includes("accessories")){
 return "Affordable everyday accessories";
 }
 
-return "Popular choice for buyers";
+return "Popular choice";
 }
 
-/* FETCH DATA */
-fetch(url)
-.then(res => res.json())
-.then(data => {
+/* MATCH */
+function getMatchScore(seller){
+
+let score = 0;
+
+let category = (seller["Category"] || "").toLowerCase();
+let bestFor = (seller["Best For"] || "").toLowerCase();
+
+if(category.includes(selectedCategory.toLowerCase())){
+score += 50;
+}
+
+if(bestFor.includes(selectedOccasion.toLowerCase())){
+score += 30;
+}
+
+return score;
+}
+
+function renderFilteredSellers(){
 
 const container = document.getElementById("sellerContainer");
-const categoryContainer = document.getElementById("categoryContainer");
 
-let categories = new Set();
+let ranked = globalData.map(s => ({
+...s,
+score: getMatchScore(s)
+}));
 
-data.forEach(seller => {
+ranked = ranked
+.filter(s => s.score > 0)
+.sort((a,b) => b.score - a.score)
+.slice(0,5);
 
-let approved = clean(seller["Approved"]).toLowerCase();
-if(approved !== "yes") return;
+container.innerHTML = "";
 
-let name = clean(seller["Business Name"]);
-if(!name) return;
-
-let category = clean(seller["Category"]);
-let logo = clean(seller["Logo"]) || "https://via.placeholder.com/40";
-
-categories.add(category);
+ranked.forEach(seller => {
 
 container.innerHTML += `
 <div class="sellerCard">
 
 <div class="sellerTop">
-<img src="${logo}" class="sellerLogo">
+<img src="${seller["Logo"] || "https://via.placeholder.com/40"}" class="sellerLogo">
 
 <div>
-<div class="sellerName">${name}</div>
-<div class="categoryLabel">${category}</div>
+<div class="sellerName">${seller["Business Name"]}</div>
+<div class="categoryLabel">${seller["Category"]}</div>
 <div class="trustLine">${getTrustLine(seller)}</div>
 </div>
 </div>
@@ -333,29 +343,29 @@ container.innerHTML += `
 💡 Best for: ${generateBestFor(seller)}
 </div>
 
+<div style="font-size:12px; color:#1F7A63; margin-top:5px;">
+🔥 ${seller.score}% Match
+</div>
+
 <div class="cardActions">
 <a class="ctaButton"
-href="seller.html?name=${encodeURIComponent(name)}&intent=${intent || ""}">
+href="seller.html?name=${encodeURIComponent(seller["Business Name"])}">
 💬 Contact Seller
 </a>
 </div>
 
 </div>
 `;
-
 });
 
-/* CATEGORY BUTTONS */
-categoryContainer.innerHTML = `<div class="category" onclick="location.reload()">All</div>`;
+}
 
-categories.forEach(cat=>{
-categoryContainer.innerHTML += `
-<div class="category" onclick="filterCategory('${cat}')">
-${cat}
-</div>
-`;
-});
-
+/* INITIAL LOAD */
+fetch(url)
+.then(res => res.json())
+.then(data => {
+globalData = data;
+renderFlow(); // 👈 START HERE
 });
 
 </script>
