@@ -257,7 +257,34 @@ if(!name) return;
 
 let category = clean(seller["Category"]);
 let logo = clean(seller["Logo"]) || "https://via.placeholder.com/40";
-let bestFor = clean(seller["Best For"]) || "Various needs";
+function generateBestFor(seller){
+
+  let bestFor = (seller["Best For"] || "").toLowerCase().trim();
+
+  // If good data exists → use it
+  if(bestFor && !bestFor.includes("various") && bestFor.length > 5){
+    return seller["Best For"];
+  }
+
+  // 🔥 Smart fallback logic
+
+  let category = (seller["Category"] || "").toLowerCase();
+
+  if(category.includes("jewellery")){
+    return "Gifting & special occasions";
+  }
+
+  if(category.includes("apparel") || category.includes("clothing")){
+    return "Daily wear & styling";
+  }
+
+  if(category.includes("accessories")){
+    return "Affordable everyday accessories";
+  }
+
+  // fallback fallback
+  return "Popular choice for buyers";
+}
 
 categories.add(category);
 
@@ -274,7 +301,7 @@ container.innerHTML += `
 </div>
 
 <div class="bestFor">
-💡 Best for: ${bestFor}
+💡 Best for: ${generateBestFor(seller)}
 </div>
 
 <div class="cardActions">
