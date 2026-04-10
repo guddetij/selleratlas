@@ -269,7 +269,14 @@ grid-template-columns:1fr;
 grid-template-columns:1fr;
 }
 }
-
+.whatsappShareBtn{
+background:#25D366; /* WhatsApp green */
+color:white;
+border:none;
+display:inline-flex;
+align-items:center;
+gap:5px;
+}
 </style>
 
 </head>
@@ -374,9 +381,10 @@ function renderSeller(seller, data){
   let ctaHTML = `
     <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
       ${whatsapp ? `<a href="${whatsapp}" target="_blank" class="button">💬 Get Price</a>` : ""}
-      <button class="ctaButton"
-onclick="shareSellerPage('SELLER_NAME', 'BEST_FOR_TEXT')">
-📤 Share
+   <button class="ctaButton whatsappShareBtn"
+onclick="shareSellerPage('${seller["Business Name"]}', '${seller["Best For"] || "Great choice"}')">
+<img src="https://img.icons8.com/ios-filled/16/ffffff/whatsapp.png" style="vertical-align:middle; margin-right:6px;">
+Share on WhatsApp
 </button>
       ${seller["Website"] ? `<a href="${seller["Website"]}" target="_blank" class="button">🌐 Visit Store</a>` : ""}
     </div>
