@@ -58,6 +58,7 @@ padding:12px;
 border-radius:8px;
 margin-bottom:15px;
 font-size:14px;
+display:none;
 }
 
 /* SEARCH */
@@ -124,18 +125,24 @@ font-size:12px;
 color:#8FB339;
 }
 
+/* TRUST */
+.trustLine{
+font-size:12px;
+color:#666;
+margin-top:2px;
+}
+
 /* BEST FOR */
 .bestFor{
-font-size:12px;
-margin-top:6px;
+font-size:13px;
+margin-top:8px;
 color:#555;
 }
 
-/* ACTIONS */
+/* ACTION */
 .cardActions{
 display:flex;
-justify-content:space-between;
-align-items:center;
+justify-content:flex-end;
 margin-top:12px;
 }
 
@@ -183,8 +190,8 @@ grid-template-columns:1fr;
 
 <div class="container">
 
-<div id="intentHeader" class="intentHeader" style="display:none;"></div>
-  
+<div id="intentHeader" class="intentHeader"></div>
+
 <div class="searchBox">
 <input type="text" id="searchInput" placeholder="Search sellers..." onkeyup="searchSellers()">
 </div>
@@ -203,16 +210,16 @@ grid-template-columns:1fr;
 
 const url = "https://opensheet.elk.sh/17A0iSszEqDQydQX4nLY51Lua6lJprBx7X_3kV59h4n8/Sheet1";
 
-// 🔥 GET INTENT
 const params = new URLSearchParams(window.location.search);
 const intent = params.get("intent");
 
-// SHOW INTENT
+/* SHOW INTENT */
 if(intent){
-  const header = document.getElementById("intentHeader");
-  header.style.display = "block";
-  header.innerText = `Showing sellers for: ${intent.toUpperCase()}`;
+const header = document.getElementById("intentHeader");
+header.style.display = "block";
+header.innerText = `Showing sellers for: ${intent.toUpperCase()}`;
 }
+
 function clean(val){
 return (val || "").toString().trim();
 }
@@ -238,6 +245,55 @@ cards[i].style.display = text.includes(cat.toLowerCase()) ? "" : "none";
 }
 }
 
+/* TRUST LINE */
+function getTrustLine(seller){
+let followers = (seller["Instagram Followers"] || "").toString().trim();
+let verified = (seller["Verified"] || "").toLowerCase();
+
+let parts = [];
+
+if(followers){
+parts.push(`👥 ${followers}`);
+}
+
+if(verified === "yes"){
+parts.push("✔ Verified");
+}
+
+if(parts.length === 0){
+return "Trusted seller";
+}
+
+return parts.join(" • ");
+}
+
+/* BEST FOR GENERATOR */
+function generateBestFor(seller){
+
+let bestFor = (seller["Best For"] || "").toLowerCase().trim();
+
+if(bestFor && !bestFor.includes("various") && bestFor.length > 5){
+return seller["Best For"];
+}
+
+let category = (seller["Category"] || "").toLowerCase();
+
+if(category.includes("jewellery")){
+return "Gifting & special occasions";
+}
+
+if(category.includes("apparel") || category.includes("clothing")){
+return "Daily wear & styling";
+}
+
+if(category.includes("accessories")){
+return "Affordable everyday accessories";
+}
+
+return "Popular choice for buyers";
+}
+
+/* FETCH DATA */
 fetch(url)
 .then(res => res.json())
 .then(data => {
@@ -257,34 +313,6 @@ if(!name) return;
 
 let category = clean(seller["Category"]);
 let logo = clean(seller["Logo"]) || "https://via.placeholder.com/40";
-function generateBestFor(seller){
-
-  let bestFor = (seller["Best For"] || "").toLowerCase().trim();
-
-  // If good data exists → use it
-  if(bestFor && !bestFor.includes("various") && bestFor.length > 5){
-    return seller["Best For"];
-  }
-
-  // 🔥 Smart fallback logic
-
-  let category = (seller["Category"] || "").toLowerCase();
-
-  if(category.includes("jewellery")){
-    return "Gifting & special occasions";
-  }
-
-  if(category.includes("apparel") || category.includes("clothing")){
-    return "Daily wear & styling";
-  }
-
-  if(category.includes("accessories")){
-    return "Affordable everyday accessories";
-  }
-
-  // fallback fallback
-  return "Popular choice for buyers";
-}
 
 categories.add(category);
 
@@ -297,6 +325,7 @@ container.innerHTML += `
 <div>
 <div class="sellerName">${name}</div>
 <div class="categoryLabel">${category}</div>
+<div class="trustLine">${getTrustLine(seller)}</div>
 </div>
 </div>
 
@@ -305,12 +334,10 @@ container.innerHTML += `
 </div>
 
 <div class="cardActions">
-
 <a class="ctaButton"
 href="seller.html?name=${encodeURIComponent(name)}&intent=${intent || ""}">
-💬 Get Price
+💬 Contact Seller
 </a>
-
 </div>
 
 </div>
