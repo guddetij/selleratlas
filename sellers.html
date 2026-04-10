@@ -51,6 +51,15 @@ margin:auto;
 padding:30px 20px;
 }
 
+/* INTENT HEADER */
+.intentHeader{
+background:white;
+padding:12px;
+border-radius:8px;
+margin-bottom:15px;
+font-size:14px;
+}
+
 /* SEARCH */
 .searchBox input{
 width:100%;
@@ -115,6 +124,13 @@ font-size:12px;
 color:#8FB339;
 }
 
+/* BEST FOR */
+.bestFor{
+font-size:12px;
+margin-top:6px;
+color:#555;
+}
+
 /* ACTIONS */
 .cardActions{
 display:flex;
@@ -123,27 +139,13 @@ align-items:center;
 margin-top:12px;
 }
 
-.iconButton{
-width:36px;
-height:36px;
-display:flex;
-align-items:center;
-justify-content:center;
-background:#f1f1f1;
-border-radius:50%;
-}
-
-.iconButton img{
-width:18px;
-height:18px;
-}
-
-.viewButton{
+.ctaButton{
 background:#1F7A63;
 color:white;
 padding:6px 14px;
 border-radius:6px;
 text-decoration:none;
+font-size:13px;
 }
 
 /* FOOTER */
@@ -181,7 +183,7 @@ grid-template-columns:1fr;
 
 <div class="container">
 
-<h2>Browse Sellers</h2>
+<div id="intentHeader" class="intentHeader"></div>
 
 <div class="searchBox">
 <input type="text" id="searchInput" placeholder="Search sellers..." onkeyup="searchSellers()">
@@ -201,12 +203,18 @@ grid-template-columns:1fr;
 
 const url = "https://opensheet.elk.sh/17A0iSszEqDQydQX4nLY51Lua6lJprBx7X_3kV59h4n8/Sheet1";
 
+// 🔥 GET INTENT
+const params = new URLSearchParams(window.location.search);
+const intent = params.get("intent");
+
+// SHOW INTENT
+if(intent){
+document.getElementById("intentHeader").innerText =
+`Showing sellers for: ${intent.toUpperCase()}`;
+}
+
 function clean(val){
-return (val || "")
-.toString()
-.replace(/\r/g,"")
-.replace(/\n/g,"")
-.trim();
+return (val || "").toString().trim();
 }
 
 /* SEARCH */
@@ -249,7 +257,7 @@ if(!name) return;
 
 let category = clean(seller["Category"]);
 let logo = clean(seller["Logo"]) || "https://via.placeholder.com/40";
-let instagram = clean(seller["Instagram Link"]);
+let bestFor = clean(seller["Best For"]) || "Various needs";
 
 categories.add(category);
 
@@ -265,15 +273,15 @@ container.innerHTML += `
 </div>
 </div>
 
+<div class="bestFor">
+💡 Best for: ${bestFor}
+</div>
+
 <div class="cardActions">
 
-${instagram ? `
-<a href="${instagram}" target="_blank" class="iconButton">
-<img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
-</a>` : ""}
-
-<a class="viewButton" href="seller.html?name=${encodeURIComponent(name)}">
-View
+<a class="ctaButton"
+href="seller.html?name=${encodeURIComponent(name)}&intent=${intent || ""}">
+💬 Get Price
 </a>
 
 </div>
