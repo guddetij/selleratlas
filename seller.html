@@ -374,6 +374,10 @@ function renderSeller(seller, data){
   let ctaHTML = `
     <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
       ${whatsapp ? `<a href="${whatsapp}" target="_blank" class="button">💬 Get Price</a>` : ""}
+      <button class="ctaButton"
+onclick="shareSellerPage('SELLER_NAME', 'BEST_FOR_TEXT')">
+📤 Share
+</button>
       ${seller["Website"] ? `<a href="${seller["Website"]}" target="_blank" class="button">🌐 Visit Store</a>` : ""}
     </div>
   `;
@@ -476,7 +480,23 @@ function renderSeller(seller, data){
   renderSeller(seller, data);
 
 })();
+function shareSellerPage(name, bestFor){
 
+const url = window.location.href;
+
+const text = `Hey, this seller looks perfect 👇
+
+${name}
+Best for: ${bestFor}
+
+Check here:
+${url}`;
+
+const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+
+window.open(whatsappUrl, '_blank');
+
+}
 </script>
 
 </body>
