@@ -262,13 +262,20 @@ background:#ffe6f3;
 }  
   
 @media (max-width:768px){
-.infoGrid{
-grid-template-columns:1fr;
+
+.navContainer{
+flex-direction:column;
+gap:10px;
 }
-.relatedGrid{
-grid-template-columns:1fr;
+
+.navLinks{
+display:flex;
+flex-direction:column;
+gap:10px;
 }
+
 }
+  
 .whatsappShareBtn{
 background:#25D366; /* WhatsApp green */
 color:white;
@@ -286,11 +293,14 @@ gap:5px;
 <header class="navbar">
 <div class="navContainer">
 <a href="/"><img src="/logo.png" class="logo"></a>
+
 <nav class="navLinks">
 <a href="/">Home</a>
 <a href="/sellers.html">Browse Sellers</a>
+<a href="/blog.html">Blog</a>
 <a href="/submit.html">List Your Business</a>
 </nav>
+
 </div>
 </header>
 
